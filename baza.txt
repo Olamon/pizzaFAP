@@ -1,0 +1,137 @@
+--------------------------------------------------------------------------------
+                    MODEL KONCEPTUALNY BAZY DANYCH (PIZZERIA)                       
+--------------------------------------------------------------------------------
+
+Aleksandra Spyra  (241746)
+Piotr Derkowski   (247930)
+Filip Gromuł      (247947)
+
+--------------------------------------------------------------------------------
+1. Idea projektu.
+--------------------------------------------------------------------------------
+Naszym celem jest przygotowanie aplikacji obsługującej bazę danych zawierającą
+informacje o wrocławskich pizzeriach oraz ich ofercie. Program będzie oferować
+użytkownikowi następujące funkcjonalności:
+  a) wyszukiwanie pizzerii według wybranych kryteriów, takich jak m.in. 
+     lokalizacja czy średnia ocena,
+  b) wyszukiwanie pizz na podstawie składników, ceny i rozmiaru,
+  c) wystawianie ocen pizzom i pizzeriom.
+Poza tym powinien udostępniać interfejs do edycji bazy przez właściciela
+pizzerii i administratora.
+
+--------------------------------------------------------------------------------
+2. Opis tabel.                                                                  
+--------------------------------------------------------------------------------
+Legenda:
+  _atrybut_ - klucz główny
+  [atrybut] - atrybut wielokrotny
+  $atrybut$ - atrybut wyliczalny
+
+a) Pizzeria (nazwa, adres, strona_internetowa, [telefon], godziny_otwarcia)
+
+      Zawarte w niej będą informacje o dodanych do bazy pizzeriach, niezbędne
+      z punktu widzenia użytkownika planującego odwiedzić pizzerię (nazwa,
+      adres, godziny otwarcia) lub chcącego uzyskać dalsze informacje (telefon, 
+      strona internetowa).
+
+b) Pizza (_skład_, ciasto)
+
+      Tabela przechowująca pizze, identyfikowane przez swój zbiór składników    //wydaje mi się że klucz powinien
+      i rodzaj ciasta. Warto zauważyć, że częścią krotki nie jest nazwa, która  //obejmować skład oraz ciasto
+      może być różna w różnych pizzeriach oferujących tę samą pizzę. W zamyśle 
+      ta tabela ma umożliwiać łatwe przeszukiwanie bazy pod kątem wszystkich 
+      pizzerii oferujących pizzę o danych składnikach. W związku z tym zbiór 
+      składników powinien być ustalony, a osoba dodająca pizzę do tabeli powinna 
+      wybrać z niego podzbiór składników dodawanego produktu. Jednym z naszych 
+      celów jest taka implementacja by możliwe było dodawanie nowych składników 
+      w miarę potrzeb.
+
+c) Oferta (cena, rozmiar)
+
+      Jest to tabela, w której do konkretnej pizzy przypisana zostaje cena
+      i rozmiar. W ten sposób chcemy oddzielić od siebie atrybuty związane
+      z pizzą jako jedzeniem (te trafiły do tabeli Pizza) od tych które
+      określają ją jako produkt (takie właśnie jak cena). Inną zaletą takiego
+      rozwiązania jest potencjalne zmniejszenie redundancji danych.
+
+d) Ocena (recenzja, gwiazdki, data)
+
+      W tej tabeli znajdą się informacje o ocenach wystawionych przez
+      użytkowników. Użytkownik może przyznać gwiazdki (od 0 do 5) oraz dodatkowo 
+      zamieścić ocenę opisową. Gwiazdki posłużą do obliczenia średniej oceny, 
+      widocznej przy wyszukiwaniu ofert lub pizzerii. Ocena posiada także datę  //zapomnieliśmy o dacie
+      jej wystawienia.                                                          //ale właściwie może być w tej tabeli
+
+e) Ocenialne ($średnia_ocen$)
+
+      Tabela grupująca obiekty, którym użytkownik może wystawić ocenę. Może     //uznałem, że w modelu konceptualnym
+      również zawierać średnią ocen danego obiektu, jeżeli jakieś istnieją.     //śr. ocena należy do tej tabeli
+
+f) Użytkownik (_e-mail_, hasło, $liczba_ocen$)
+
+      Zawiera informacje o kontach użytkowników, takie jak e-mail (pełniący
+      jednocześnie funkcję loginu i klucza), hasło i liczbę ocen wystawionych   
+      przez tego użytkownika.     
+
+--------------------------------------------------------------------------------
+3. Relacje.
+--------------------------------------------------------------------------------   
+
+Relacje wraz z informacjami o opcjonalności i krotności zaznaczone zostały na   
+dołączonym rysunku.
+
+--------------------------------------------------------------------------------
+4. Więzy integralności.
+--------------------------------------------------------------------------------
+Ocena:
+  - gwiazdki          możliwe wartości w przedziale 0-5
+
+Pizza:
+  - ciasto            możliwe wartości: 'chrupkie', 'klasyczne', 'grube'
+
+Pizzeria:
+  - godziny_otwarcia  tablica wartości typu reprezentującego dni tygodnia (0-6)
+                      wraz z godzinami otwarcia i zamknięcia 
+
+Pizzeria - Pizza (relacja)        
+                      pizzeria może posiadać w menu tylko jedną pizzę o danej
+                      nazwie
+Oferta - Pizzeria                   
+Oferta - Pizza
+Ocena - Ocenialne
+Ocena - Użytkownik
+                      we wszystkich powyższych relacjach usunięcie krotki z
+                      tabeli po prawej stronie powinno skutkować usunięciem
+                      powiązanych krotek z tabeli po lewej strnie
+
+--------------------------------------------------------------------------------
+5. Role.
+--------------------------------------------------------------------------------
+Użytkownik
+  Po dokonaniu rejestracji użytkownik uzyskuje dostęp do tabel a-e z punktu 2.
+  Za pomocą interfejsu aplikacji będzie mógł przeglądać całość zgromadzonych
+  w nich informacji. Ponadto użytkownik posiada możliwość dodania nowych ocen do
+  tabeli Ocena oraz usuwania i edytowania swoich wpisów w tej tabeli. Może 
+  również zmodyfikować dotyczący siebie wpis w tabeli Użytkownik.
+
+Właściciel pizzerii
+  Posiada prawo dodawania nowych restauracji do tabeli Pizzeria oraz modyfikacji
+  i usuwania swoich wpisów. Może również zmieniać ofertę swojej pizzerii w 
+  tabeli Oferta i dodać pizze do tabeli Pizza. Właściciel pizzerii wybiera
+  również, które pizze serwowane są w jego restauracji nadając im nazwy. 
+  Właściciel ma też wgląd w średnią ocenę swoich ofert w tabeli Ocenialne.
+
+Administrator
+  Zadaniem administratora jest moderacja bazy, przy czym zakładamy,
+  że administrator wie co robi, w zwiazku z czym dysponuje on nieograniczonym 
+  dostępem i prawem modyfikacji wpisów w bazie.
+
+--------------------------------------------------------------------------------
+6. Istotne różnice między modelem konceptualnym a jego fizyczną prezentacją.
+--------------------------------------------------------------------------------
+a) Atrybuty obliczalne (Ocenialne.średnia_ocena i Użytkownik.liczba_ocen)
+   zrealizowane zostały w postaci perspektyw.
+b) Relację "nazywa" między tabelami Pizzeria i Pizza w bazie symuluje tabela
+   Menu, której jednym z atrybutów jest nazwa.
+c) Rola Użytkownika rozszerzona została o tabelę Użytkownik oraz utworzone
+   perspektywy.
