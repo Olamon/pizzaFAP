@@ -1,10 +1,16 @@
 --------------------------------------------------------------------------------
-                    MODEL KONCEPTUALNY BAZY DANYCH (PIZZERIA)                       
+                           OPIS PROJEKTU (PIZZERIA)                       
 --------------------------------------------------------------------------------
 
 Aleksandra Spyra  (241746)
 Piotr Derkowski   (247930)
 Filip Gromuł      (247947)
+
+--------------------------------------------------------------------------------
+0. Technologie.
+--------------------------------------------------------------------------------
+a) Język aplikacji: Java.
+b) SZBD: PostgreSQL.
 
 --------------------------------------------------------------------------------
 1. Idea projektu.
@@ -36,8 +42,8 @@ a) Pizzeria (nazwa, adres, strona_internetowa, [telefon], godziny_otwarcia)
 
 b) Pizza (_skład_, ciasto)
 
-      Tabela przechowująca pizze, identyfikowane przez swój zbiór składników    //wydaje mi się że klucz powinien
-      i rodzaj ciasta. Warto zauważyć, że częścią krotki nie jest nazwa, która  //obejmować skład oraz ciasto
+      Tabela przechowująca pizze, identyfikowane przez swój zbiór składników    
+      i rodzaj ciasta. Warto zauważyć, że częścią krotki nie jest nazwa, która  
       może być różna w różnych pizzeriach oferujących tę samą pizzę. W zamyśle 
       ta tabela ma umożliwiać łatwe przeszukiwanie bazy pod kątem wszystkich 
       pizzerii oferujących pizzę o danych składnikach. W związku z tym zbiór 
@@ -59,13 +65,13 @@ d) Ocena (recenzja, gwiazdki, data)
       W tej tabeli znajdą się informacje o ocenach wystawionych przez
       użytkowników. Użytkownik może przyznać gwiazdki (od 0 do 5) oraz dodatkowo 
       zamieścić ocenę opisową. Gwiazdki posłużą do obliczenia średniej oceny, 
-      widocznej przy wyszukiwaniu ofert lub pizzerii. Ocena posiada także datę  //zapomnieliśmy o dacie
-      jej wystawienia.                                                          //ale właściwie może być w tej tabeli
+      widocznej przy wyszukiwaniu ofert lub pizzerii. Ocena posiada także datę  
+      jej wystawienia.                                                          
 
 e) Ocenialne ($średnia_ocen$)
 
-      Tabela grupująca obiekty, którym użytkownik może wystawić ocenę. Może     //uznałem, że w modelu konceptualnym
-      również zawierać średnią ocen danego obiektu, jeżeli jakieś istnieją.     //śr. ocena należy do tej tabeli
+      Tabela grupująca obiekty, którym użytkownik może wystawić ocenę. Może     
+      również zawierać średnią ocen danego obiektu, jeżeli jakieś istnieją.     
 
 f) Użytkownik (_e-mail_, hasło, $liczba_ocen$)
 
