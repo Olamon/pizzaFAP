@@ -1,8 +1,6 @@
-import java.awt.Container;
-import java.awt.Dimension;
+import java.awt.*;
 
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 
 public class UserMenu {
@@ -10,18 +8,17 @@ public class UserMenu {
 	JFrame frame;
 	
 	public UserMenu(){
-		frame = new JFrame("UserMenu");
+		frame = new JFrame("Menu Użytkownika");
 	}
 	
 	public void show(){
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocation(100, 100);
-		frame.setMinimumSize(new Dimension(200,200));
+		frame.setMinimumSize(new Dimension(300,300));
 		Container mainContainer = frame.getContentPane();
-		JTextField textfield = new JTextField("Witajcie!");
-		textfield.setHorizontalAlignment(JTextField.CENTER);
-		mainContainer.add(textfield);
-		frame.pack();
+		mainContainer.setLayout(new GridLayout(2,1));
+		mainContainer.add(new ButtonWithNewWindow("Wyszukaj"));
+		mainContainer.add(new ButtonWithNewWindow("Moje konto"));
 		frame.setVisible(true);
 	}
 
