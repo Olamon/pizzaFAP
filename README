@@ -1,0 +1,8 @@
+Żeby program działał trzeba trochę zmienić bazę. Okazuje się, że nie można się
+zalogować bez hasła do bazy nasłuchującej na połączenia w domyślnym trybie.
+Zaktualizowałem skrypt żeby tworzył domyślne hasła. Najprościej więc usunąć bazę 
+i wgrać ją jeszcze raz.
+
+Poza tym trzeba mieć sterownik. Znajduje się on w ./application/pizzaProject/lib.
+
+No i na koniec warto jeszcze dodać parę wpisów do bazy.

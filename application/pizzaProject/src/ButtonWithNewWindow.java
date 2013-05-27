@@ -11,18 +11,25 @@ public class ButtonWithNewWindow extends JButton implements ActionListener{
 	public ButtonWithNewWindow(String s){
 		super(s);
 		this.addActionListener(this);
+		this.setActionCommand(s);
 		this.frame = new JFrame();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent action) {
-		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		frame.setSize(200, 200);
-		frame.setLocation(200,200);
-		JTextField textfield = new JTextField("Witajcie!");
-		textfield.setHorizontalAlignment(JTextField.CENTER);
-		(frame.getContentPane()).add(textfield);
-		frame.setVisible(true);
+		String command = action.getActionCommand();
+		if(command.equals("Wyszukaj")) {
+			SearchWindow sw = new SearchWindow();
+			sw.show();
+		} else {
+			frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			frame.setSize(200, 200);
+			frame.setLocation(200,200);
+			JTextField textfield = new JTextField("Witajcie!");
+			textfield.setHorizontalAlignment(JTextField.CENTER);
+			(frame.getContentPane()).add(textfield);
+			frame.setVisible(true);
+		}
 	}
 
 }
