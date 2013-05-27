@@ -39,7 +39,7 @@ public class SearchWindow {
 			//tworzy pośredni obiekt Table, który umożliwia wykonywanie zapytań na tabeli
 			//(na razie tylko selecty)
 			pizzeria = Session.current().getTable("pizzeria");
-		} catch (SQLException|IllegalStateException|IllegalArgumentException ex) {
+		} catch (Exception ex) {
 			//TODO poprawić obsługę i logowanie wyjątków
 			Logger lgr = Logger.getLogger(SearchWindow.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
@@ -59,7 +59,7 @@ public class SearchWindow {
             System.exit(1);
 		}
 		
-		JList<String> pizzeriaList = new JList<String>(queryRes);
+		JList pizzeriaList = new JList(queryRes);
 		
 		JPanel panel1 = new JPanel();
 		panel1.add(pizzeriaList);
