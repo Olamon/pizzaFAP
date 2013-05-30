@@ -15,6 +15,13 @@ public class ButtonWithNewWindow extends JButton implements ActionListener{
 		this.frame = new JFrame();
 	}
 	
+	public ButtonWithNewWindow(String s, JFrame frame){
+		super(s);
+		this.addActionListener(this);
+		this.setActionCommand(s);
+		this.frame = frame;
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent action) {
 		String command = action.getActionCommand();
