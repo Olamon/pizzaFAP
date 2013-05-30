@@ -1,5 +1,4 @@
 import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.JFrame;
 
 import java.awt.event.*;
