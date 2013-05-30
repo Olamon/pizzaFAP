@@ -5,15 +5,13 @@ import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 
-public class PizzeriaSearchForm extends SearchForm{
-	
+public class PizzaSearchForm extends SearchForm{
 	private JTextField name;
 	
-	public PizzeriaSearchForm(String s){
+	public PizzaSearchForm(String s){
 		super(s);
 	}
 	
@@ -22,7 +20,7 @@ public class PizzeriaSearchForm extends SearchForm{
 		mainContainer.setLayout(new GridLayout(2,2));
 		
 		//Pobieranie nazwy pizzerii, którą chcemy wyszukać
-		Label nameLabel = new Label("Nazwa Pizzerii:");
+		Label nameLabel = new Label("Nazwa Pizzy:");
 		mainContainer.add(nameLabel);
 		this.name = new JTextField();
 		mainContainer.add(this.name);

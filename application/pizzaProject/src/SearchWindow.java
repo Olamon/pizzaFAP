@@ -63,8 +63,9 @@ public class SearchWindow {
 		
 		//Pzyciski do szukania zaawansowanego
 		PizzeriaSearchForm pizzeriaSearchForm = new PizzeriaSearchForm("Wyszukaj pizzerię");
+		PizzaSearchForm pizzaSearchForm = new PizzaSearchForm("Wyszukaj pizzę");
 		ButtonWithNewWindow advancedPizzeriaSearchButton = new ButtonWithNewWindow("Szukanie zaawansowane", pizzeriaSearchForm);
-		ButtonWithNewWindow advancedPizzaSearchButton= new ButtonWithNewWindow("Szukanie zaawansowane");
+		ButtonWithNewWindow advancedPizzaSearchButton= new ButtonWithNewWindow("Szukanie zaawansowane", pizzaSearchForm);
 		
 		JPanel panel1 = new JPanel();
 		panel1.add(advancedPizzeriaSearchButton);
