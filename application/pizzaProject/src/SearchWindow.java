@@ -62,7 +62,8 @@ public class SearchWindow {
 		JList pizzeriaList = new JList(queryRes);
 		
 		//Pzyciski do szukania zaawansowanego
-		ButtonWithNewWindow advancedPizzeriaSearchButton = new ButtonWithNewWindow("Szukanie zaawansowane");
+		PizzeriaSearchForm pizzeriaSearchForm = new PizzeriaSearchForm("Wyszukaj pizzerię");
+		ButtonWithNewWindow advancedPizzeriaSearchButton = new ButtonWithNewWindow("Szukanie zaawansowane", pizzeriaSearchForm);
 		ButtonWithNewWindow advancedPizzaSearchButton= new ButtonWithNewWindow("Szukanie zaawansowane");
 		
 		JPanel panel1 = new JPanel();

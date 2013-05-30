@@ -7,6 +7,7 @@ import java.awt.event.*;
 public class ButtonWithNewWindow extends JButton implements ActionListener{
 	
 	JFrame frame;
+	SearchForm form;
 	
 	public ButtonWithNewWindow(String s){
 		super(s);
@@ -15,11 +16,10 @@ public class ButtonWithNewWindow extends JButton implements ActionListener{
 		this.frame = new JFrame();
 	}
 	
-	public ButtonWithNewWindow(String s, JFrame frame){
+	public ButtonWithNewWindow(String s, SearchForm form){
 		super(s);
 		this.addActionListener(this);
-		this.setActionCommand(s);
-		this.frame = frame;
+		this.form = form;
 	}
 	
 	@Override
@@ -29,13 +29,17 @@ public class ButtonWithNewWindow extends JButton implements ActionListener{
 			SearchWindow sw = new SearchWindow();
 			sw.show();
 		} else {
-			frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-			frame.setSize(200, 200);
-			frame.setLocation(200,200);
-			JTextField textfield = new JTextField("Witajcie!");
-			textfield.setHorizontalAlignment(JTextField.CENTER);
-			(frame.getContentPane()).add(textfield);
-			frame.setVisible(true);
+			
+			//Gdy formularz jeszcze nie gotowy...
+			if(form == null){
+				System.out.println("Not ready yet");
+			}
+			
+			form.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+			form.setSize(300, 100);
+			form.setLocation(200,200);
+			form.createForm();
+			form.setVisible(true);
 		}
 	}
 
