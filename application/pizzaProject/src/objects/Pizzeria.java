@@ -13,9 +13,8 @@ import java.util.List;
 import java.util.Vector;
 
 
-public class Pizzeria {
+public class Pizzeria extends Ocenialne{
 
-    public int pizzeria_id;
     public String nazwa;
 
     public String ulica;
@@ -36,35 +35,44 @@ public class Pizzeria {
 
     // zwraca listę wszystkich ofert pizzerii
     public List<Oferta> GetAllOffers() throws SQLException {
-        ResultSet rs = Session.current().selectQuery(null, "oferta", "pizzeria_id = " + pizzeria_id);
+        ResultSet rs = Session.current().selectQuery(null, "oferta", "pizzeria_id = " + id);
         if (rs != null)
-            return Oferta.GetOffers(rs);
-        else return null;
+            return Oferta.GetAll(rs);
+        return null;
     }
 
     // zwraca pizzerię na podstawie podanego id (lub null jeśli nie ma takiej w bazie)
     public static Pizzeria GetById(int id) throws SQLException {
         ResultSet rs = Session.current().selectQuery(null, "pizzeria", "pizzeria_id = " + id);
         if (rs != null)
-            return GetPizzerias(rs).get(0);
+            return GetAll(rs).get(0);
         else return null;
     }
 
     // zwraca listę wszystkich pizzerii w bazie danych
-    public static List<Pizzeria> GetPizzerias() throws SQLException {
+    public static List<Pizzeria> GetAll() throws SQLException {
         Table pizzerie = Session.current().getTable("pizzeria");
         ResultSet rs = pizzerie.select(null);
-        return GetPizzerias(rs);
+        return GetAll(rs);
+    }
+
+    //zwraca wynik wyszukiwania według podanych parametrów
+    //TODO: rozszerzyć wyszukiwanie do wszystkich sensownych pól
+    public static List<Pizzeria> GetAll(String name) throws SQLException {
+        ResultSet rs = Session.current().selectQuery(null, "pizzeria", "nazwa LIKE " + "'%" + name + "%'");
+        if (rs != null)
+            return GetAll(rs);
+        return null;
     }
 
     // przekształca dany ResultSet na listę obiektów klasy Pizzeria
-    private static List<Pizzeria> GetPizzerias(ResultSet rs) throws SQLException {
+    public static List<Pizzeria> GetAll(ResultSet rs) throws SQLException {
         List<Pizzeria> list = new Vector<Pizzeria>();
 
         while (rs.next())
         {
             Pizzeria p = new Pizzeria();
-            p.pizzeria_id = rs.getInt("pizzeria_id");
+            p.id = rs.getInt("pizzeria_id");
             p.nazwa = rs.getString("nazwa");
             p.strona = rs.getString("strona");
             if (rs.getArray("telefon") != null)

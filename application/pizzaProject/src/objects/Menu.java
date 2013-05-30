@@ -16,14 +16,16 @@ public class Menu {
     public int pizza;
     public String nazwa;
 
+
+
     //zwraca listę wszystkich wpisów w menu w bazie danych
-    public static List<Menu> GetMenus() throws SQLException
+    public static List<Menu> GetAll() throws SQLException
     {
-        return GetMenus(Session.current().getTable("menu").select(null));
+        return GetAll(Session.current().getTable("menu").select(null));
     }
 
     // przekształca dany ResultSet na listę obiektów typu Menu
-    public static List<Menu> GetMenus(ResultSet rs) throws SQLException {
+    public static List<Menu> GetAll(ResultSet rs) throws SQLException {
         List<Menu> list = new Vector<Menu>();
         while (rs.next())
         {

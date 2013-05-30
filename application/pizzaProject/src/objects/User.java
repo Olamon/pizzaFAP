@@ -32,14 +32,23 @@ public class User {
         return(digest.toString()==password);    //jeszcze nie sprawdziłem, czy to działa poprawnie
     }
 
-    //zwraca listę wszystkich uzytkownikow w bazie danych
-    public static List<User> GetUsers() throws SQLException
+    //zwraca listę wszystkich ocen użytkownika
+    public List<Ocena> GetUserReviews() throws SQLException
     {
-        return GetUsers(Session.current().getTable("uzytkownik").select(null));
+        ResultSet rs = Session.current().selectQuery(null, "ocena", "email = " + email);
+        if (rs != null)
+            return Ocena.GetAll(rs);
+        else return null;
+    }
+
+    //zwraca listę wszystkich uzytkownikow w bazie danych
+    public static List<User> GetAll() throws SQLException
+    {
+        return GetAll(Session.current().getTable("uzytkownik").select(null));
     }
 
     // przekształca dany ResultSet na listę obiektów typu User
-    public static List<User> GetUsers(ResultSet rs) throws SQLException {
+    public static List<User> GetAll(ResultSet rs) throws SQLException {
         List<User> list = new Vector<User>();
         while (rs.next())
             list.add(new User(rs.getString("email"), rs.getString("pass")));

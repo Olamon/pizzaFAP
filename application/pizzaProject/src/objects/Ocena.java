@@ -19,13 +19,13 @@ public class Ocena {
     public int gwiazdki;
 
     //zwraca listę wszystkich ocen w bazie danych
-    public static List<Ocena> GetReviews() throws SQLException
+    public static List<Ocena> GetAll() throws SQLException
     {
-        return GetReviews(Session.current().getTable("ocena").select(null));
+        return GetAll(Session.current().getTable("ocena").select(null));
     }
 
     // przekształca dany ResultSet na listę obiektów typu Ocena
-    public static List<Ocena> GetReviews(ResultSet rs) throws SQLException {
+    public static List<Ocena> GetAll(ResultSet rs) throws SQLException {
         List<Ocena> list = new Vector<Ocena>();
         while (rs.next())
         {

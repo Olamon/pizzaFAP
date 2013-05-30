@@ -19,14 +19,23 @@ public class Pizza {
     public int sklad;
     public ciasto grubosc;
 
-    //zwraca listę wszystkich pizz w bazie danych
-    public static List<Pizza> GetPizzas() throws SQLException
+    //zwraca listę ofert dotyczących danej pizzy
+    public List<Oferta> GetOffers() throws SQLException
     {
-        return GetPizzas(Session.current().getTable("pizza").select(null));
+        ResultSet rs = Session.current().selectQuery(null, "oferta", "sklad = " + sklad);
+        if (rs != null)
+            return Oferta.GetAll(rs);
+        return null;
+    }
+
+    //zwraca listę wszystkich pizz w bazie danych
+    public static List<Pizza> GetAll() throws SQLException
+    {
+        return GetAll(Session.current().getTable("pizza").select(null));
     }
 
     // przekształca dany ResultSet na listę obiektów typu Pizza
-    public static List<Pizza> GetPizzas(ResultSet rs) throws SQLException {
+    public static List<Pizza> GetAll(ResultSet rs) throws SQLException {
         List<Pizza> list = new Vector<Pizza>();
 
         while (rs.next())
