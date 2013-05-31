@@ -5,7 +5,6 @@ import java.awt.Label;
 
 import javax.swing.JTextField;
 
-
 public class PizzaSearchForm extends SearchForm{
 	private JTextField name;
 	
