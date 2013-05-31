@@ -6,11 +6,14 @@
 
 package fapDB;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import utils.StringUtils;
+
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 public class Session {
 	// zwraca obecną sesję
@@ -32,12 +35,26 @@ public class Session {
 			Logger lgr = Logger.getLogger(Session.class.getName());
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
-	}
-	
+    }
+
+
 	// rzuca jesli nie ma tabeli o podanej nazwie lub baza ma focha
 	public Table getTable(String name) throws IllegalArgumentException, SQLException {
 		return new Table(connection, name);
 	}
+
+    //czasem przyda się bardziej ogólne zapytanie jak trzeba coś selekcić po wielu tabelach naraz z wyszukiwaniem
+    public ResultSet selectQuery(String[] columnNames, String from, String conditions) throws SQLException
+    {
+        Statement st = connection.createStatement();
+        String columns;
+        if(columnNames == null || columnNames.length == 0)
+            columns = "*";
+        else
+            columns = StringUtils.join(columnNames, ",");
+        ResultSet rs = st.executeQuery("SELECT " + columns + " FROM " + from + ((conditions!=null&&conditions.length()>0)?" WHERE " + conditions:""));
+        return rs;
+    }
 	
 	//Singleton
 	private Session() {	}
@@ -45,5 +62,4 @@ public class Session {
 	
 	private boolean logged = false;
 	private Connection connection = null;
-	
 }
