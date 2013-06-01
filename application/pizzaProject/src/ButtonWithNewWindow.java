@@ -35,7 +35,6 @@ public class ButtonWithNewWindow extends JButton implements ActionListener{
 			}
 			
 			form.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-			form.setSize(300, 100);
 			form.setLocation(200,200);
 			form.createForm();
 			form.setVisible(true);

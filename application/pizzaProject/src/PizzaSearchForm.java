@@ -12,6 +12,8 @@ public class PizzaSearchForm extends SearchForm{
 	}
 	
 	public void createForm(){
+		this.setSize(300,100);
+		
 		Container mainContainer  = this.getContentPane();
 		mainContainer.setLayout(new GridLayout(2,2));
 		
