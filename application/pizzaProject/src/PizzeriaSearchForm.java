@@ -8,11 +8,16 @@ import javax.swing.JTextField;
 
 public class PizzeriaSearchForm extends SearchForm{
 	
+	//
 	public PizzeriaSearchForm(String s){
 		super(s);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+		setLocation(200,200);
+		//teraz createForm to część konstrukcji i nie jest wywoływane z zewnątrz
+		createForm();
 	}
 	
-	public void createForm(){
+	private void createForm(){
 		this.setSize(300, 200);
 		
 		Container mainContainer  = this.getContentPane();

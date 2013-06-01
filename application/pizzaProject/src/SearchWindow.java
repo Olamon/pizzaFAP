@@ -47,15 +47,14 @@ public class SearchWindow {
 	
 	public SearchWindow() {
 		frame = new JFrame("Wyszukaj");
-	}
-	
-	public void show() {
-		//TODO pimp my window (upiększyć)
-		initComponents();
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.setLocation(100, 100);
 		frame.setMinimumSize(new Dimension(300,300));
-		
+		//TODO pimp my window (upiększyć)
+		initComponents();
+	}
+	
+	public void show() {	
 		Vector<Pizzeria> queryRes = null;
 		try {      
 	        queryRes = new Vector<Pizzeria>( Pizzeria.GetAll() );

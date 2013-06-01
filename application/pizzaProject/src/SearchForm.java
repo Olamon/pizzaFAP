@@ -15,8 +15,6 @@ public abstract class SearchForm extends JFrame{
 		this.textFields = new ArrayList<JTextField>();
 	}
 	
-	abstract void createForm();
-	
 	public class SearchActionListener implements ActionListener{
 
 		@Override
