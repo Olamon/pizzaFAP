@@ -1,0 +1,29 @@
+----------------------------  PIZZAFAP SPOTKANIE 3 -----------------------------
+
+Początek 12:00 (Ola patrzę na ciebie)
+
+PLAN SPOTKANIA:
+1. Powitanie.
+8. ??????????
+3. Chwila przerwy.
+5. ------||------
+9. PROFIT/---\
+2.\/\___/    _\
+7. Chwila przerwy.
+4. ...............
+6. _______________
+0. Napisać plan spotkania.
+
+--------------------------------------------------------------------------------
+Właściciel: (coś zacząć!!!)
+- dodaje pizzerie
+- dodaje oferty
+- usuwa! swoje pizzerie (modyfikacja tabeli 'pizzeria' i 'uzytkownik')
+- usuwa! swoje oferty`
+
+--------------------------------------------------------------------------------
+Użytkownik: 
+- skończyć to co było robione
+- przeglądać dotychczasowy kod
+- obsługa wyjątków (coś z tym zrobić)
+- dodawanie ocen
