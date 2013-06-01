@@ -16,7 +16,7 @@ public class PizzeriaSearchForm extends SearchForm{
 		this.setSize(300, 200);
 		
 		Container mainContainer  = this.getContentPane();
-		mainContainer.setLayout(new GridLayout(5,2));
+		mainContainer.setLayout(new GridLayout(6,2));
 		
 		//Pobieranie nazwy pizzerii, którą chcemy wyszukać
 		Label nameLabel = new Label("Nazwa Pizzerii:");
@@ -53,6 +53,21 @@ public class PizzeriaSearchForm extends SearchForm{
 		rateContainer.add(rateToLabel);
 		rateContainer.add(rateTo);
 		mainContainer.add(rateContainer);
+		
+		//Liczba ocen
+		Label rateCountLabel = new Label("Liczba ocen:");
+		mainContainer.add(rateCountLabel);
+		Container rateCountContainer = new Container();
+		rateCountContainer.setLayout(new GridLayout(1,4));
+		Label rateCountFromLabel = new Label("Od"), rateCountToLabel = new Label("Do");
+		JTextField rateCountFrom = new JTextField(), rateCountTo = new JTextField();
+		this.textFields.add(rateCountFrom);
+		this.textFields.add(rateCountTo);
+		rateCountContainer.add(rateCountFromLabel);
+		rateCountContainer.add(rateCountFrom);
+		rateCountContainer.add(rateCountToLabel);
+		rateCountContainer.add(rateCountTo);
+		mainContainer.add(rateCountContainer);
 		
 		//Przycisk wyszukaj
 		Button submit = new Button("Szukaj");
