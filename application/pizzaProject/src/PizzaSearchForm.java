@@ -1,8 +1,11 @@
 import java.awt.Button;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
 
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 public class PizzaSearchForm extends SearchForm{
@@ -12,10 +15,10 @@ public class PizzaSearchForm extends SearchForm{
 	}
 	
 	public void createForm(){
-		this.setSize(300,200);
+		this.setSize(300,250);
 		
 		Container mainContainer  = this.getContentPane();
-		mainContainer.setLayout(new GridLayout(6,2));
+		mainContainer.setLayout(new GridLayout(8,2));
 		
 		//Pobieranie nazwy pizzy, którą chcemy wyszukać
 		Label nameLabel = new Label("Nazwa Pizzy:");
@@ -75,6 +78,17 @@ public class PizzaSearchForm extends SearchForm{
 		rateCountContainer.add(rateCountToLabel);
 		rateCountContainer.add(rateCountTo);
 		mainContainer.add(rateCountContainer);
+		
+		//Skład
+		JCheckBox cheese = new JCheckBox("Ser"), ham = new JCheckBox("Szynka"), mashrooms = new JCheckBox("Pieczarki"), corn = new JCheckBox("Kukurydza");
+		cheese.setFont(new Font(Font.SANS_SERIF, 0, 12));
+		ham.setFont(new Font(Font.SANS_SERIF, 0, 12));
+		mashrooms.setFont(new Font(Font.SANS_SERIF, 0, 12));
+		corn.setFont(new Font(Font.SANS_SERIF, 0, 12));
+		mainContainer.add(cheese);
+		mainContainer.add(ham);
+		mainContainer.add(mashrooms);
+		mainContainer.add(corn);
 		
 		//Przycisk wyszukaj
 		Button submit = new Button("Szukaj");
