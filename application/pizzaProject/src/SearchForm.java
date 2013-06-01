@@ -1,5 +1,6 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
@@ -7,10 +8,11 @@ import javax.swing.JTextField;
 
 public abstract class SearchForm extends JFrame{
 	
-	protected JTextField[] textFields;
+	protected ArrayList<JTextField> textFields;
 	
 	public SearchForm(String s){
 		super(s);
+		this.textFields = new ArrayList<JTextField>();
 	}
 	
 	abstract void createForm();
@@ -19,8 +21,9 @@ public abstract class SearchForm extends JFrame{
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			//Przesyłąnie danych, póki co logowanie na kosoli
-			System.out.println("Trututu!");
+			for(int i=0; i<textFields.size(); i++){
+				System.out.println((textFields.get(i)).getText());
+			}
 		}
 	}
 }
