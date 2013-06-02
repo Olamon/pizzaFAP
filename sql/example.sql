@@ -1,0 +1,1 @@
+INSERT INTO uzytkownik VALUES ('user', 'ee11cbb19052e40b07aac0ca060c23ee'); --login: user, hasło: user (zahashowane)

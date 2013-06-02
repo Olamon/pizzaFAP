@@ -60,4 +60,12 @@ public class StringUtils {
 		
 		return result;
 	}
+	
+	//do przedstawiania hashy md5 w postaci stringa
+	public static String byteArrayToHexString(byte[] a) {
+	   StringBuilder sb = new StringBuilder();
+	   for(byte b: a)
+	      sb.append(String.format("%02x", b&0xff));
+	   return sb.toString();
+	}
 }

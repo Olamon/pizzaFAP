@@ -1,7 +1,7 @@
 /*
- * Klasa reeprezentująca obecną sesję użytkownika
- * Wstępnie pomyślana jako Singleton, czyli zmiana użytkownika (sesji)
- * wymaga wylogowania (zakończenia) użytkownika (sesji) TODO - logout
+ * Klasa reprezentująca obecną sesję użytkownika
+ * UWAGA - sesja określa tryb dostępu do bazy - docelowo (użytkownik/właściciel/
+ * admin/?login?), a nie samo konto użytkownika!
  */
 
 package fapDB;
@@ -25,9 +25,11 @@ public class Session {
 			throw new IllegalStateException();
 	}
 	
-	public static void login(String url, String username, String password) {
+	//zmieniłem nazwę, bo była myląca - ta metoda loguje do roli w bazie danych,
+	//a nie na konto konkretnego użytkownika
+	public static void start(String url, String role, String password) {
 		try {
-			instance.connection = DriverManager.getConnection(url, username, password);
+			instance.connection = DriverManager.getConnection(url, role, password);
 			instance.connection.setAutoCommit(false);
 			instance.logged = true;
 		} catch (SQLException ex) {
@@ -52,6 +54,9 @@ public class Session {
             columns = "*";
         else
             columns = StringUtils.join(columnNames, ",");
+        //TODO to trzeba poprawić! W tym momencie trzeba pamiętać, żeby każdą
+        //wartość w conditions umieszczać w cudzysłowiach, co jest bardzo
+        //niewygodne i prowadzi do błedów.
         ResultSet rs = st.executeQuery("SELECT " + columns + " FROM " + from + ((conditions!=null&&conditions.length()>0)?" WHERE " + conditions:""));
         return rs;
     }

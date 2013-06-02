@@ -6,6 +6,7 @@
 package objects;
 
 import fapDB.Session;
+import utils.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -17,19 +18,40 @@ import java.util.Vector;
 
 public class User {
     public String email;
-    private String password;    //haslło jest zahaszowane przez jakieś MD5, przy logowaniu porównuje się hasz wejścia z tym polem
+    private String password;    
+    //hasło jest zahaszowane przez jakieś MD5, przy logowaniu porównuje się hasz wejścia z tym polem
+    //TODO md5 to zły wybór - służy raczej do obliczania skrótów, niż do szyfrowania
 
-    public User(String email, String password) {
+    //"konstruktor" dla zewnętrzego kodu - hashuje podane hasło
+    //nazwa nie najlepsza, ale nie wymyśliłem lepszej
+    public static User CreateUser(String email, String password) throws 
+    											UnsupportedEncodingException, 
+    											NoSuchAlgorithmException {
+    	byte[] bytesOfPass = password.getBytes("UTF-8");
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] digest = md.digest(bytesOfPass);
+        String hash = StringUtils.byteArrayToHexString(digest);
+        return new User(email, hash);
+    }
+    //konstruktor dla do tworzenia modeli na podstawie wpisów w bazie - wewnętrzny
+    private User(String email, String password) {
         this.email = email;
         this.password = password;
     }
-
+    
     //przykładowa implementacja autoryzacji użytkownika
-    public boolean Authenticate(String pass) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        byte[] bytesOfPass = pass.getBytes("UTF-8");
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] digest = md.digest(bytesOfPass);
-        return(digest.toString()==password);    //jeszcze nie sprawdziłem, czy to działa poprawnie
+    
+    //zmieniłem metodę, bo przy logowaniu miałem problem:
+    //- wiemy z jakim loginem i hasłem użytkownik próbuje się zalogować
+    //- więc to co jest potrzebne przy logowaniu to funkcja, która sprawdzi czy
+    //  istnieje krotka o takim emailu i haśle
+    //- żeby to zrobić nie wystarczy porównywać podawanego przez uzytkownika
+    //  hasła z jakimś emailem i hasłem, no bo właśnie nie wiemy z którym,
+    //  musimy najpierw wyszukać
+    public boolean Authenticate() throws SQLException {
+    	String conditions = "email = '" + email + "' AND " + "pass = '" + password + "'";
+        ResultSet rs = Session.current().selectQuery(null, "uzytkownik", conditions);
+        return rs.next(); //true jeśli rs niepusty false wpp
     }
 
     //zwraca listę wszystkich ocen użytkownika

@@ -1,3 +1,11 @@
+02.06:
+
+Żeby zalogować się do programu należy wczytać /sql/example.sql do bazy i podać
+login 'user' i hasło 'user' przy logowaniu. 
+
+
+26.05:
+
 Żeby program działał trzeba trochę zmienić bazę. Okazuje się, że nie można się
 zalogować bez hasła do bazy nasłuchującej na połączenia w domyślnym trybie.
 Zaktualizowałem skrypt żeby tworzył domyślne hasła. Najprościej więc usunąć bazę 
