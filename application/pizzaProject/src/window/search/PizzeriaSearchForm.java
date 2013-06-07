@@ -1,3 +1,5 @@
+package window.search;
+
 import java.awt.Button;
 import java.awt.Container;
 import java.awt.GridLayout;

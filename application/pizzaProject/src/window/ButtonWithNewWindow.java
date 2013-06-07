@@ -7,11 +7,13 @@
  * w actionPerformed i trzeba by pisać ify żeby rozróżnić jaki button został
  * kliknięty. 
  */
+package window;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import java.awt.event.*;
+import window.search.SearchForm;
 
 public class ButtonWithNewWindow extends JButton {
 	

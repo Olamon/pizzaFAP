@@ -1,3 +1,5 @@
+package window.login;
+
 import java.awt.event.*;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -5,8 +7,8 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
-import fapDB.Session;
-import objects.User;
+import database.Session;
+import window.register.RegisterWindow;
 
 public class LoginWindow extends JFrame {
 
@@ -17,35 +19,19 @@ public class LoginWindow extends JFrame {
         //nadawany dopiero po udanej autoryzacji
 		Session.start("jdbc:postgresql://localhost/pizzadb", "uzytkownikrole", "uzytkownikrole");
 		
-		//być moze lepiej byłoby to wydzielić do osobnej klasy
-		ActionListener doLogin = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-        		try {
-            		//odczytujemy hasło, tworzymy prototyp użytkownika
-            		char[] password = passwordField.getPassword();
-            		User user = User.CreateUser(loginField.getText(), new String(password));
-            	        		
-            		//jeśli dane są poprawne to chowamy okienko i przechodzimy do menu
-            		//docelowo user będzie przekazywany do UserMenu
-            		if( user.Authenticate() ) {
-                		setVisible(false);
-                		UserMenu userMenu = new UserMenu();
-                		userMenu.show();
-            		} else {
-            			passwordField.setText("");
-            		}
-            		Arrays.fill(password, '0');
-        		} 
-        		catch (Exception ex) {
-        			Logger lgr = Logger.getLogger(LoginWindow.class.getName());
-                    lgr.log(Level.SEVERE, ex.getMessage(), ex);
-        		}
-            }
-		};
+		registerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent event) {
+				RegisterWindow rw = new RegisterWindow();
+				rw.setVisible(true);
+			}
+		});
 		
+		//wydzieliłem do LoginActionListener
+		LoginActionListener doLogin = new LoginActionListener(this);
 		//po wprowadzeniu danych można kliknąć loguj albo nacisnąć enter
         loginButton.addActionListener(doLogin);
         passwordField.addActionListener(doLogin);
+        loginField.addActionListener(doLogin);
     }
                    
     //wygenerowany kod...
@@ -145,14 +131,14 @@ public class LoginWindow extends JFrame {
         pack();
     }
                
-    private javax.swing.JSeparator horizontalSeparator;
-    private javax.swing.JButton loginButton;
-    private javax.swing.JTextField loginField;
-    private javax.swing.JLabel loginLabel;
-    private javax.swing.JPasswordField passwordField;
-    private javax.swing.JLabel passwordLabel;
-    private javax.swing.JButton registerButton;
-    private javax.swing.JLabel registerLabel;
-    private javax.swing.JLabel titleLabel;
-    private javax.swing.JSeparator verticalSeparator;                
+    javax.swing.JSeparator horizontalSeparator;
+    javax.swing.JButton loginButton;
+    javax.swing.JTextField loginField;
+    javax.swing.JLabel loginLabel;
+    javax.swing.JPasswordField passwordField;
+    javax.swing.JLabel passwordLabel;
+    javax.swing.JButton registerButton;
+    javax.swing.JLabel registerLabel;
+    javax.swing.JLabel titleLabel;
+    javax.swing.JSeparator verticalSeparator;                
 }

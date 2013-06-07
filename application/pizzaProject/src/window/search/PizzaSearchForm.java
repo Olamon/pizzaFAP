@@ -1,3 +1,5 @@
+package window.search;
+
 import java.awt.Button;
 import java.awt.Container;
 import java.awt.Font;
@@ -6,6 +8,7 @@ import java.awt.Label;
 
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+
 
 public class PizzaSearchForm extends SearchForm{
 	

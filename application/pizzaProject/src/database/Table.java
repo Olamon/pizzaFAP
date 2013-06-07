@@ -2,7 +2,7 @@
  * Wstępny wrapper na tabele
  */
 
-package fapDB;
+package database;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -23,11 +23,12 @@ public class Table {
 		}
 		
 		this.connection = connection;
-		this.name = name;
+		this.name = new String(name);
 	}
 	
 	// jakiś select - można selekcić po nazwach tabel lub dać nulla lub pustą tabelę -
 	// wtedy wybierze wszystko
+	//TODO to trzeba ulepszyć
 	public ResultSet select(String[] columnNames) throws SQLException {
 		Statement st = connection.createStatement();
 		
@@ -40,6 +41,32 @@ public class Table {
         
 		ResultSet rs = st.executeQuery("SELECT " + columns + " FROM " + name);  
         return rs;
+	}
+	
+	//Bardzo kiepski insert - nie wiem jak sobie poradzi z nietrywialnymi typami danych
+	//działanie podobne do postgresowego inserta
+	//TODO to trzeba ulepszyć
+	public void insert(String[] columnNames, String[][] values) throws SQLException {
+		Statement st = connection.createStatement();
+		
+		String columns;
+		if(columnNames == null || columnNames.length == 0)
+			columns = "";
+		else
+			// wstawia ',' między sąsiednie elementy tabeli
+			columns = "(" + StringUtils.join(columnNames, ",") + ")";
+		
+		//spłaszczamy tablicę tablic wartości (krotki) do jednego stringa
+		String[] rows = new String[values.length];
+        for(int i = 0; i < values.length; i++) {
+        	rows[i] = new String("('" + StringUtils.join(values[i], "','") + "')");
+        }
+        String valuesString = new String(StringUtils.join(rows, ","));
+        //System.out.println(valuesString);
+		st.executeUpdate("INSERT INTO " + name + " " + columns + 
+						 " VALUES " + valuesString);  
+		//na koniec trzeba zapiasć zmiany w bazie
+		connection.commit();
 	}
 	
 	private Connection connection;

@@ -2,6 +2,7 @@
  * Prosty "view" do listy pizzerii
  *TODO zrobić analogiczny dla pizzy
  */
+package window.search;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;

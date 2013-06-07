@@ -1,10 +1,17 @@
-02.06:
+patch3 (07.06.13):
 
-Żeby zalogować się do programu należy wczytać /sql/example.sql do bazy i podać
+Zmieniłem tabelę "uzytkownik" tak by zawierała informację o typie konta
+użytkownika. Możliwe wartości to "uzytkownik", "wlasciciel" i "admin". Zmiany
+można wgrać poprzez plik /sql/patch3.sql.
+
+
+patch2 (02.06.13):
+
+Żeby zalogować się do programu należy wczytać /sql/patch2.sql do bazy i podać
 login 'user' i hasło 'user' przy logowaniu. 
 
 
-26.05:
+patch1 (26.05.13):
 
 Żeby program działał trzeba trochę zmienić bazę. Okazuje się, że nie można się
 zalogować bez hasła do bazy nasłuchującej na połączenia w domyślnym trybie.

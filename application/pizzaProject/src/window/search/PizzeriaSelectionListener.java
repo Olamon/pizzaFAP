@@ -5,6 +5,7 @@
  * z wartościami wybranej pizzerii
  * TODO zrobić analogiczny dla pizzy
  */
+package window.search;
 
 import javax.swing.event.*;
 import javax.swing.JList;

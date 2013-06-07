@@ -1,6 +1,7 @@
 /*
  * Okienko do wyszukiwania pizzy i pizzerii
  */
+package window.search;
 
 import java.awt.*;
 
@@ -12,6 +13,7 @@ import java.util.logging.Logger;
 import java.sql.SQLException;
 
 import objects.Pizzeria;
+import window.ButtonWithNewWindow;
 
 public class SearchWindow {
 	

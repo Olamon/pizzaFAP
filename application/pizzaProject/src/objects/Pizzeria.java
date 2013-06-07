@@ -5,8 +5,8 @@
 
 package objects;
 
-import fapDB.Session;
-import fapDB.Table;
+import database.Session;
+import database.Table;
 
 import java.sql.*;
 import java.util.List;

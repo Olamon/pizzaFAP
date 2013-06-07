@@ -4,13 +4,11 @@
  * admin/?login?), a nie samo konto użytkownika!
  */
 
-package fapDB;
+package database;
 
 import utils.StringUtils;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

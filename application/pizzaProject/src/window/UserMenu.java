@@ -1,7 +1,11 @@
+package window;
+
 import java.awt.event.*;
 import java.awt.*;
 
 import javax.swing.JFrame;
+
+import window.search.SearchWindow;
 
 public class UserMenu {
 	

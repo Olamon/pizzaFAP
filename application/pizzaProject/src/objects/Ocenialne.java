@@ -1,6 +1,6 @@
 package objects;
 
-import fapDB.Session;
+import database.Session;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
