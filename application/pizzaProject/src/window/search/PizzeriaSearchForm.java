@@ -9,10 +9,12 @@ import javax.swing.JTextField;
 
 
 public class PizzeriaSearchForm extends SearchForm{
-	
+	SearchWindow parent;
+
 	//
-	public PizzeriaSearchForm(String s){
+	public PizzeriaSearchForm(String s, SearchWindow parent){
 		super(s);
+        this.parent = parent;
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setLocation(200,200);
 		//teraz createForm to część konstrukcji i nie jest wywoływane z zewnątrz
@@ -78,7 +80,7 @@ public class PizzeriaSearchForm extends SearchForm{
 		
 		//Przycisk wyszukaj
 		Button submit = new Button("Szukaj");
-		submit.addActionListener(new SearchForm.SearchActionListener());
+		submit.addActionListener(new SearchForm.PizzeriaSearchActionListener(parent));
 		mainContainer.add(submit);
 	}
 }

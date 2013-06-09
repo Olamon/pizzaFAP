@@ -68,4 +68,26 @@ public class StringUtils {
 	      sb.append(String.format("%02x", b&0xff));
 	   return sb.toString();
 	}
+
+    //jeśli się da, przedstawia łańcuch jako integer, a jeśli nie, zwraca alt
+    public static int asInteger(String s, int alt)
+    {
+        try {
+            Integer.valueOf(s);
+            return Integer.valueOf(s);
+        } catch (NumberFormatException e) {
+            return alt;
+        }
+    }
+
+    //jeśli się da, przedstawia łańcuch jako float, a jeśli nie, zwraca alt
+    public static float asFloat(String s, float alt)
+    {
+        try {
+            Float.valueOf(s);
+            return Float.valueOf(s);
+        } catch (NumberFormatException e) {
+            return alt;
+        }
+    }
 }

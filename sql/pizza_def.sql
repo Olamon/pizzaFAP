@@ -64,7 +64,7 @@ create table menu (
   primary key(pizzeria_id, pizza)
 );
 
-create view ocenialneView AS SELECT id, avg(gwiazdki) AS "srednia" FROM ocenialne LEFT JOIN ocena ON podmiot=id GROUP BY id; 
+create view ocenialneView AS SELECT id, avg(gwiazdki) AS "srednia", count(gwiazdki) AS "ilosc" FROM ocenialne LEFT JOIN ocena ON podmiot=id GROUP BY id; 
 create view liczbaOcenView AS SELECT email, count(DISTINCT oc_id) AS "liczba_ocen" FROM uzytkownik LEFT JOIN ocena USING(email) GROUP BY email;
 
 create role uzytkownikRole WITH LOGIN PASSWORD 'uzytkownikRole';

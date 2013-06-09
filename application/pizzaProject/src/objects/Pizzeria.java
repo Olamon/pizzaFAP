@@ -14,6 +14,8 @@ import java.util.Vector;
 
 
 public class Pizzeria extends Ocenialne{
+    //pytając o pizzerie chcemy znać ich średnią ocen i ich ilość, toteż sama tabela pizzeria nie wystarczy
+    private static final String dbpath = "pizzeria join ocenialneView on (pizzeria.pizzeria_id = ocenialneView.id)";
 
     public String nazwa;
 
@@ -43,7 +45,7 @@ public class Pizzeria extends Ocenialne{
 
     // zwraca pizzerię na podstawie podanego id (lub null jeśli nie ma takiej w bazie)
     public static Pizzeria GetById(int id) throws SQLException {
-        ResultSet rs = Session.current().selectQuery(null, "pizzeria", "pizzeria_id = " + id);
+        ResultSet rs = Session.current().selectQuery(null, dbpath, "pizzeria_id = " + id);
         if (rs != null)
             return GetAll(rs).get(0);
         else return null;
@@ -51,15 +53,41 @@ public class Pizzeria extends Ocenialne{
 
     // zwraca listę wszystkich pizzerii w bazie danych
     public static List<Pizzeria> GetAll() throws SQLException {
-        Table pizzerie = Session.current().getTable("pizzeria");
-        ResultSet rs = pizzerie.select(null);
+        ResultSet rs = Session.current().selectQuery(null, dbpath, null);
         return GetAll(rs);
     }
 
     //zwraca wynik wyszukiwania według podanych parametrów
-    //TODO: rozszerzyć wyszukiwanie do wszystkich sensownych pól
-    public static List<Pizzeria> GetAll(String name) throws SQLException {
-        ResultSet rs = Session.current().selectQuery(null, "pizzeria", "nazwa LIKE " + "'%" + name + "%'");
+    public static List<Pizzeria> GetAll(String nazwa, String ulica, String telefon, float ocenaMin, float ocenaMax, int iloscMin, int iloscMax) throws SQLException {
+        int i = 0;
+        StringBuilder sb = new StringBuilder();
+        if (nazwa != null)
+        {
+            sb.append("nazwa LIKE '%").append(nazwa).append("%'");
+            i++;
+        }
+        if (ulica != null)
+        {
+            if (i>0) sb.append(" AND ");
+            sb.append("adres::varchar LIKE ('%").append(ulica).append("%','%','%')::varchar");
+            i++;
+        }
+        if (telefon != null && telefon.length()>0)
+        {
+            if (i>0) sb.append(" AND ");
+            sb.append("telefon::varchar LIKE '%").append(telefon).append("%'");
+            i++;
+        }
+        if (iloscMin > 0) {
+            if (i>0) sb.append(" AND ");
+            sb.append("srednia between ").append(ocenaMin).append(" and ").append(ocenaMax);
+            i++;
+        }
+        if (iloscMax >= 0) {
+            if (i>0) sb.append(" AND ");
+            sb.append("ilosc between ").append(iloscMin).append(" and " ).append(iloscMax);
+        }
+        ResultSet rs = Session.current().selectQuery(null, dbpath, sb.toString());
         if (rs != null)
             return GetAll(rs);
         return null;
@@ -77,6 +105,8 @@ public class Pizzeria extends Ocenialne{
             p.strona = rs.getString("strona");
             if (rs.getArray("telefon") != null)
                 p.telefony = (String[]) rs.getArray("telefon").getArray();
+            p.sredniaOcen = rs.getFloat("srednia");
+            p.iloscOcen = rs.getInt("ilosc");
 
             // Wczytywanie typów złożonych z SQL-a na pewno można jakoś ładniej zrobić niż poniżej, ale mi się nie udało
             String[] addr = rs.getString("adres").replaceAll("[()\"]", "").split(",");

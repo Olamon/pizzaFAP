@@ -12,14 +12,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.SQLException;
 
+import objects.Oferta;
 import objects.Pizzeria;
 import window.ButtonWithNewWindow;
 
 public class SearchWindow {
 	
 	private JFrame frame;
-    
-    private javax.swing.JList pizzeriaList;
+
+
+    public javax.swing.JList pizzeriaList;
     private javax.swing.JList pizzaList;
 	private ButtonWithNewWindow advancedPizzeriaSearchButton; 
 	private ButtonWithNewWindow advancedPizzaSearchButton; 
@@ -58,8 +60,10 @@ public class SearchWindow {
 	
 	public void show() {	
 		Vector<Pizzeria> queryRes = null;
+        Vector<Oferta> oferty = null;
 		try {      
 	        queryRes = new Vector<Pizzeria>( Pizzeria.GetAll() );
+            oferty = new Vector<Oferta>(Oferta.GetAll());
 		} catch (SQLException ex) {
 			//TODO poprawić obsługę i logowanie wyjątków
 			Logger lgr = Logger.getLogger(SearchWindow.class.getName());
@@ -70,6 +74,8 @@ public class SearchWindow {
 		//Ola - żeby zmodyfikować listę powinno wystarczyć użyć tej metody
 		pizzeriaList.setListData(queryRes);
 		pizzeriaList.setCellRenderer(new PizzeriaCellRenderer());
+        pizzaList.setListData(oferty);
+        pizzaList.setCellRenderer(new PizzaCellRenderer());
 		pizzeriaList.addListSelectionListener(new PizzeriaSelectionListener(this));
 		//TODO obsługa listy pizz
 		
@@ -79,7 +85,7 @@ public class SearchWindow {
 	//ta funkcja zawiera dużo wygenerowanego automatycznie kodu, więc raczej nie jest zbyt czytelna
 	//jak będę miał czas to uporządkuję
 	private void initComponents() {
-		pizzeriaSearchForm = new PizzeriaSearchForm("Wyszukaj pizzerię");
+		pizzeriaSearchForm = new PizzeriaSearchForm("Wyszukaj pizzerię", this);
 		pizzaSearchForm = new PizzaSearchForm("Wyszukaj pizzę");
 		advancedPizzeriaSearchButton = new ButtonWithNewWindow("Zaawansowane", pizzeriaSearchForm);
 		advancedPizzaSearchButton = new ButtonWithNewWindow("Zaawansowane", pizzaSearchForm);
