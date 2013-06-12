@@ -59,35 +59,30 @@ public class Pizzeria extends Ocenialne{
 
     //zwraca wynik wyszukiwania według podanych parametrów
     public static List<Pizzeria> GetAll(String nazwa, String ulica, String telefon, float ocenaMin, float ocenaMax, int iloscMin, int iloscMax) throws SQLException {
-        int i = 0;
-        StringBuilder sb = new StringBuilder();
-        if (nazwa != null)
-        {
-            sb.append("nazwa LIKE '%").append(nazwa).append("%'");
-            i++;
+
+        String prepString = "SELECT * from " + dbpath + " WHERE nazwa LIKE ? AND adres::varchar LIKE (?,'%','%')::varchar AND (telefon::varchar LIKE ?";
+        if (telefon == null || telefon.length()==0)
+            prepString += " OR telefon IS NULL";
+        prepString += ")";
+        if (iloscMin>0)
+            prepString += " AND srednia BETWEEN ? and ? ";
+        if (iloscMax>=0)
+            prepString += " AND ilosc BETWEEN ? and ?";
+        PreparedStatement psmt = Session.current().connection.prepareStatement(prepString);
+
+        psmt.setString(1, nazwa!=null?"%"+nazwa+"%":"%");
+        psmt.setString(2, ulica!=null?"%"+ulica+"%":"%");
+        psmt.setString(3, telefon!=null?"%"+telefon+"%":"%");
+        if (iloscMin>0) {
+            psmt.setObject(4, ocenaMin);
+            psmt.setObject(5, ocenaMax);
         }
-        if (ulica != null)
-        {
-            if (i>0) sb.append(" AND ");
-            sb.append("adres::varchar LIKE ('%").append(ulica).append("%','%','%')::varchar");
-            i++;
+        if (iloscMax >= 0)    {
+            psmt.setInt(iloscMin>0?6:4, iloscMin);
+            psmt.setInt(iloscMin>0?7:5, iloscMax);
         }
-        if (telefon != null && telefon.length()>0)
-        {
-            if (i>0) sb.append(" AND ");
-            sb.append("telefon::varchar LIKE '%").append(telefon).append("%'");
-            i++;
-        }
-        if (iloscMin > 0) {
-            if (i>0) sb.append(" AND ");
-            sb.append("srednia between ").append(ocenaMin).append(" and ").append(ocenaMax);
-            i++;
-        }
-        if (iloscMax >= 0) {
-            if (i>0) sb.append(" AND ");
-            sb.append("ilosc between ").append(iloscMin).append(" and " ).append(iloscMax);
-        }
-        ResultSet rs = Session.current().selectQuery(null, dbpath, sb.toString());
+
+        ResultSet rs = psmt.executeQuery();
         if (rs != null)
             return GetAll(rs);
         return null;

@@ -44,6 +44,7 @@ public class Session {
 	}
 
     //czasem przyda się bardziej ogólne zapytanie jak trzeba coś selekcić po wielu tabelach naraz z wyszukiwaniem
+    //tylko do wewnętrzenego użytku, wszystko związane z inputem użytkownika trzeba robić przez Session.current().connection.prepareStatement()
     public ResultSet selectQuery(String[] columnNames, String from, String conditions) throws SQLException
     {
         Statement st = connection.createStatement();
@@ -64,5 +65,6 @@ public class Session {
 	private static final Session instance = new Session();
 	
 	private boolean logged = false;
-	private Connection connection = null;
+    // Connection musi być publiczne żeby można było używać gdzie indziej connection.PrepareStatement itp
+	public Connection connection = null;
 }
