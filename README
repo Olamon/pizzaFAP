@@ -1,3 +1,8 @@
+info (23.06.13)
+
+Użyłem zewnętrznych bibliotek do okienek, znajdują się w katalogu /lib, trzeba
+je sobie zlinkować.
+
 patch3 (07.06.13):
 
 Zmieniłem tabelę "uzytkownik" tak by zawierała informację o typie konta

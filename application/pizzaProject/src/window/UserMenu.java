@@ -28,7 +28,7 @@ public class UserMenu {
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SearchWindow sw = new SearchWindow();
-				sw.show();
+				sw.setVisible(true);
             }
 		});
 		
