@@ -1,30 +1,33 @@
-package window;
+package window.menu;
 
 import java.awt.event.*;
 import java.awt.*;
-
 import javax.swing.JFrame;
 
 import window.search.SearchWindow;
+import window.ButtonWithNewWindow;
 
-public class UserMenu {
-	
-	private JFrame frame;
+import roles.User;
+
+public class UserMenu extends JFrame {
 	private ButtonWithNewWindow search;
 	private ButtonWithNewWindow account;
 	
+	//model, który okienko informuje co należy zrobić
+	//(na razie nic nie umie) 
+	User model;
 	
-	public UserMenu(){
+	public UserMenu(User model) {
+		super("Menu Użytkownika");
+		this.model = model;
 		//wydaje mi się, że lepiej wszystko przenieść do konstruktora
-		frame = new JFrame("Menu Użytkownika");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocation(100, 100);
-		frame.setMinimumSize(new Dimension(300,300));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setLocation(100, 100);
+		setMinimumSize(new Dimension(300,300));
 		
 		search = new ButtonWithNewWindow("Wyszukaj");
 		account = new ButtonWithNewWindow("Moje konto");
 		
-		//Oppa Javascript style
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SearchWindow sw = new SearchWindow();
@@ -32,14 +35,9 @@ public class UserMenu {
             }
 		});
 		
-		Container mainContainer = frame.getContentPane();
+		Container mainContainer = getContentPane();
 		mainContainer.setLayout(new GridLayout(2,1));
 		mainContainer.add(search);
 		mainContainer.add(account);
 	}
-	
-	public void show(){
-		frame.setVisible(true);
-	}
-
 }

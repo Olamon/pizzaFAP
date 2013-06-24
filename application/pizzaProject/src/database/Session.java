@@ -15,21 +15,18 @@ import java.util.logging.Logger;
 
 public class Session {
 	// zwraca obecną sesję
-	// ma sens tylko jeśli użytkownik się zalogował!
-	public static Session current() throws IllegalStateException {
-		if(instance.logged) 
-			return instance;
-		else
-			throw new IllegalStateException();
+	public static Session current() {
+		return instance;
 	}
 	
-	//zmieniłem nazwę, bo była myląca - ta metoda loguje do roli w bazie danych,
-	//a nie na konto konkretnego użytkownika
-	public static void start(String url, String role, String password) {
+	//ustawia tryb dostępu do bazy (login/user/owner/(TODO admin))
+	public static void setRole(String url, String role, String password) {
 		try {
+			if(instance.connection != null)
+				instance.connection.close();
+			
 			instance.connection = DriverManager.getConnection(url, role, password);
 			instance.connection.setAutoCommit(false);
-			instance.logged = true;
 		} catch (SQLException ex) {
 			//TODO - poprawić obsługę wyjątków
 			Logger lgr = Logger.getLogger(Session.class.getName());
@@ -45,6 +42,7 @@ public class Session {
 
     //czasem przyda się bardziej ogólne zapytanie jak trzeba coś selekcić po wielu tabelach naraz z wyszukiwaniem
     //tylko do wewnętrzenego użytku, wszystko związane z inputem użytkownika trzeba robić przez Session.current().connection.prepareStatement()
+	//to trzeba wydzielić gdzieś indziej
     public ResultSet selectQuery(String[] columnNames, String from, String conditions) throws SQLException
     {
         Statement st = connection.createStatement();
@@ -59,12 +57,11 @@ public class Session {
         ResultSet rs = st.executeQuery("SELECT " + columns + " FROM " + from + ((conditions!=null&&conditions.length()>0)?" WHERE " + conditions:""));
         return rs;
     }
-	
+    
 	//Singleton
 	private Session() {	}
 	private static final Session instance = new Session();
 	
-	private boolean logged = false;
     // Connection musi być publiczne żeby można było używać gdzie indziej connection.PrepareStatement itp
 	public Connection connection = null;
 }

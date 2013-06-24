@@ -4,7 +4,6 @@
 package window.search;
 
 import objects.Oferta;
-import objects.Pizzeria;
 
 import javax.swing.*;
 import java.awt.*;

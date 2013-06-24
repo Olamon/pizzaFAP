@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -89,5 +92,16 @@ public class StringUtils {
         } catch (NumberFormatException e) {
             return alt;
         }
+    }
+    
+    //hasło jest zahaszowane przez jakieś MD5, przy logowaniu porównuje się hasz wejścia z tym polem
+    //TODO md5 to zły wybór - służy raczej do obliczania skrótów, niż do szyfrowania
+    public static String hash(String text) throws UnsupportedEncodingException, 
+	   											  NoSuchAlgorithmException {
+    	byte[] bytesOfPass = text.getBytes("UTF-8");
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] digest = md.digest(bytesOfPass);
+        String hash = byteArrayToHexString(digest);
+        return hash;
     }
 }

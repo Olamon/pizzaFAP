@@ -8,9 +8,16 @@ import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegisterWindow extends JFrame {
+import roles.Login;
 
-    public RegisterWindow() {
+public class RegisterWindow extends JFrame {
+	//rejestrację obsługuje też model loginu
+	Login model;
+
+    public RegisterWindow(Login model) {
+    	super();
+    	this.model = model;
+    	
         initComponents();
         
         //selected to String należący do okienka, w którym trzymany jest

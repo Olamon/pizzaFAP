@@ -1,7 +1,19 @@
+patch5 (24.06.13)
+
+Pojawiła się nowa rola "login", która nadaje tylko uprawnienia potrzebne do
+logowania. Należy wgrać plik /sql/patch5.sql.
+
+
 info (23.06.13)
 
 Użyłem zewnętrznych bibliotek do okienek, znajdują się w katalogu /lib, trzeba
 je sobie zlinkować.
+
+
+patch4 (09.06.13)
+
+Brak opisu.
+
 
 patch3 (07.06.13):
 

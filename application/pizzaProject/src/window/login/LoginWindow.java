@@ -1,27 +1,29 @@
 package window.login;
 
 import java.awt.event.*;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.swing.JFrame;
 
-import database.Session;
 import window.register.RegisterWindow;
+import roles.Login;
 
 public class LoginWindow extends JFrame {
+	//okienko ma teraz odnośnik do modelu, którego informuje gdy jest coś
+	//do zrobienia
+	Login model;
 
-    public LoginWindow() {
-        initComponents();
-        //otwieramy sesję w bazie
-        //lepiej byłoby mieć tryb "login", bo tryb "użytkownik" powinien być
-        //nadawany dopiero po udanej autoryzacji
-		Session.start("jdbc:postgresql://localhost/pizzadb", "uzytkownikrole", "uzytkownikrole");
+    public LoginWindow(final Login model) {
+    	super();
+    	this.model = model;
+    	
+        initComponents();		
 		
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent event) {
-				RegisterWindow rw = new RegisterWindow();
+				//model "login" obsługuje też rejestrację, ale można to wydzielić
+				//na razie model mają wszystkie stany aplikacji (login/user/owner),
+				//ale można by też dodać stan rejestracja
+				//póki co RegisterWindow, to tylko okienko pomocnicze loginu
+				RegisterWindow rw = new RegisterWindow(model);
 				rw.setVisible(true);
 			}
 		});

@@ -1,8 +1,10 @@
-import window.login.LoginWindow;
+import roles.State;
 
 public class Run {
 	public static void main(String args[]){
-		LoginWindow lw = new LoginWindow();
-		lw.setVisible(true);
+		//aplikacja działa w "stanach", obecnie są 3:
+		//- login, user, owner (TODO admin)
+		//na początku inicjalizujemy stan programu (do loginu)
+		State.init();
 	}
 }

@@ -6,7 +6,6 @@
 package objects;
 
 import database.Session;
-import database.Table;
 
 import java.sql.*;
 import java.util.List;
