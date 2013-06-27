@@ -5,16 +5,23 @@
 
 package objects;
 
-import database.Session;
-
-import java.sql.*;
+/*
 import java.util.List;
+*/
+import java.sql.ResultSet;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
-public class Pizzeria extends Ocenialne{
+/*
+ * Zmieniłem tę klasę na klasę będącą pojemnikiem na wartości pojedyńczej krotki
+ * z danej tabeli, a metody dotyczące bazy przeniosłem do paczki "database"
+ */
+
+public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
     //pytając o pizzerie chcemy znać ich średnią ocen i ich ilość, toteż sama tabela pizzeria nie wystarczy
-    private static final String dbpath = "pizzeria join ocenialneView on (pizzeria.pizzeria_id = ocenialneView.id)";
+    //private static final String dbpath = "pizzeria join ocenialneView on (pizzeria.pizzeria_id = ocenialneView.id)";
 
     public String nazwa;
 
@@ -27,13 +34,60 @@ public class Pizzeria extends Ocenialne{
     public String[] godzOtwarcia;
     public String[] godzZamkniecia;
 
+    //ze względu na dużą liczbę atrybutów darowałem sobie tutaj konstrukcję
+  	//(poza koniecznym wywołaniem konstruktora nadrzędnego)
+    public Pizzeria(int id, int ilosc, float srednia) {
+    	super(id, ilosc, srednia);
+    }
+    
+    public static Pizzeria converter = new Pizzeria(0, 0, 0f);
+    public Vector<Pizzeria> convert(ResultSet rs) {
+    	Vector<Pizzeria> result = new Vector<Pizzeria>();
 
-    public Pizzeria()
-    {
-        godzOtwarcia = new String[6];
-        godzZamkniecia = new String[6];
+    	try {
+    		while (rs.next()) {
+    			int id = rs.getInt("pizzeria_id");
+    			float srednia = rs.getFloat("srednia");
+                int ilosc = rs.getInt("ilosc");
+    			Pizzeria p = new Pizzeria(id, ilosc, srednia);
+            	p.nazwa = rs.getString("nazwa");
+            	p.strona = rs.getString("strona");
+            	p.telefony = null;
+            	if (rs.getArray("telefon") != null)
+            		p.telefony = (String[]) rs.getArray("telefon").getArray();
+                // Wczytywanie typów złożonych z SQL-a na pewno można jakoś ładniej zrobić niż poniżej, ale mi się nie udało
+                String[] addr = rs.getString("adres").replaceAll("[()\"]", "").split(",");
+                p.ulica = new String(addr[0]);
+                p.nr_budynku = Integer.parseInt(addr[1]);
+                p.nr_lokalu = Integer.parseInt(addr[2]);
+                p.godzOtwarcia = null;
+                p.godzZamkniecia = null;
+                if (rs.getString("godziny")!=null) {
+                    String[] dni = rs.getString("godziny").split("\",\"");
+                    p.godzOtwarcia = new String[dni.length];
+                	p.godzZamkniecia = new String[dni.length];
+                    for(int i=0; i<dni.length;i++)
+                    {
+                        String[] dzien = dni[i].replaceAll("[{}\"()]","").split(",");
+                        if (dzien.length>1) {
+                            int d = Integer.parseInt(dzien[0]);
+                            p.godzOtwarcia[d] = dzien[1];
+                            p.godzZamkniecia[d] = dzien[2];
+                        }
+                    }
+                }
+
+                result.add(p);
+            }
+    	}
+        catch (Exception ex) {
+        	Logger lgr = Logger.getLogger(Pizzeria.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return result;
     }
 
+    /*
     // zwraca listę wszystkich ofert pizzerii
     public List<Oferta> GetAllOffers() throws SQLException {
         ResultSet rs = Session.current().selectQuery(null, "oferta", "pizzeria_id = " + id);
@@ -87,41 +141,5 @@ public class Pizzeria extends Ocenialne{
         return null;
     }
 
-    // przekształca dany ResultSet na listę obiektów klasy Pizzeria
-    public static List<Pizzeria> GetAll(ResultSet rs) throws SQLException {
-        List<Pizzeria> list = new Vector<Pizzeria>();
-
-        while (rs.next())
-        {
-            Pizzeria p = new Pizzeria();
-            p.id = rs.getInt("pizzeria_id");
-            p.nazwa = rs.getString("nazwa");
-            p.strona = rs.getString("strona");
-            if (rs.getArray("telefon") != null)
-                p.telefony = (String[]) rs.getArray("telefon").getArray();
-            p.sredniaOcen = rs.getFloat("srednia");
-            p.iloscOcen = rs.getInt("ilosc");
-
-            // Wczytywanie typów złożonych z SQL-a na pewno można jakoś ładniej zrobić niż poniżej, ale mi się nie udało
-            String[] addr = rs.getString("adres").replaceAll("[()\"]", "").split(",");
-            p.ulica = addr[0];
-            p.nr_budynku = Integer.parseInt(addr[1]);
-            p.nr_lokalu = Integer.parseInt(addr[2]);
-
-            if (rs.getString("godziny")!=null) {
-                String[] dni = rs.getString("godziny").split("\",\"");
-                for(int i=0; i<dni.length;i++)
-                {
-                    String[] dzien = dni[i].replaceAll("[{}\"()]","").split(",");
-                    if (dzien.length>1) {
-                        int d = Integer.parseInt(dzien[0]);
-                        p.godzOtwarcia[d] = dzien[1];
-                        p.godzZamkniecia[d] = dzien[2];
-                    }
-                }
-            }
-            list.add(p);
-        }
-        return list;
-    }
+    */
 }

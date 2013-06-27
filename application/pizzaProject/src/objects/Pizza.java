@@ -5,20 +5,31 @@
 
 package objects;
 
-import database.Session;
-
+/*
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
+*/
 
-public class Pizza {
-    public enum ciasto {
+/*
+ * Zmieniłem tę klasę na klasę będącą pojemnikiem na wartości pojedyńczej krotki
+ * z danej tabeli, a metody dotyczące bazy przeniosłem do paczki "database"
+ */
+
+public class Pizza /*extends Ocenialne implements DatabaseObject<Pizza>*/ {
+    public static enum Ciasto {
         CHRUPKIE, KLASYCZNE, GRUBE
     }
     public int sklad;
-    public ciasto grubosc;
+    public Ciasto grubosc;
+    
+    public Pizza(int sklad, Ciasto grubosc) {
+    	this.sklad = sklad;
+    	this.grubosc = grubosc;
+    }
 
+    /*
     //zwraca listę ofert dotyczących danej pizzy
     public List<Oferta> GetOffers() throws SQLException
     {
@@ -52,5 +63,5 @@ public class Pizza {
         }
         return list;
     }
-
+	*/
 }

@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import roles.Login;
+import states.Login;
 
 public class RegisterWindow extends JFrame {
 	//rejestrację obsługuje też model loginu

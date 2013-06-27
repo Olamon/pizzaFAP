@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import window.search.SearchWindow;
 import window.ButtonWithNewWindow;
 
-import roles.User;
+import states.User;
 
 public class UserMenu extends JFrame {
 	private ButtonWithNewWindow search;
@@ -17,7 +17,7 @@ public class UserMenu extends JFrame {
 	//(na razie nic nie umie) 
 	User model;
 	
-	public UserMenu(User model) {
+	public UserMenu(final User model) {
 		super("Menu Użytkownika");
 		this.model = model;
 		//wydaje mi się, że lepiej wszystko przenieść do konstruktora
@@ -30,7 +30,8 @@ public class UserMenu extends JFrame {
 		
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				SearchWindow sw = new SearchWindow();
+				//przekazujemy model okienkom pochodnym (chyba lepiej przekazywać okienko rodzica)
+				SearchWindow sw = new SearchWindow(model);
 				sw.setVisible(true);
             }
 		});

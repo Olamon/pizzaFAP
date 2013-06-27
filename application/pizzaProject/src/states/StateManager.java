@@ -11,41 +11,52 @@
  * odpowiednią Rolę (stan) docelową
  */
 
-package roles;
+package states;
 
 import javax.swing.JFrame;
 import window.login.LoginWindow;
 import window.menu.UserMenu;
 import window.menu.OwnerMenu;
 
-public class State {
+public class StateManager {
+	static class State {
+		//możliwe stany aplikacji
+		static State user = new State();
+		static State owner = new State();
+		static State admin = new State();
+		static State login = new State();
+		static State invalid = new State();
+		
+		private State() {}
+	}
+	
 	//stan początkowy to login
 	public static void init() {
-		transition(Role.login);
+		transition(State.login);
 	}
-	public static boolean transition(Role role) {	
-		if(role == Role.invalid || role == instance.current)
+	public static boolean transition(State state) {	
+		if(state == State.invalid || state == instance.current)
 			return false; //do nothing
 		//zamykamy okienko starego stanu
 		if(instance.view != null)
 			instance.view.setVisible(false);
 		
-		if(role == Role.login) {
+		if(state == State.login) {
 			instance.view = new LoginWindow(new Login());
-		} else if(role == Role.user) {
+		} else if(state == State.user) {
 			instance.view = new UserMenu(new User());
-		} else if(role == Role.owner) {
+		} else if(state == State.owner) {
 			instance.view = new OwnerMenu(new Owner());
 		}
 		
-		instance.current = role;
+		instance.current = state;
 		instance.view.setVisible(true);
 		return true;
 	}
 	
-	private static final State instance = new State();;
+	private static final StateManager instance = new StateManager();
 
-	private State() { }
+	private StateManager() { }
 	private JFrame view;
-	private Role current;
+	private State current;
 }

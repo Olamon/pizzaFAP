@@ -22,39 +22,25 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 
-import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.sql.SQLException;
+import states.User;
 
-import objects.Oferta;
-import objects.Pizzeria;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class SearchWindow extends JFrame {
-	public SearchWindow() {
+	User model;
+	
+	public SearchWindow(User model) {
 		super();
-		initComponents();
-
-		Vector<Pizzeria> queryRes = null;
-        Vector<Oferta> oferty = null;
-		try {      
-	        queryRes = new Vector<Pizzeria>( Pizzeria.GetAll() );
-            oferty = new Vector<Oferta>(Oferta.GetAll());
-		} catch (SQLException ex) {
-			//TODO poprawić obsługę i logowanie wyjątków
-			Logger lgr = Logger.getLogger(SearchWindow.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-            System.exit(1);
-		}
+		this.model = model;
 		
-		pizzeriaList.setListData(queryRes);
+		initComponents();
+		
+		pizzeriaList.setListData(model.Pizzeria_GetAll());
 		pizzeriaList.setCellRenderer(new PizzeriaCellRenderer());
-        pizzaList.setListData(oferty);
+        pizzaList.setListData(model.Oferta_GetAll());
         pizzaList.setCellRenderer(new PizzaCellRenderer());
 		pizzeriaList.addListSelectionListener(new PizzeriaSelectionListener(this));
-		//TODO obsługa listy pizz
 	}
 	
 	//wygenerowany kod (tym razem czytelnejszy!)

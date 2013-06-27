@@ -4,11 +4,8 @@ import objects.Pizzeria;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.*;
 
@@ -49,14 +46,7 @@ public abstract class SearchForm extends JFrame{
             float oma = asFloat(textFields.get(4).getText(), 100);
             int imi = asInteger(textFields.get(5).getText(), 0);
             int ima = asInteger(textFields.get(6).getText(), -1);
-            try {
-                pizzerie = new Vector < Pizzeria > (Pizzeria.GetAll(textFields.get(0).getText(), textFields.get(1).getText(), textFields.get(2).getText(),omi,oma,imi,ima));
-            } catch (SQLException ex) {
-                //TODO poprawić obsługę i logowanie wyjątków
-                Logger lgr = Logger.getLogger(SearchWindow.class.getName());
-                lgr.log(Level.SEVERE, ex.getMessage(), ex);
-                System.exit(1);
-            }
+            pizzerie = new Vector < Pizzeria > (parent.model.Pizzeria_GetSome(textFields.get(0).getText(), textFields.get(1).getText(), textFields.get(2).getText(),omi,oma,imi,ima));
             parent.pizzeriaList.setListData(pizzerie);
         }
     }

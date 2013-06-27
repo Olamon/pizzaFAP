@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.JFrame;
 
 import window.register.RegisterWindow;
-import roles.Login;
+import states.Login;
 
 public class LoginWindow extends JFrame {
 	//okienko ma teraz odnośnik do modelu, którego informuje gdy jest coś

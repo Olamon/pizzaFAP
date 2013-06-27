@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 
-import roles.Owner;
+import states.Owner;
 
 public class OwnerMenu extends JFrame {
 	private JButton addPizzeriaButton;
