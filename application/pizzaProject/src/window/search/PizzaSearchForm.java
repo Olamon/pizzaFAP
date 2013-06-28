@@ -9,12 +9,15 @@ import java.awt.Label;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
+import states.User;
 
 public class PizzaSearchForm extends SearchForm{
+	private User model;
 	
-	public PizzaSearchForm(String s){
-		super(s);
-		setDefaultCloseOperation(HIDE_ON_CLOSE);
+	public PizzaSearchForm(String s, SearchWindow parent, User model){
+		super(s, parent);
+		this.model = model;
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocation(200,200);
 		//teraz createForm to część konstrukcji i nie jest wywoływane z zewnątrz
 		createForm();

@@ -37,13 +37,16 @@ public class Login {
 			Vector<Account> queryResult = Account.converter.convert(rs);
 			
 			StateManager.State newState = null;
-			String accountType = queryResult.get(0).typ_konta;
+			String accountType = null;
+			if( queryResult.isEmpty() )
+				return StateManager.transition(StateManager.State.invalid);
+			else
+				accountType = queryResult.get(0).typ_konta;
+
 			//jeżeli nie znaleziono krotki to logowanie nie powiodło się,
 			//wpp aplikacja przechodzi w odpowiedni stan
 			//(stan invalid to sztuczny stan, który nie powoduje żadnej akcji)
-			if( queryResult.isEmpty() ) {
-				newState = StateManager.State.invalid;
-			} else if( accountType.equals(Constants.ROLE.user.toString()) ) {
+			if( accountType.equals(Constants.ROLE.user.toString()) ) {
 				newState = StateManager.State.user;
 			} else if( accountType.equals(Constants.ROLE.owner.toString()) ) {
 				newState = StateManager.State.owner;

@@ -22,24 +22,21 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 
-import states.User;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import javax.swing.JToolBar;
+import javax.swing.SwingConstants;
 
 public class SearchWindow extends JFrame {
-	User model;
-	
-	public SearchWindow(User model) {
-		super();
-		this.model = model;
+	public SearchWindow() {
 		
 		initComponents();
 		
-		pizzeriaList.setListData(model.Pizzeria_GetAll());
 		pizzeriaList.setCellRenderer(new PizzeriaCellRenderer());
-        pizzaList.setListData(model.Oferta_GetAll());
+		pizzeriaToolBar = new JToolBar();
+		pizzeriaPanel.add(pizzeriaToolBar, "cell 1 1 1 2,growx");
         pizzaList.setCellRenderer(new PizzaCellRenderer());
+        
+        pizzaToolBar = new JToolBar();
+        pizzaPanel.add(pizzaToolBar, "cell 1 2,growx");
 		pizzeriaList.addListSelectionListener(new PizzeriaSelectionListener(this));
 	}
 	
@@ -51,9 +48,6 @@ public class SearchWindow extends JFrame {
 		setMinimumSize(new Dimension(400, 300));
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
-		//do przekazywania do ActionListenerów
-		final SearchWindow that = this;
-		
 		menu = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(menu);
 		
@@ -63,20 +57,13 @@ public class SearchWindow extends JFrame {
 		pizzeriaPanel.setLayout(new MigLayout("", "[160px][160px,grow]", "[25px][203px,grow]"));
 		
 		pizzeriaAdvancedSearchButton = new JButton("Zaawansowane");
-		pizzeriaAdvancedSearchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PizzeriaSearchForm pizzeriaSearchForm = 
-						new PizzeriaSearchForm("Wyszukaj pizzerię", that);
-				pizzeriaSearchForm.setVisible(true);
-			}
-		});
 		pizzeriaPanel.add(pizzeriaAdvancedSearchButton, "cell 0 0,growx,aligny top");
 		
 		pizzeriaNazwa = new JLabel("Pizzeria");
 		pizzeriaPanel.add(pizzeriaNazwa, "cell 1 0,alignx center");
 		
 		pizzeriaScrollPane = new JScrollPane();
-		pizzeriaPanel.add(pizzeriaScrollPane, "cell 0 1,grow");
+		pizzeriaPanel.add(pizzeriaScrollPane, "flowy,cell 0 1,grow");
 		
 		pizzeriaList = new JList();
 		pizzeriaList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -84,7 +71,7 @@ public class SearchWindow extends JFrame {
 		
 		pizzeriaDetails = new JPanel();
 		pizzeriaDetails.setBorder(new LineBorder(Color.GRAY, 1, true));
-		pizzeriaPanel.add(pizzeriaDetails, "cell 1 1,grow");
+		pizzeriaPanel.add(pizzeriaDetails, "flowy,cell 1 1,grow");
 		pizzeriaDetails.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
@@ -99,23 +86,16 @@ public class SearchWindow extends JFrame {
 		pizzaPanel = new JPanel();
 		pizzaPanel.setBorder(null);
 		menu.addTab("Pizza", null, pizzaPanel, null);
-		pizzaPanel.setLayout(new MigLayout("", "[160px][160px,grow]", "[25px][203px,grow]"));
+		pizzaPanel.setLayout(new MigLayout("", "[160px][160px,grow]", "[25px][203px,grow][]"));
 		
 		pizzaAdvancedSearchButton = new JButton("Zaawansowane");
-		pizzaAdvancedSearchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				PizzaSearchForm pizzaSearchForm = 
-						new PizzaSearchForm("Wyszukaj pizzę");
-				pizzaSearchForm.setVisible(true);
-			}
-		});
 		pizzaPanel.add(pizzaAdvancedSearchButton, "cell 0 0,growx,aligny top");
 		
 		pizzaNazwa = new JLabel("Pizza");
 		pizzaPanel.add(pizzaNazwa, "cell 1 0,alignx center");
 		
 		pizzaScrollPane = new JScrollPane();
-		pizzaPanel.add(pizzaScrollPane, "cell 0 1,grow");
+		pizzaPanel.add(pizzaScrollPane, "cell 0 1 1 2,grow");
 		
 		pizzaList = new JList();
 		pizzaList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -143,14 +123,17 @@ public class SearchWindow extends JFrame {
 	JLabel pizzaNazwa;
 	JLabel pizzaAdres;
 	
+	protected JButton pizzeriaAdvancedSearchButton;
+	protected JButton pizzaAdvancedSearchButton;
+	protected JToolBar pizzeriaToolBar;
+	protected JToolBar pizzaToolBar;
+	
 	//a te nie
 	private JTabbedPane menu;
 	private JPanel pizzeriaPanel;
-	private JButton pizzeriaAdvancedSearchButton;
 	private JScrollPane pizzeriaScrollPane;
 	private JPanel pizzeriaDetails;
 	private JPanel pizzaPanel;
-	private JButton pizzaAdvancedSearchButton;
 	private JScrollPane pizzaScrollPane;
 	private JPanel pizzaDetails;
 	

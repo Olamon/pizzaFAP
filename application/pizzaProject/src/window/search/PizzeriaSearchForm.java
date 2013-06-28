@@ -1,21 +1,28 @@
 package window.search;
 
+import static utils.StringUtils.asFloat;
+import static utils.StringUtils.asInteger;
+
 import java.awt.Button;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JTextField;
 
+import objects.Pizzeria;
+import states.User;
 
 public class PizzeriaSearchForm extends SearchForm{
-	SearchWindow parent;
+	private User model;
 
-	//
-	public PizzeriaSearchForm(String s, SearchWindow parent){
-		super(s);
-        this.parent = parent;
-		setDefaultCloseOperation(HIDE_ON_CLOSE);
+	public PizzeriaSearchForm(String s, SearchWindow parent, User model){
+		super(s, parent);
+		this.model = model;
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocation(200,200);
 		//teraz createForm to część konstrukcji i nie jest wywoływane z zewnątrz
 		createForm();
@@ -80,7 +87,26 @@ public class PizzeriaSearchForm extends SearchForm{
 		
 		//Przycisk wyszukaj
 		Button submit = new Button("Szukaj");
-		submit.addActionListener(new SearchForm.PizzeriaSearchActionListener(parent));
+		submit.addActionListener(new PizzeriaSearchActionListener(parent));
 		mainContainer.add(submit);
 	}
+	
+    public class PizzeriaSearchActionListener implements ActionListener{
+        private SearchWindow parent;
+
+        public PizzeriaSearchActionListener(SearchWindow parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            Vector<Pizzeria> pizzerie = null;
+            float omi = asFloat(textFields.get(3).getText(), 0);
+            float oma = asFloat(textFields.get(4).getText(), 100);
+            int imi = asInteger(textFields.get(5).getText(), 0);
+            int ima = asInteger(textFields.get(6).getText(), -1);
+            pizzerie = model.Pizzeria_GetSome(textFields.get(0).getText(), textFields.get(1).getText(), textFields.get(2).getText(),omi,oma,imi,ima);
+            parent.pizzeriaList.setListData(pizzerie);
+        }
+    }
 }

@@ -15,8 +15,8 @@ package states;
 
 import javax.swing.JFrame;
 import window.login.LoginWindow;
-import window.menu.UserMenu;
-import window.menu.OwnerMenu;
+import window.search.UserMenu;
+import window.search.OwnerMenu;
 
 public class StateManager {
 	static class State {
