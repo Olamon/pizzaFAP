@@ -24,7 +24,7 @@ class PizzaSelectionActionListener implements ListSelectionListener {
     	if( !list.isSelectionEmpty() ) {
     		Oferta selected = (Oferta) list.getSelectedValue();
     		window.pizzaNazwa.setText(selected.nazwa);
-    		window.pizzaPizzeria.setText(""+selected.pizzeria_id);
+    		window.pizzaPizzeria.setText(""+selected.nazwa_pizzerii);
     		window.pizzaOcena.setText(""+selected.sredniaOcen);
     		window.pizzaLiczbaOcen.setText(""+selected.iloscOcen);
     		window.pizzaCena.setText(""+selected.cena);

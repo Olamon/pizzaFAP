@@ -26,6 +26,7 @@ public class UserRole {
 		Statement st = Session.instance.connection.createStatement();
         return st.executeQuery("SELECT * FROM" + ofertaSelectPath);
 	}
+	
 	public ResultSet Pizzeria_GetSome(String nazwa, String ulica, String telefon, 
 		float ocenaMin, float ocenaMax, int iloscMin, int iloscMax) throws SQLException {
 		String prototype = "Select * FROM" + pizzeriaSelectPath + "WHERE nazwa " +
@@ -57,5 +58,6 @@ public class UserRole {
 	private final String pizzeriaSelectPath = 
 			" pizzeria join ocenialneView on (pizzeria.pizzeria_id = ocenialneView.id) ";
 	private final String ofertaSelectPath = 
-			" oferta join ocenialneView on (oferta.of_id = ocenialneView.id) join menu on (oferta.sklad = menu.pizza) ";
+			" oferta join ocenialneView on (oferta.of_id = ocenialneView.id) join menu on (oferta.sklad = menu.pizza)" +
+			" join (SELECT pizzeria_id, nazwa AS pizzeria_nazwa FROM pizzeria) P on (oferta.pizzeria_id = P.pizzeria_id)";
 }
