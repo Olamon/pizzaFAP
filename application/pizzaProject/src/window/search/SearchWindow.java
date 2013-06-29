@@ -38,6 +38,7 @@ public class SearchWindow extends JFrame {
         pizzaToolBar = new JToolBar();
         pizzaPanel.add(pizzaToolBar, "cell 1 2,growx");
 		pizzeriaList.addListSelectionListener(new PizzeriaSelectionListener(this));
+		pizzaList.addListSelectionListener(new PizzaSelectionActionListener(this));
 	}
 	
 	//wygenerowany kod (tym razem czytelnejszy!)
@@ -109,19 +110,28 @@ public class SearchWindow extends JFrame {
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		pizzaAdres = new JLabel("Adres");
-		pizzaDetails.add(pizzaAdres, "2, 2");
+		pizzaPizzeria = new JLabel("pizzaPizzeria");
+		pizzaDetails.add(pizzaPizzeria, "2, 2");
+		
+		pizzaCena = new JLabel("pizzaCena");
+		pizzaDetails.add(pizzaCena, "2, 4");
+		
+		pizzaSklad = new JLabel("pizzaSklad");
+		pizzaDetails.add(pizzaSklad, "2, 6");
 	}
 	
 	//te pola są modyfikowane przez listenery i renderery
 	JList pizzeriaList;
 	JList pizzaList;
-	JLabel pizzeriaNazwa;
-	JLabel pizzeriaAdres;
+	public JLabel pizzeriaNazwa;
+	public JLabel pizzeriaAdres;
 	JLabel pizzaNazwa;
-	JLabel pizzaAdres;
 	
 	protected JButton pizzeriaAdvancedSearchButton;
 	protected JButton pizzaAdvancedSearchButton;
@@ -135,6 +145,9 @@ public class SearchWindow extends JFrame {
 	private JPanel pizzeriaDetails;
 	private JPanel pizzaPanel;
 	private JScrollPane pizzaScrollPane;
-	private JPanel pizzaDetails;
+	JPanel pizzaDetails;
+	JLabel pizzaPizzeria;
+	JLabel pizzaCena;
+	JLabel pizzaSklad;
 	
 }

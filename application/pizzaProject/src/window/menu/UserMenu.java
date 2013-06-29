@@ -31,7 +31,7 @@ public class UserMenu extends JFrame {
 		search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//przekazujemy model okienkom pochodnym (chyba lepiej przekazywać okienko rodzica)
-				SearchWindow sw = new SearchWindow(model);
+				SearchWindow sw = new SearchWindow(/*model*/);
 				sw.setVisible(true);
             }
 		});
