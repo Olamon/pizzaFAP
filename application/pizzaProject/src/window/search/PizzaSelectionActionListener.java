@@ -3,6 +3,8 @@
  */
 package window.search;
 
+import java.util.Vector;
+
 import javax.swing.event.*;
 import javax.swing.JList;
 
@@ -26,8 +28,8 @@ class PizzaSelectionActionListener implements ListSelectionListener {
     		window.pizzaOcena.setText(""+selected.sredniaOcen);
     		window.pizzaLiczbaOcen.setText(""+selected.iloscOcen);
     		window.pizzaCena.setText(""+selected.cena);
-    		window.pizzaSklad.setText(""+selected.sklad);
-    		
+    		Vector<String> temp = IngredientsHelper.getIngredients(selected.sklad);
+    		window.pizzaSklad.setListData(temp);
     	}
     }
 }
