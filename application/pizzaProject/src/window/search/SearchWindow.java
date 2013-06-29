@@ -107,6 +107,8 @@ public class SearchWindow extends JFrame {
 		pizzaPanel.add(pizzaDetails, "cell 1 1,grow");
 		pizzaDetails.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -114,16 +116,41 @@ public class SearchWindow extends JFrame {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
+		lblPizzeria = new JLabel("Pizzeria:");
+		pizzaDetails.add(lblPizzeria, "2, 2");
+		
 		pizzaPizzeria = new JLabel("pizzaPizzeria");
-		pizzaDetails.add(pizzaPizzeria, "2, 2");
+		pizzaDetails.add(pizzaPizzeria, "4, 2");
+		
+		lblCena = new JLabel("Cena:");
+		pizzaDetails.add(lblCena, "2, 4");
 		
 		pizzaCena = new JLabel("pizzaCena");
-		pizzaDetails.add(pizzaCena, "2, 4");
+		pizzaDetails.add(pizzaCena, "4, 4");
+		
+		lblOcena = new JLabel("Ocena:");
+		pizzaDetails.add(lblOcena, "2, 6");
+		
+		pizzaOcena = new JLabel("pizzaOcena");
+		pizzaDetails.add(pizzaOcena, "4, 6");
+		
+		lblLiczbaOcen = new JLabel("Liczba ocen:");
+		pizzaDetails.add(lblLiczbaOcen, "2, 8");
+		
+		pizzaLiczbaOcen = new JLabel("pizzaLiczbaOcen");
+		pizzaDetails.add(pizzaLiczbaOcen, "4, 8");
+		
+		lblSkad = new JLabel("Skład:");
+		pizzaDetails.add(lblSkad, "2, 10");
 		
 		pizzaSklad = new JLabel("pizzaSklad");
-		pizzaDetails.add(pizzaSklad, "2, 6");
+		pizzaDetails.add(pizzaSklad, "4, 10");
 	}
 	
 	//te pola są modyfikowane przez listenery i renderery
@@ -149,5 +176,12 @@ public class SearchWindow extends JFrame {
 	JLabel pizzaPizzeria;
 	JLabel pizzaCena;
 	JLabel pizzaSklad;
+	private JLabel lblPizzeria;
+	private JLabel lblCena;
+	private JLabel lblSkad;
+	private JLabel lblOcena;
+	private JLabel lblLiczbaOcen;
+	JLabel pizzaOcena;
+	JLabel pizzaLiczbaOcen;
 	
 }
