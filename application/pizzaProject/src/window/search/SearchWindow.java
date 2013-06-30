@@ -79,13 +79,20 @@ public abstract class SearchWindow extends JFrame {
 		pizzeriaPanel.add(pizzeriaDetails, "flowy,cell 1 1,grow");
 		pizzeriaDetails.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		pizzeriaAdres = new JLabel("Adres");
-		pizzeriaDetails.add(pizzeriaAdres, "2, 2");
+		noMatter = new JLabel("Adres:");
+		pizzeriaDetails.add(noMatter, "2, 2");
+		
+		pizzeriaAdres = new JLabel("");
+		pizzeriaDetails.add(pizzeriaAdres, "2, 4, center, center");
 		
 		
 		pizzaPanel = new JPanel();
@@ -112,19 +119,19 @@ public abstract class SearchWindow extends JFrame {
 		
 		lblPizzeria = new JLabel("Pizzeria:");
 		
-		pizzaPizzeria = new JLabel("pizzaPizzeria");
+		pizzaPizzeria = new JLabel("");
 		
 		lblCena = new JLabel("Cena:");
 		
-		pizzaCena = new JLabel("pizzaCena");
+		pizzaCena = new JLabel("");
 		
 		lblOcena = new JLabel("Ocena:");
 		
-		pizzaOcena = new JLabel("pizzaOcena");
+		pizzaOcena = new JLabel("");
 		
 		lblLiczbaOcen = new JLabel("Liczba ocen:");
 		
-		pizzaLiczbaOcen = new JLabel("pizzaLiczbaOcen");
+		pizzaLiczbaOcen = new JLabel("");
 		
 		lblSkad = new JLabel("Skład:");
 		
@@ -174,4 +181,5 @@ public abstract class SearchWindow extends JFrame {
 	JLabel pizzaOcena;
 	JLabel pizzaLiczbaOcen;
 	JList pizzaSklad;
+	private JLabel noMatter;
 }
