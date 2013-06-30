@@ -28,4 +28,14 @@ public class IngredientsHelper {
 		}
 		return res;
 	}
+	
+	public static int translateToInt(boolean[] ingr){
+		int power = 1;
+		int res = 0;
+		for(int i=0; i<INGR_NUM; i++){
+			if(ingr[i]) res += power;
+			power*=2;
+		}
+		return res;
+	}
 }

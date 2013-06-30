@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Vector;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import database.UserRole;
 import objects.Pizzeria;
@@ -67,6 +68,17 @@ public class User {
             lgr.log(Level.SEVERE, ex.getMessage(), ex);
 		}
 		return result;
+	}
+	
+	public void Oferta_GetSome(String nazwa, String nazwa_pizzerii, float cena_od, float cena_do, 
+			float ocena_od, float ocena_do, int ilosc_od, int ilosc_do, int sklad) {
+		try {
+			role.Oferta_GetSome(nazwa, nazwa_pizzerii, cena_od, cena_do, ocena_od, ocena_do, ilosc_od, ilosc_do, sklad);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
 	}
 	
 	private UserRole role;

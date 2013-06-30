@@ -27,6 +27,18 @@ public class UserRole {
         return st.executeQuery("SELECT * FROM" + ofertaSelectPath);
 	}
 	
+	public void Oferta_GetSome(String nazwa, String nazwa_pizzerii, float cena_od, float cena_do, float ocena_od, float ocena_do, int ilosc_od, int ilosc_do, int sklad) throws SQLException {
+		System.out.println(nazwa);
+		System.out.println(nazwa_pizzerii);
+		System.out.println(cena_od);
+		System.out.println(cena_do);
+		System.out.println(ocena_od);
+		System.out.println(ocena_do);
+		System.out.println(ilosc_od);
+		System.out.println(ilosc_do);
+		System.out.println(sklad);
+	}
+	
 	public ResultSet Pizzeria_GetSome(String nazwa, String ulica, String telefon, 
 		float ocenaMin, float ocenaMax, int iloscMin, int iloscMax) throws SQLException {
 		String prototype = "Select * FROM" + pizzeriaSelectPath + "WHERE nazwa " +

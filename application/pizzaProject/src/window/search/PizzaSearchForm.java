@@ -1,13 +1,22 @@
 package window.search;
 
+import static utils.StringUtils.asFloat;
+import static utils.StringUtils.asInteger;
+
 import java.awt.Button;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
+
+import objects.Oferta;
+import objects.Pizzeria;
 
 import states.User;
 
@@ -94,6 +103,10 @@ public class PizzaSearchForm extends SearchForm{
 		ham.setFont(new Font(Font.SANS_SERIF, 0, 12));
 		mashrooms.setFont(new Font(Font.SANS_SERIF, 0, 12));
 		corn.setFont(new Font(Font.SANS_SERIF, 0, 12));
+		this.checkBoxes.add(cheese);
+		this.checkBoxes.add(ham);
+		this.checkBoxes.add(mashrooms);
+		this.checkBoxes.add(corn);
 		mainContainer.add(cheese);
 		mainContainer.add(ham);
 		mainContainer.add(mashrooms);
@@ -101,7 +114,29 @@ public class PizzaSearchForm extends SearchForm{
 		
 		//Przycisk wyszukaj
 		Button submit = new Button("Szukaj");
-		submit.addActionListener(new SearchForm.SearchActionListener());
+		submit.addActionListener(new PizzaSearchActionListener(parent));
 		mainContainer.add(submit);
 	}
+	
+	public class PizzaSearchActionListener implements ActionListener{
+        private SearchWindow parent;
+
+        public PizzaSearchActionListener(SearchWindow parent) {
+            this.parent = parent;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            Vector<Oferta> pizze = null;
+            float cena_od = asFloat(textFields.get(2).getText(), 0);
+            float cena_do = asFloat(textFields.get(3).getText(), 0);
+            float ocena_od = asFloat(textFields.get(4).getText(), 0);
+            float ocena_do = asFloat(textFields.get(5).getText(), 0);
+            int imi = asInteger(textFields.get(6).getText(), 0);
+            int ima = asInteger(textFields.get(7).getText(), -1);
+            boolean[] ingr = {checkBoxes.get(0).isSelected(), checkBoxes.get(1).isSelected(), checkBoxes.get(2).isSelected(), checkBoxes.get(3).isSelected()}; 
+            /*pizze =*/ model.Oferta_GetSome(textFields.get(0).getText(), textFields.get(1).getText(), cena_od, cena_do, ocena_od, ocena_do, imi,ima, IngredientsHelper.translateToInt(ingr));
+            //parent.pizzaList.setListData(pizze);
+        }
+    }
 }
