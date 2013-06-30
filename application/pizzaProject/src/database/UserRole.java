@@ -22,6 +22,12 @@ public class UserRole {
 		Statement st = Session.instance.connection.createStatement();
         return st.executeQuery("SELECT * FROM" + pizzeriaSelectPath);
     }
+    public ResultSet Ocena_GetAll(int id) throws SQLException{
+    	String prototype = "Select * FROM ocena WHERE podmiot = ?";
+    	PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
+    	psmt.setInt(1, id);
+    	return psmt.executeQuery();
+    }
 	public ResultSet Oferta_GetAll() throws SQLException {
 		Statement st = Session.instance.connection.createStatement();
         return st.executeQuery("SELECT * FROM" + ofertaSelectPath);

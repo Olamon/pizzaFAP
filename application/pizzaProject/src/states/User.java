@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import database.UserRole;
+import objects.Ocena;
 import objects.Pizzeria;
 import objects.Oferta;
 import states.can.*;
@@ -35,6 +36,19 @@ public class User implements CanSearchPizzeria, CanSearchPizza {
 		try {
 			ResultSet rs = role.Pizzeria_GetAll();
 			result = Pizzeria.converter.convert(rs);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return result;
+	}
+	
+	public Vector<Ocena> Ocena_GetAll(int id) {
+		Vector<Ocena> result = null;
+		try {
+			ResultSet rs = role.Ocena_GetAll(id);
+			result = Ocena.converter.convert(rs);
 		}
 		catch (Exception ex) {
 			Logger lgr = Logger.getLogger(User.class.getName());

@@ -33,6 +33,8 @@ public class ReviewForm extends JFrame{
 		super(s);
 		this.parent = parent;
 		this.recenzja = new JTextArea();
+		recenzja.setLineWrap(true);
+		recenzja.setWrapStyleWord(true);
 		this.gwiazdki = new JSlider(0,5,0);
 		this.podmiot = podmiot;
 		this.model = model;
@@ -42,7 +44,7 @@ public class ReviewForm extends JFrame{
 	}
 	
 	private void createForm(){
-		this.setSize(300,250);
+		this.setSize(300,320);
 		
 		Container mainContainer  = this.getContentPane();
 		getContentPane().setLayout(new MigLayout("", "[298px]", "[27px][27px][27px][27px,grow][27px]"));

@@ -57,6 +57,25 @@ public class UserMenu extends SearchWindow {
 				}
 			}
 		});
+		pizzaSeeReview.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				Oferta selected = (Oferta) that.pizzaList.getSelectedValue();
+				if(selected!=null){
+					OcenaWindow ow = new OcenaWindow("Oceny pizzy "+selected.nazwa, model.Ocena_GetAll(selected.id));
+					ow.setVisible(true);
+				}
+			}
+		});
+		
+		pizzeriaSeeReview.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				Pizzeria selected = (Pizzeria) that.pizzeriaList.getSelectedValue();
+				if(selected!=null){
+					OcenaWindow ow = new OcenaWindow("Oceny dla "+selected.nazwa, model.Ocena_GetAll(selected.id));
+					ow.setVisible(true);
+				}
+			}
+		});
 	}
 	
 	public void refresh() {
@@ -67,12 +86,16 @@ public class UserMenu extends SearchWindow {
 	private void initComponents() {
 		super.pizzeriaToolBar.add(pizzeriaReview);
 		super.pizzaToolBar.add(pizzaReview);
+		super.pizzeriaToolBar.add(pizzeriaSeeReview);
+		super.pizzaToolBar.add(pizzaSeeReview);
 		super.pizzeriaToolBar.add(account1);
 		super.pizzaToolBar.add(account2);
 	}
 	
 	private JButton pizzeriaReview = new JButton("Oceń");
 	private JButton pizzaReview = new JButton("Oceń");
+	private JButton pizzeriaSeeReview = new JButton("Zobacz oceny");
+	private JButton pizzaSeeReview = new JButton("Zobacz oceny");
 	private JButton account1 = new JButton("Konto");
 	private JButton account2 = new JButton("Konto");
 }

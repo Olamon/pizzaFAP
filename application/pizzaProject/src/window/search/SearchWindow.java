@@ -50,7 +50,7 @@ public abstract class SearchWindow extends JFrame {
 		setTitle("Wyszukaj");
 		setPreferredSize(new Dimension(800, 600));
 		setLocation(100, 100);
-		setMinimumSize(new Dimension(400, 300));
+		setMinimumSize(new Dimension(450, 300));
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
 		menu = new JTabbedPane(JTabbedPane.TOP);
