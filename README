@@ -1,3 +1,6 @@
+patch8 (30.06.13)
+Dodałam odpowiednie prawo użycia do sekwencji dla użytkownika.
+
 patch7 (30.06.13)
 
 - Zmiana typu kolumny telefon w tabeli pizzeria z varchar[] na varchar.
