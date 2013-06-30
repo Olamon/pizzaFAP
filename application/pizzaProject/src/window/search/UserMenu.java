@@ -23,8 +23,7 @@ public class UserMenu extends SearchWindow {
 		
 		initComponents();
 		
-		pizzeriaList.setListData(model.Pizzeria_GetAll());
-		pizzaList.setListData(model.Oferta_GetAll());
+		refresh();
 		
 		pizzeriaAdvancedSearchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -58,6 +57,11 @@ public class UserMenu extends SearchWindow {
 				}
 			}
 		});
+	}
+	
+	public void refresh() {
+		pizzeriaList.setListData(model.Pizzeria_GetAll());
+		pizzaList.setListData(model.Oferta_GetAll());
 	}
 	
 	private void initComponents() {

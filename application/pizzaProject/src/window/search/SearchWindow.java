@@ -25,7 +25,8 @@ import javax.swing.JLabel;
 import javax.swing.JToolBar;
 import javax.swing.UIManager;
 
-public class SearchWindow extends JFrame {
+//UWAGA teraz SearchWindow jest abstract (należy tworzyć UserMenu albo OwnerMenu
+public abstract class SearchWindow extends JFrame {
 	public SearchWindow() {
 		
 		initComponents();
@@ -40,6 +41,9 @@ public class SearchWindow extends JFrame {
 		pizzeriaList.addListSelectionListener(new PizzeriaSelectionListener(this));
 		pizzaList.addListSelectionListener(new PizzaSelectionActionListener(this));
 	}
+	
+	//odświeża listy
+	public abstract void refresh();
 	
 	//wygenerowany kod (tym razem czytelnejszy!)
 	private void initComponents() {

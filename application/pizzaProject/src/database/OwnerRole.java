@@ -21,7 +21,7 @@ public class OwnerRole {
 	//zwraca wartość nowego klucza wstawionego do tabeli Ocenialne
 	private int Ocenialne_insert() throws SQLException {
 		Statement st = Session.instance.connection.createStatement();
-		st.executeUpdate("INSERT INTO ocenialne VALUES ()", Statement.RETURN_GENERATED_KEYS);
+		st.executeUpdate("INSERT INTO ocenialne DEFAULT VALUES", Statement.RETURN_GENERATED_KEYS);
 		ResultSet rs = st.getGeneratedKeys();
 		if ( rs.next() ) {
 		    return rs.getInt(1);
@@ -30,15 +30,16 @@ public class OwnerRole {
 		}
 	}
 	
-	public int Pizzeria_insert(String nazwa, String adres, String strona) throws SQLException {
+	public int Pizzeria_insert(String nazwa, String adres, String strona, String telefon) throws SQLException {
 		int id = Ocenialne_insert();
 		PreparedStatement st = Session.instance.connection.prepareStatement(
-			"INSERT INTO pizzeria(pizzeria_id, nazwa, adres, strona) VALUES (?,?,?,?)"
+			"INSERT INTO pizzeria(pizzeria_id, nazwa, adres, strona, telefon) VALUES (?,?,?,?,?)"
 		);
 		st.setInt(1, id);
 		st.setString(2, nazwa);
 		st.setString(3, adres);
 		st.setString(4, strona);
+		st.setString(5, telefon);
 		return st.executeUpdate();
 	}
 	
@@ -54,10 +55,7 @@ public class OwnerRole {
 	public ResultSet Pizzeria_GetSome(String nazwa, String adres, String telefon, 
 		float ocenaMin, float ocenaMax, int iloscMin, int iloscMax) throws SQLException {
 		String prototype = "Select * FROM" + pizzeriaSelectPath + "WHERE nazwa " +
-			"LIKE ? AND adres LIKE ? AND (telefon::varchar LIKE ?";
-		if (telefon == null || telefon.length()==0)
-            prototype += " OR telefon IS NULL";
-        prototype += ")";
+			"LIKE ? AND adres LIKE ? AND telefon LIKE ?";
         if (iloscMin>0)
             prototype += " AND srednia BETWEEN ? and ? ";
         if (iloscMax>=0)
