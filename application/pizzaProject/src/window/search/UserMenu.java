@@ -2,6 +2,9 @@ package window.search;
 
 import javax.swing.JButton;
 
+import objects.Oferta;
+import objects.Pizzeria;
+
 import window.search.SearchWindow;
 import window.search.PizzeriaSearchForm;
 import java.awt.event.ActionEvent;
@@ -35,6 +38,24 @@ public class UserMenu extends SearchWindow {
 				PizzaSearchForm pizzaSearchForm = 
 					new PizzaSearchForm("Wyszukaj pizzę", that, model);
 				pizzaSearchForm.setVisible(true);
+			}
+		});
+		pizzaReview.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Oferta selected = (Oferta) that.pizzaList.getSelectedValue();
+				if(selected!=null){
+					ReviewForm pizzaReviewForm = new ReviewForm("Pizza "+selected.nazwa, that, model, selected.id);
+					pizzaReviewForm.setVisible(true);
+				}
+			}
+		});
+		pizzeriaReview.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Pizzeria selected = (Pizzeria) that.pizzeriaList.getSelectedValue();
+				if(selected!=null){
+					ReviewForm pizzeriaReviewForm = new ReviewForm(selected.nazwa, that, model, selected.id);
+					pizzeriaReviewForm.setVisible(true);
+				}
 			}
 		});
 	}
