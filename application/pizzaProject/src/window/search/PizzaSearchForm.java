@@ -135,8 +135,8 @@ public class PizzaSearchForm extends SearchForm{
             int imi = asInteger(textFields.get(6).getText(), 0);
             int ima = asInteger(textFields.get(7).getText(), -1);
             boolean[] ingr = {checkBoxes.get(0).isSelected(), checkBoxes.get(1).isSelected(), checkBoxes.get(2).isSelected(), checkBoxes.get(3).isSelected()}; 
-            /*pizze =*/ model.Oferta_GetSome(textFields.get(0).getText(), textFields.get(1).getText(), cena_od, cena_do, ocena_od, ocena_do, imi,ima, IngredientsHelper.translateToInt(ingr));
-            //parent.pizzaList.setListData(pizze);
+            pizze = model.Oferta_GetSome(textFields.get(0).getText(), textFields.get(1).getText(), cena_od, cena_do, ocena_od, ocena_do, imi,ima, IngredientsHelper.translateToInt(ingr));
+            parent.pizzaList.setListData(pizze);
         }
     }
 }
