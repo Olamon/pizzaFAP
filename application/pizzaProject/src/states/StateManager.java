@@ -54,9 +54,14 @@ public class StateManager {
 		return true;
 	}
 	
+	public static void setUserId(String email){
+		StateManager.user_id = email;
+	}
+	
 	private static final StateManager instance = new StateManager();
 
 	private StateManager() { }
 	private JFrame view;
 	private State current;
+	public static String user_id;
 }

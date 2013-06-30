@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import states.StateManager;
+
 class LoginActionListener implements ActionListener {
 	public LoginActionListener(LoginWindow window) {
 		this.window = window;
@@ -20,7 +22,8 @@ class LoginActionListener implements ActionListener {
     		
     		//całe logowanie wykonuje teraz model
     		if( !window.model.login(login, password) )
-    			window.passwordField.setText("");  		
+    			window.passwordField.setText("");
+    		else StateManager.setUserId(login);
 		} 
 		catch (Exception ex) {
 			Logger lgr = Logger.getLogger(LoginActionListener.class.getName());
