@@ -38,56 +38,34 @@ public class UserRole {
 			prototype += "AND pizzeria_nazwa LIKE ? ";
 		}
 		
-		/*if(cena_od < 0) cena_od = 0;
-		if(cena_do>0.0){
-			if(ile_danych == 0){
-				prototype += "cena BETWEEN ? AND ? ";
-			} else {
-				prototype += "AND cena BETWEEN ? AND ? ";
-			}
-			ile_danych++;
+		if(cena_od < 0) cena_od = 0;
+		if(cena_do > 0.0){
+			prototype += "AND cena BETWEEN ? AND ? ";
 		} else {
-			if(ile_danych == 0){
-				prototype += "cena >= ? ";
-			} else {
-				prototype += "AND cena >= ? ";
-			}
-			ile_danych++;
+			prototype += "AND cena >= ? ";
 		}
 		
 		if(ocena_od < 0) ocena_od = 0;
-		if(ocena_do>0.0){
-			if(ile_danych == 0){
-				prototype += "srednia BETWEEN ? AND ? ";
+		if(ocena_do > 0.0){
+			if(ocena_od == 0){
+				prototype += "AND (srednia IS NULL OR srednia BETWEEN ? AND ?) ";
 			} else {
-				prototype += "AND srednia BETWEEN ? AND ? ";
+				prototype += "AND srednia IS NOT NULL AND srednia BETWEEN ? AND ? ";
 			}
-			ile_danych++;
 		} else {
-			if(ile_danych == 0){
-				prototype += "srednia >= ? ";
+			if(ocena_od == 0){
+				prototype += "AND (srednia IS NULL OR srednia >= ?) ";
 			} else {
-				prototype += "AND srednia >= ? ";
+				prototype += "AND srednia IS NOT NULL AND srednia >= ? ";
 			}
-			ile_danych++;
 		}
 		
 		if(ilosc_od < 0) ilosc_od = 0;
-		if(ilosc_do>0.0){
-			if(ile_danych == 0){
-				prototype += "ilosc BETWEEN ? AND ? ";
-			} else {
-				prototype += "AND ilosc BETWEEN ? AND ? ";
-			}
-			ile_danych++;
+		if(ilosc_do > 0.0){
+			prototype += "AND ilosc BETWEEN ? AND ? ";
 		} else {
-			if(ile_danych == 0){
-				prototype += "ilosc >= ? ";
-			} else {
-				prototype += "AND ilosc >= ? ";
-			}
-			ile_danych++;
-		}*/
+			prototype += "AND ilosc >= ? ";
+		}
 		
 		if(sklad > 0){
 			prototype += "AND sklad = ? ";
@@ -105,7 +83,7 @@ public class UserRole {
 			psmt.setString(ile_danych+1, "%"+nazwa_pizzerii+"%");
 			ile_danych++;
 		}
-		/*if(cena_do > 0.0) {
+		if(cena_do > 0.0) {
 			psmt.setObject(ile_danych+1, cena_od);
 			ile_danych++;
 			psmt.setObject(ile_danych+1, cena_do);
@@ -131,7 +109,7 @@ public class UserRole {
 		} else {
 			psmt.setInt(ile_danych+1, ilosc_od);
 			ile_danych++;
-		}*/
+		}
 		if(sklad > 0){
 			psmt.setInt(ile_danych+1, sklad);
 			ile_danych++;
@@ -171,6 +149,6 @@ public class UserRole {
 	private final String pizzeriaSelectPath = 
 			" pizzeria join ocenialneView on (pizzeria.pizzeria_id = ocenialneView.id) ";
 	private final String ofertaSelectPath = 
-			" oferta join ocenialneView on (oferta.of_id = ocenialneView.id) join menu on (oferta.sklad = menu.pizza)" +
+			" oferta left join ocenialneView on (oferta.of_id = ocenialneView.id) join menu on (oferta.sklad = menu.pizza)" +
 			" join (SELECT pizzeria_id, nazwa AS pizzeria_nazwa FROM pizzeria) P on (oferta.pizzeria_id = P.pizzeria_id) ";
 }
