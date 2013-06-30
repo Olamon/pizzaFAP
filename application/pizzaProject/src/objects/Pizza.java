@@ -5,6 +5,11 @@
 
 package objects;
 
+import java.sql.ResultSet;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,17 +22,45 @@ import java.util.Vector;
  * z danej tabeli, a metody dotyczące bazy przeniosłem do paczki "database"
  */
 
-public class Pizza /*extends Ocenialne implements DatabaseObject<Pizza>*/ {
+public class Pizza implements DatabaseObject<Pizza>/*extends Ocenialne implements DatabaseObject<Pizza>*/ {
     public static enum Ciasto {
         CHRUPKIE, KLASYCZNE, GRUBE
     }
     public int sklad;
     public Ciasto grubosc;
     
-    public Pizza(int sklad, Ciasto grubosc) {
+    public Pizza(int sklad, int gr) {
     	this.sklad = sklad;
-    	this.grubosc = grubosc;
+    	this.grubosc = Pizza.getHumanReadableGrubosc(gr);
     }
+    
+    public static Ciasto getHumanReadableGrubosc(int gr){
+    	switch(gr){
+    		case 0: return Ciasto.CHRUPKIE;
+    		case 1: return Ciasto.KLASYCZNE;
+    		case 2: return Ciasto.GRUBE;
+    	}
+    	return Ciasto.KLASYCZNE; 
+    }
+
+	@Override
+	public Vector<Pizza> convert(ResultSet rs) {
+		Vector<Pizza> result = new Vector<Pizza>();
+
+    	try {
+    		while (rs.next()) {
+    			int sklad = rs.getInt("sklad");
+    			int grubosc = rs.getInt("ciasto");
+            	Pizza p = new Pizza(sklad, grubosc);
+                result.add(p);
+            }
+    	}
+        catch (Exception ex) {
+        	Logger lgr = Logger.getLogger(Pizzeria.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+        }
+        return result;
+	}
 
     /*
     //zwraca listę ofert dotyczących danej pizzy

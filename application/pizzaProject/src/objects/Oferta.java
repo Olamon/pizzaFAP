@@ -30,6 +30,7 @@ public class Oferta extends Ocenialne implements DatabaseObject<Oferta> {
 	//(poza koniecznym wywołaniem konstruktora nadrzędnego)
     public String nazwa;
     public int pizzeria_id;
+    public String nazwa_pizzerii;
     public float cena;
     public int rozmiar;
     public int sklad;
@@ -41,7 +42,6 @@ public class Oferta extends Ocenialne implements DatabaseObject<Oferta> {
     public static Oferta converter = new Oferta(0, 0, 0f);
     public Vector<Oferta> convert(ResultSet rs) {
     	Vector<Oferta> result = new Vector<Oferta>();
-
     	try {
             while (rs.next()) {
             	int id = rs.getInt("of_id");
@@ -49,7 +49,7 @@ public class Oferta extends Ocenialne implements DatabaseObject<Oferta> {
                 int iloscOcen = rs.getInt("ilosc");
                 Oferta o = new Oferta(id, iloscOcen, sredniaOcen);
                 o.nazwa = rs.getString("nazwa");
-                o.pizzeria_id = rs.getInt("pizzeria_id");
+                o.nazwa_pizzerii = rs.getString("pizzeria_nazwa");
                 o.cena = rs.getFloat("cena");
                 o.rozmiar = rs.getInt("rozmiar");
                 o.sklad = rs.getInt("sklad");

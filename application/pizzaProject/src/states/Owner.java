@@ -79,5 +79,20 @@ public class Owner implements CanSearchPizzeria, CanSearchPizza {
 		return result;
 	}
 	
+	//kolejna tymczasowa Copy-Pasta
+	public Vector<Oferta> Oferta_GetSome(String nazwa, String nazwa_pizzerii, float cena_od, float cena_do, 
+			float ocena_od, float ocena_do, int ilosc_od, int ilosc_do, int sklad) {
+		Vector<Oferta> result = null;
+		try {
+			ResultSet rs = role.Oferta_GetSome(nazwa, nazwa_pizzerii, cena_od, cena_do, ocena_od, ocena_do, ilosc_od, ilosc_do, sklad);
+			result = Oferta.converter.convert(rs);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return result;
+	}
+	
 	private OwnerRole role;
 }

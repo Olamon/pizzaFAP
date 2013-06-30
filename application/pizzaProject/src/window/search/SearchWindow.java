@@ -23,6 +23,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 
 import javax.swing.JToolBar;
+import javax.swing.UIManager;
 
 public class SearchWindow extends JFrame {
 	public SearchWindow() {
@@ -37,6 +38,7 @@ public class SearchWindow extends JFrame {
         pizzaToolBar = new JToolBar();
         pizzaPanel.add(pizzaToolBar, "cell 1 2,growx");
 		pizzeriaList.addListSelectionListener(new PizzeriaSelectionListener(this));
+		pizzaList.addListSelectionListener(new PizzaSelectionActionListener(this));
 	}
 	
 	//wygenerowany kod (tym razem czytelnejszy!)
@@ -102,25 +104,48 @@ public class SearchWindow extends JFrame {
 		
 		pizzaDetails = new JPanel();
 		pizzaDetails.setBorder(new LineBorder(Color.GRAY, 1, true));
-		pizzaPanel.add(pizzaDetails, "cell 1 1,grow");
-		pizzaDetails.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+		pizzaPanel.add(pizzaDetails, "cell 1 1,alignx center,growy");
 		
-		pizzaAdres = new JLabel("Adres");
-		pizzaDetails.add(pizzaAdres, "2, 2");
+		lblPizzeria = new JLabel("Pizzeria:");
+		
+		pizzaPizzeria = new JLabel("pizzaPizzeria");
+		
+		lblCena = new JLabel("Cena:");
+		
+		pizzaCena = new JLabel("pizzaCena");
+		
+		lblOcena = new JLabel("Ocena:");
+		
+		pizzaOcena = new JLabel("pizzaOcena");
+		
+		lblLiczbaOcen = new JLabel("Liczba ocen:");
+		
+		pizzaLiczbaOcen = new JLabel("pizzaLiczbaOcen");
+		
+		lblSkad = new JLabel("Skład:");
+		
+		pizzaSklad = new JList();
+		pizzaSklad.setBackground(UIManager.getColor("FormattedTextField.inactiveBackground"));
+		pizzaSklad.setSize(new Dimension(119, 0));
+		pizzaDetails.setLayout(new MigLayout("", "[119px][119px]", "[15px,grow][15px,grow][15px,grow][15px,grow][15px,grow]"));
+		pizzaDetails.add(lblPizzeria, "cell 0 0,growx,aligny top");
+		pizzaDetails.add(pizzaPizzeria, "cell 1 0,growx,aligny top");
+		pizzaDetails.add(lblCena, "cell 0 1,growx,aligny top");
+		pizzaDetails.add(pizzaCena, "cell 1 1,growx,aligny top");
+		pizzaDetails.add(lblOcena, "cell 0 2,growx,aligny top");
+		pizzaDetails.add(pizzaOcena, "cell 1 2,growx,aligny top");
+		pizzaDetails.add(lblLiczbaOcen, "cell 0 3,growx,aligny top");
+		pizzaDetails.add(pizzaLiczbaOcen, "cell 1 3,alignx left,aligny top");
+		pizzaDetails.add(lblSkad, "cell 0 4,growx,aligny top");
+		pizzaDetails.add(pizzaSklad, "cell 1 4,grow");
 	}
 	
 	//te pola są modyfikowane przez listenery i renderery
 	JList pizzeriaList;
 	JList pizzaList;
-	JLabel pizzeriaNazwa;
-	JLabel pizzeriaAdres;
+	public JLabel pizzeriaNazwa;
+	public JLabel pizzeriaAdres;
 	JLabel pizzaNazwa;
-	JLabel pizzaAdres;
 	
 	protected JButton pizzeriaAdvancedSearchButton;
 	protected JButton pizzaAdvancedSearchButton;
@@ -134,6 +159,15 @@ public class SearchWindow extends JFrame {
 	private JPanel pizzeriaDetails;
 	private JPanel pizzaPanel;
 	private JScrollPane pizzaScrollPane;
-	private JPanel pizzaDetails;
-	
+	JPanel pizzaDetails;
+	JLabel pizzaPizzeria;
+	JLabel pizzaCena;
+	private JLabel lblPizzeria;
+	private JLabel lblCena;
+	private JLabel lblSkad;
+	private JLabel lblOcena;
+	private JLabel lblLiczbaOcen;
+	JLabel pizzaOcena;
+	JLabel pizzaLiczbaOcen;
+	JList pizzaSklad;
 }
