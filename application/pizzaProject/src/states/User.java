@@ -85,5 +85,15 @@ public class User implements CanSearchPizzeria, CanSearchPizza {
 		return result;
 	}
 	
+	public void Ocena_Insert(int podmiot, String email, String recenzja, int gwiazdki){
+		try {
+			role.Ocena_Insert(podmiot, email, recenzja, gwiazdki);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+	}
+	
 	private UserRole role;
 }

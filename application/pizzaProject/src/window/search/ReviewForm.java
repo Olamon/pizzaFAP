@@ -7,12 +7,14 @@ import java.awt.GridLayout;
 import java.awt.Label;
 import java.util.ArrayList;
 
+import javax.jws.WebParam.Mode;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import states.StateManager;
 import states.User;
 import states.can.CanSearchPizza;
 import window.search.PizzaSearchForm.PizzaSearchActionListener;
@@ -63,6 +65,8 @@ public class ReviewForm extends JFrame{
 		Button submit = new Button("Oceń");
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				model.Ocena_Insert(podmiot, StateManager.user_id, recenzja.getText(), gwiazdki.getValue());
+				dispose();
 			}
 		});
 		//submit.addActionListener(new PizzaSearchActionListener(parent));

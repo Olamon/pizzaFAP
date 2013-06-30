@@ -143,6 +143,16 @@ public class UserRole {
         return psmt.executeQuery();
 	}
 	
+	public void Ocena_Insert(int podmiot, String email, String recenzja, int gwiazdki) throws SQLException{
+		String prototype = "INSERT INTO ocena(podmiot, email, recenzja, gwiazdki) VALUES (?,?,?,?)";
+		PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
+		psmt.setInt(1, podmiot);
+		psmt.setString(2, email);
+		psmt.setString(3, recenzja == null ? "" : recenzja);
+		psmt.setInt(4, gwiazdki);
+		psmt.execute();
+	}
+	
 	private final String pizzeriaSelectPath = 
 			" pizzeria join ocenialneView on (pizzeria.pizzeria_id = ocenialneView.id) ";
 	private final String ofertaSelectPath = 
