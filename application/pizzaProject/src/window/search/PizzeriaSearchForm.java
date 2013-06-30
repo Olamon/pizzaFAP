@@ -14,12 +14,12 @@ import java.util.Vector;
 import javax.swing.JTextField;
 
 import objects.Pizzeria;
-import states.User;
+import states.can.*;
 
 public class PizzeriaSearchForm extends SearchForm{
-	private User model;
+	private CanSearchPizzeria model;
 
-	public PizzeriaSearchForm(String s, SearchWindow parent, User model){
+	public PizzeriaSearchForm(String s, SearchWindow parent, CanSearchPizzeria model){
 		super(s, parent);
 		this.model = model;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);

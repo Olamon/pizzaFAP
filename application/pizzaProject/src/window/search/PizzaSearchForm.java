@@ -9,12 +9,12 @@ import java.awt.Label;
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 
-import states.User;
+import states.can.*;
 
 public class PizzaSearchForm extends SearchForm{
-	private User model;
+	private CanSearchPizza model;
 	
-	public PizzaSearchForm(String s, SearchWindow parent, User model){
+	public PizzaSearchForm(String s, SearchWindow parent, CanSearchPizza model){
 		super(s, parent);
 		this.model = model;
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);

@@ -24,11 +24,7 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
     //private static final String dbpath = "pizzeria join ocenialneView on (pizzeria.pizzeria_id = ocenialneView.id)";
 
     public String nazwa;
-
-    public String ulica;
-    public int nr_budynku;
-    public int nr_lokalu;
-
+    public String adres;
     public String strona;
     public String[] telefony;
     public String[] godzOtwarcia;
@@ -56,10 +52,7 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
             	if (rs.getArray("telefon") != null)
             		p.telefony = (String[]) rs.getArray("telefon").getArray();
                 // Wczytywanie typów złożonych z SQL-a na pewno można jakoś ładniej zrobić niż poniżej, ale mi się nie udało
-                String[] addr = rs.getString("adres").replaceAll("[()\"]", "").split(",");
-                p.ulica = new String(addr[0]);
-                p.nr_budynku = Integer.parseInt(addr[1]);
-                p.nr_lokalu = Integer.parseInt(addr[2]);
+                p.adres = rs.getString("adres");
                 p.godzOtwarcia = null;
                 p.godzZamkniecia = null;
                 if (rs.getString("godziny")!=null) {

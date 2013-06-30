@@ -1,3 +1,9 @@
+patch6 (30.06.13)
+
+Zmieniłem typ adresu w tabeli pizzeria na zwykły varchar (wcześniej: adrestype
+[varchar, int, int]), bo zbyt komplikował operacje.
+
+
 patch5 (24.06.13)
 
 Pojawiła się nowa rola "login", która nadaje tylko uprawnienia potrzebne do

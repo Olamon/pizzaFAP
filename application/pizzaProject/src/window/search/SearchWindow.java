@@ -23,7 +23,6 @@ import java.awt.Color;
 import javax.swing.JLabel;
 
 import javax.swing.JToolBar;
-import javax.swing.SwingConstants;
 
 public class SearchWindow extends JFrame {
 	public SearchWindow() {

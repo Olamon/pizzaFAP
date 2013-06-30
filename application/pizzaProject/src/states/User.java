@@ -15,8 +15,9 @@ import java.sql.ResultSet;
 import database.UserRole;
 import objects.Pizzeria;
 import objects.Oferta;
+import states.can.*;
 
-public class User {
+public class User implements CanSearchPizzeria, CanSearchPizza {
 	User() {
 		try {
 			//pozyskujemy uprawnienia

@@ -26,10 +26,10 @@ public class UserRole {
 		Statement st = Session.instance.connection.createStatement();
         return st.executeQuery("SELECT * FROM" + ofertaSelectPath);
 	}
-	public ResultSet Pizzeria_GetSome(String nazwa, String ulica, String telefon, 
+	public ResultSet Pizzeria_GetSome(String nazwa, String adres, String telefon, 
 		float ocenaMin, float ocenaMax, int iloscMin, int iloscMax) throws SQLException {
 		String prototype = "Select * FROM" + pizzeriaSelectPath + "WHERE nazwa " +
-			"LIKE ? AND adres::varchar LIKE (?,'%','%')::varchar AND (telefon::varchar LIKE ?";
+			"LIKE ? AND adres LIKE ? AND (telefon::varchar LIKE ?";
 		if (telefon == null || telefon.length()==0)
             prototype += " OR telefon IS NULL";
         prototype += ")";
@@ -40,7 +40,7 @@ public class UserRole {
         PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
 
         psmt.setString(1, nazwa!=null?"%"+nazwa+"%":"%");
-        psmt.setString(2, ulica!=null?"%"+ulica+"%":"%");
+        psmt.setString(2, adres!=null?"%"+adres+"%":"%");
         psmt.setString(3, telefon!=null?"%"+telefon+"%":"%");
         if (iloscMin>0) {
             psmt.setObject(4, ocenaMin);
