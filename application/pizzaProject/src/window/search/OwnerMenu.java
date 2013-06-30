@@ -21,8 +21,7 @@ public class OwnerMenu extends SearchWindow {
 		
 		initComponents();
 		
-		pizzeriaList.setListData(model.Pizzeria_GetAll());
-		pizzaList.setListData(model.Oferta_GetAll());
+		refresh();
 		
 		pizzeriaAdvancedSearchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -40,10 +39,15 @@ public class OwnerMenu extends SearchWindow {
 		});
 		pizzeriaAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PizzeriaEditWindow pizzeriaEditWindow = new PizzeriaEditWindow();
+				PizzeriaEditWindow pizzeriaEditWindow = new PizzeriaEditWindow(that, model);
 				pizzeriaEditWindow.setVisible(true);
 			}
 		});
+	}
+	
+	public void refresh() {
+		pizzeriaList.setListData(model.Pizzeria_GetAll());
+		pizzaList.setListData(model.Oferta_GetAll());
 	}
 	
 	private void initComponents() {

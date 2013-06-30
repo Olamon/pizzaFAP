@@ -26,7 +26,7 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
     public String nazwa;
     public String adres;
     public String strona;
-    public String[] telefony;
+    public String telefon;
     public String[] godzOtwarcia;
     public String[] godzZamkniecia;
 
@@ -48,9 +48,7 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
     			Pizzeria p = new Pizzeria(id, ilosc, srednia);
             	p.nazwa = rs.getString("nazwa");
             	p.strona = rs.getString("strona");
-            	p.telefony = null;
-            	if (rs.getArray("telefon") != null)
-            		p.telefony = (String[]) rs.getArray("telefon").getArray();
+            	p.telefon = rs.getString("telefon");
                 // Wczytywanie typów złożonych z SQL-a na pewno można jakoś ładniej zrobić niż poniżej, ale mi się nie udało
                 p.adres = rs.getString("adres");
                 p.godzOtwarcia = null;

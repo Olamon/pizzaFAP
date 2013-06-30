@@ -121,10 +121,7 @@ public class UserRole {
 	public ResultSet Pizzeria_GetSome(String nazwa, String adres, String telefon, 
 		float ocenaMin, float ocenaMax, int iloscMin, int iloscMax) throws SQLException {
 		String prototype = "Select * FROM" + pizzeriaSelectPath + "WHERE nazwa " +
-			"LIKE ? AND adres LIKE ? AND (telefon::varchar LIKE ?";
-		if (telefon == null || telefon.length()==0)
-            prototype += " OR telefon IS NULL";
-        prototype += ")";
+			"LIKE ? AND adres LIKE ? AND telefon LIKE ?";
         if (iloscMin>0)
             prototype += " AND srednia BETWEEN ? and ? ";
         if (iloscMax>=0)

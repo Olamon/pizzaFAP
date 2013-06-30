@@ -19,43 +19,132 @@ import java.awt.Font;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 import java.awt.Dimension;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+
+import states.can.*;
 
 public class PizzeriaEditWindow extends JFrame {
 	private JPanel mainPanel;
 	private JPanel basicsCard;
-	private JButton nextButton1;
-	private JLabel nameLabel;
-	private JTextField nameField;
-	private JLabel titleLabel1;
 	private JPanel hoursCard;
-	private JLabel titleLabel2;
-	private JButton nextButton2;
-	private JLabel dayLabel;
-	private JComboBox dayComboBox;
-	private JLabel fromLabel;
-	private JTextField fromField;
-	private JLabel toLabel;
-	private JTextField toField;
-	private JCheckBox openingHoursCheckbox;
-	private JLabel openingHoursLabel;
-	private JButton previousButton2;
 	private JPanel contactCard;
-	private JLabel titleLabel3;
-	private JLabel siteLabel;
-	private JLabel phoneLabel;
+	
+	private JButton nextButton1;
+	private JButton nextButton2;
+	private JButton previousButton2;
+	private JButton previousButton3;
+	private JButton endButton;
+	
+	private JTextField nameField;
+	private JTextField addressField;
 	private JTextField siteField;
 	private JTextField phoneField;
-	private JButton endButton;
-	private JButton previousButton3;
+	private JTextField fromField;
+	private JTextField toField;
 	
-	static String[] days = new String[] { "Poniedziałek", "Wtorek", "Środa",
+	private JComboBox dayComboBox;
+	
+	private JCheckBox openingHoursCheckbox;
+	
+	private JLabel nameLabel;
+	private JLabel titleLabel1;
+	private JLabel titleLabel2;
+	private JLabel titleLabel3;
+	private JLabel dayLabel;
+	private JLabel fromLabel;
+	private JLabel toLabel;
+	private JLabel openingHoursLabel;
+	private JLabel siteLabel;
+	private JLabel phoneLabel;
+	private JLabel addressLabel;
+	
+	private CardLayout cl_mainPanel;
+
+	static final String[] days = new String[] { "Poniedziałek", "Wtorek", "Środa",
 		"Czwartek", "Piątek", "Sobota", "Niedziela" };
-	private JLabel adresLabel;
-	private JTextField adresField;;
 	
-	public PizzeriaEditWindow() {
+	private Integer[] fromHour = new Integer[7];
+	private Integer[] toHour = new Integer[7];
+	private CanInsertPizzeria model;
+	private SearchWindow parentWindow;
+	
+	public PizzeriaEditWindow(final SearchWindow parentWindow, final CanInsertPizzeria model) {
+		this.model = model;
+		this.parentWindow = parentWindow;
+		final PizzeriaEditWindow that = this;
 		initComponents();
+		
+		//obsługa przycisku "next" w pierwszym okienku (ten przycisk różni się od
+		//innych, bo sprawdza czy wypełniono pola
+		nextButton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if( nameField.getText().isEmpty() ) {
+					JOptionPane.showMessageDialog(null, "Nie podano nazwy!", 
+							"Błąd", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				if( addressField.getText().isEmpty() ) {
+					JOptionPane.showMessageDialog(null, "Nie podano adresu!", 
+							"Błąd", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+					
+				cl_mainPanel.next(mainPanel);
+			}
+		});
+		//w momencie gdy focus opuszcza pole do wpisywania godzin, zostają one
+		//uaktualnione w odpowiedniej tablicy (fromHour lub toHour)
+		fromField.addFocusListener(new FocusAdapter() {		
+			@Override
+			public void focusLost(FocusEvent e) {
+				Integer hour = null;
+				try {
+					hour = Integer.valueOf(fromField.getText());
+				}
+				catch (NumberFormatException ex) {
+					hour = null;
+				}
+				fromHour[dayComboBox.getSelectedIndex()] = hour;
+			}
+		});
+		toField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				Integer hour = null;
+				try {
+					hour = Integer.valueOf(toField.getText());
+				}
+				catch (NumberFormatException ex) {
+					hour = null;
+				}
+				toHour[dayComboBox.getSelectedIndex()] = hour;
+			}
+		});
+		//ten kod wczytuje do pól tekstowych po wybraniu dnia wcześniej wpisane 
+		//godziny, które zapisano w tablicach fromHour i toHour
+		dayComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Integer from = fromHour[dayComboBox.getSelectedIndex()];
+				Integer to = toHour[dayComboBox.getSelectedIndex()];
+				String fromStr = from==null? "" : from.toString();
+				String toStr = to==null? "" : to.toString();
+				fromField.setText(fromStr);
+				toField.setText(toStr);
+			}
+		});
+		//zapisz dane, uaktualnij listę w okienku-rodzicu i wyjdź z okienka
+		endButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				model.Pizzeria_insert(nameField.getText(), addressField.getText(), 
+					siteField.getText(), phoneField.getText());
+				parentWindow.refresh();
+				that.dispose();
+			}
+		});
 	}
 	
 	private void initComponents() {
@@ -68,7 +157,7 @@ public class PizzeriaEditWindow extends JFrame {
 		
 		mainPanel = new JPanel();
 		getContentPane().add(mainPanel);
-		final CardLayout cl_mainPanel = new CardLayout(0, 0);
+		cl_mainPanel = new CardLayout(0, 0);
 		mainPanel.setLayout(cl_mainPanel);
 		
 		basicsCard = new JPanel();
@@ -86,23 +175,18 @@ public class PizzeriaEditWindow extends JFrame {
 		basicsCard.add(nameLabel, "cell 0 1,alignx right,aligny center");
 		
 		nextButton1 = new JButton("Dalej");
-		nextButton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cl_mainPanel.next(mainPanel);
-			}
-		});
 		
 		nameField = new JTextField();
 		basicsCard.add(nameField, "cell 1 1,growx,aligny center");
 		nameField.setColumns(10);
 		
-		adresLabel = new JLabel("Adres");
-		adresLabel.setFont(new Font("Dialog", Font.BOLD, 16));
-		basicsCard.add(adresLabel, "cell 0 2,alignx trailing");
+		addressLabel = new JLabel("Adres");
+		addressLabel.setFont(new Font("Dialog", Font.BOLD, 16));
+		basicsCard.add(addressLabel, "cell 0 2,alignx trailing");
 		
-		adresField = new JTextField();
-		basicsCard.add(adresField, "cell 1 2,growx");
-		adresField.setColumns(10);
+		addressField = new JTextField();
+		basicsCard.add(addressField, "cell 1 2,growx");
+		addressField.setColumns(10);
 		basicsCard.add(nextButton1, "cell 2 3,alignx right,aligny bottom");
 		
 		hoursCard = new JPanel();
@@ -118,6 +202,11 @@ public class PizzeriaEditWindow extends JFrame {
 		hoursCard.add(openingHoursLabel, "cell 0 1");
 		
 		openingHoursCheckbox = new JCheckBox("Te same godziny codziennie");
+		openingHoursCheckbox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dayComboBox.setEnabled( !openingHoursCheckbox.isSelected() );
+			}
+		});
 		hoursCard.add(openingHoursCheckbox, "cell 1 1 3 1");
 		
 		dayLabel = new JLabel("Dzień");
@@ -125,6 +214,7 @@ public class PizzeriaEditWindow extends JFrame {
 		hoursCard.add(dayLabel, "cell 0 2,alignx left");
 		
 		dayComboBox = new JComboBox();
+
 		hoursCard.add(dayComboBox, "cell 1 2,growx");
 		dayComboBox.setModel(new DefaultComboBoxModel(days));
 		
@@ -133,6 +223,7 @@ public class PizzeriaEditWindow extends JFrame {
 		hoursCard.add(fromLabel, "cell 0 3,alignx left");
 		
 		fromField = new JTextField();
+
 		hoursCard.add(fromField, "cell 1 3,growx");
 		fromField.setColumns(10);
 		
@@ -141,6 +232,7 @@ public class PizzeriaEditWindow extends JFrame {
 		hoursCard.add(toLabel, "cell 0 4,alignx left");
 		
 		toField = new JTextField();
+
 		hoursCard.add(toField, "cell 1 4,growx");
 		toField.setColumns(10);
 		
