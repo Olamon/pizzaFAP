@@ -109,5 +109,29 @@ public class User implements CanSearchPizzeria, CanSearchPizza {
 		}
 	}
 	
+	public int Ocena_GetCountByUser(String email){
+		int res = 0;
+		try {
+			res = role.Ocena_GetCountByUser(email);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return res;
+	}
+	
+	public float Ocena_GetAverageByUser(String email){
+		float res = 0;
+		try {
+			res = role.Ocena_GetAverageByUser(email);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return res;
+	}
+	
 	private UserRole role;
 }

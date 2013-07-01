@@ -76,6 +76,20 @@ public class UserMenu extends SearchWindow {
 				}
 			}
 		});
+		
+		account1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				AccountWindow aw = new AccountWindow("Moje konto", model);
+				aw.setVisible(true);
+			}
+		});
+		
+		account2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				AccountWindow aw = new AccountWindow("Moje konto", model);
+				aw.setVisible(true);
+			}
+		});
 	}
 	
 	public void refresh() {

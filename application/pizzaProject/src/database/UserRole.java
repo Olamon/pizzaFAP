@@ -10,6 +10,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import states.User;
 
 public class UserRole {
 	public UserRole() throws SQLException {
@@ -157,6 +161,24 @@ public class UserRole {
 		psmt.setString(3, recenzja == null ? "" : recenzja);
 		psmt.setInt(4, gwiazdki);
 		psmt.execute();
+	}
+	
+	public int Ocena_GetCountByUser(String email) throws SQLException {
+		String prototype = "SELECT count(*) as ileOcen FROM ocena WHERE email = ?";
+		PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
+		psmt.setString(1, email);
+		ResultSet rs = psmt.executeQuery();
+		rs.next();
+		return rs.getInt("ileOcen");
+	}
+	
+	public float Ocena_GetAverageByUser(String email) throws SQLException{
+		String prototype = "SELECT avg(gwiazdki) as sredniaOcen FROM ocena WHERE email = ?";
+		PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
+		psmt.setString(1, email);
+		ResultSet rs = psmt.executeQuery();
+		rs.next();
+		return rs.getFloat("sredniaOcen");
 	}
 	
 	private final String pizzeriaSelectPath = 
