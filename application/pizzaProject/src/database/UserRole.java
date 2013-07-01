@@ -32,6 +32,12 @@ public class UserRole {
     	psmt.setInt(1, id);
     	return psmt.executeQuery();
     }
+    public ResultSet Ocena_GetAllByUser(String email) throws SQLException{
+    	String prototype = "Select * FROM ocena WHERE email = ?";
+    	PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
+    	psmt.setString(1, email);
+    	return psmt.executeQuery();
+    }
 	public ResultSet Oferta_GetAll() throws SQLException {
 		Statement st = Session.instance.connection.createStatement();
         return st.executeQuery("SELECT * FROM" + ofertaSelectPath);
@@ -179,6 +185,16 @@ public class UserRole {
 		ResultSet rs = psmt.executeQuery();
 		rs.next();
 		return rs.getFloat("sredniaOcen");
+	}
+	
+	public String Ocenialne_GetNazwa(int id) throws SQLException{
+		String prototype = "Select nazwa from ((Select nazwa FROM pizzeria where pizzeria_id = ?)  UNION (Select nazwa from oferta JOIN menu on (menu.pizza = oferta.sklad) where of_id = ?) ) Z";
+		PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
+		psmt.setInt(1, id);
+		psmt.setInt(2, id);
+		ResultSet rs = psmt.executeQuery();
+		rs.next();
+		return rs.getString(1);
 	}
 	
 	private final String pizzeriaSelectPath = 

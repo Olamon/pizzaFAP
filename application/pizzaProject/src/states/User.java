@@ -57,6 +57,19 @@ public class User implements CanSearchPizzeria, CanSearchPizza {
 		return result;
 	}
 	
+	public Vector<Ocena> Ocena_GetAllByUser(String email) {
+		Vector<Ocena> result = null;
+		try {
+			ResultSet rs = role.Ocena_GetAllByUser(email);
+			result = Ocena.converter.convert(rs);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return result;
+	}
+	
 	public Vector<Oferta> Oferta_GetAll() {
 		Vector<Oferta> result = null;
 		try {
@@ -125,6 +138,18 @@ public class User implements CanSearchPizzeria, CanSearchPizza {
 		float res = 0;
 		try {
 			res = role.Ocena_GetAverageByUser(email);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return res;
+	}
+	
+	public String Ocenialne_GetNazwa(int id){
+		String res = "";
+		try {
+			res = role.Ocenialne_GetNazwa(id);
 		}
 		catch (Exception ex) {
 			Logger lgr = Logger.getLogger(User.class.getName());

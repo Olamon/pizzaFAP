@@ -61,7 +61,7 @@ public class UserMenu extends SearchWindow {
 			public void actionPerformed(ActionEvent e){
 				Oferta selected = (Oferta) that.pizzaList.getSelectedValue();
 				if(selected!=null){
-					OcenaWindow ow = new OcenaWindow("Oceny pizzy "+selected.nazwa, model.Ocena_GetAll(selected.id));
+					OcenaWindow ow = new OcenaWindow("Oceny pizzy "+selected.nazwa, model.Ocena_GetAll(selected.id), model);
 					ow.setVisible(true);
 				}
 			}
@@ -71,7 +71,7 @@ public class UserMenu extends SearchWindow {
 			public void actionPerformed(ActionEvent e){
 				Pizzeria selected = (Pizzeria) that.pizzeriaList.getSelectedValue();
 				if(selected!=null){
-					OcenaWindow ow = new OcenaWindow("Oceny dla "+selected.nazwa, model.Ocena_GetAll(selected.id));
+					OcenaWindow ow = new OcenaWindow("Oceny dla "+selected.nazwa, model.Ocena_GetAll(selected.id), model);
 					ow.setVisible(true);
 				}
 			}
