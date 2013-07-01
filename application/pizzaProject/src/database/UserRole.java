@@ -38,6 +38,12 @@ public class UserRole {
     	psmt.setString(1, email);
     	return psmt.executeQuery();
     }
+    public ResultSet Ocena_GetOne(int ocenialne_id, String email) throws SQLException {
+        PreparedStatement psmt = Session.instance.connection.prepareStatement("SELECT * FROM ocena WHERE podmiot = ? AND email = ?");
+        psmt.setInt(1, ocenialne_id);
+        psmt.setString(2, email);
+        return psmt.executeQuery();
+    }
 	public ResultSet Oferta_GetAll() throws SQLException {
 		Statement st = Session.instance.connection.createStatement();
         return st.executeQuery("SELECT * FROM" + ofertaSelectPath);
@@ -82,9 +88,10 @@ public class UserRole {
 		} else {
 			prototype += "AND ilosc >= ? ";
 		}
-		
+
+        // chcemy, żeby podanie składu przez użytkownika zawężało wyszukane pizze, a nie jednoznacznie je określało, dlatego &
 		if(sklad > 0){
-			prototype += "AND sklad = ? ";
+			prototype += "AND sklad & ? = ? ";
 		}
 		
 		System.out.println(prototype);
@@ -127,8 +134,8 @@ public class UserRole {
 			ile_danych++;
 		}
 		if(sklad > 0){
-			psmt.setInt(ile_danych+1, sklad);
-			ile_danych++;
+            psmt.setInt(++ile_danych, sklad);
+            psmt.setInt(++ile_danych, sklad);
 		}
 		
 		return psmt.executeQuery();
@@ -158,16 +165,25 @@ public class UserRole {
         
         return psmt.executeQuery();
 	}
-	
-	public void Ocena_Insert(int podmiot, String email, String recenzja, int gwiazdki) throws SQLException{
-		String prototype = "INSERT INTO ocena(podmiot, email, recenzja, gwiazdki) VALUES (?,?,?,?)";
+
+    //jeśli ocena danego obiektu przez danego użytkownika już istniała to ją zmienia, wpp dodaje nową
+	public void Ocena_InsertOrUpdate(int podmiot, String email, String recenzja, int gwiazdki) throws SQLException{
+        boolean b = false;
+        String prototype;
+        if (!Ocena_GetOne(podmiot, email).next()) {
+            prototype = "INSERT INTO ocena(podmiot, email, recenzja, gwiazdki) VALUES (?,?,?,?)";
+            b = true;
+        }
+        else
+            prototype = "UPDATE ocena SET gwiazdki=?, recenzja=? WHERE podmiot=? AND email=?";
 		PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
-		psmt.setInt(1, podmiot);
-		psmt.setString(2, email);
-		psmt.setString(3, recenzja == null ? "" : recenzja);
-		psmt.setInt(4, gwiazdki);
+		psmt.setInt(b?1:3, podmiot);
+		psmt.setString(b?2:4, email);
+		psmt.setString(b?3:2, recenzja == null ? "" : recenzja);
+		psmt.setInt(b?4:1, gwiazdki);
 		psmt.execute();
 	}
+
 	
 	public int Ocena_GetCountByUser(String email) throws SQLException {
 		String prototype = "SELECT count(*) as ileOcen FROM ocena WHERE email = ?";

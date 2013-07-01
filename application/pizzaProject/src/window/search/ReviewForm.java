@@ -15,6 +15,7 @@ import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import objects.Ocena;
 import objects.Oferta;
 
 import states.StateManager;
@@ -65,12 +66,20 @@ public class ReviewForm extends JFrame{
 		Label pizzeriaLabel = new Label("Recenzja:");
 		mainContainer.add(pizzeriaLabel, "cell 0 2,grow");
 		mainContainer.add(recenzja, "cell 0 3,grow");
-		
+
+        //Jeśli użytkownik już wystawił ocenę, widzi ją i może ją zmienić (nie może dodać drugiej)
+        Ocena oc = model.Ocena_GetOne(podmiot, StateManager.user_id);
+        if (oc != null)
+        {
+            gwiazdki.setValue(oc.gwiazdki);
+            recenzja.setText(oc.recenzja);
+        }
+
 		//Przycisk oceń
 		Button submit = new Button("Oceń");
 		submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				model.Ocena_Insert(podmiot, StateManager.user_id, recenzja.getText(), gwiazdki.getValue());
+				model.Ocena_InsertOrUpdate(podmiot, StateManager.user_id, recenzja.getText(), gwiazdki.getValue());
 				dispose();
 				parent.refresh();
 				parent.pizzaNazwa.setText("");

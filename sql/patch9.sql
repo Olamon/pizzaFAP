@@ -1,0 +1,1 @@
+ALTER TABLE ocena ADD CONSTRAINT OnlyOneReview UNIQUE (podmiot, email);
