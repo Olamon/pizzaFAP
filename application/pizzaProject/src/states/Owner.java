@@ -14,7 +14,7 @@ import objects.Pizzeria;
 import database.OwnerRole;
 import states.can.*;
 
-public class Owner implements CanSearchPizzeria, CanSearchPizza, CanInsertPizzeria {
+public class Owner implements CanSearchPizzeria, CanSearchPizza, CanModifyPizzeria {
 	Owner() {
 		try {
 			//pozyskujemy uprawnienia
@@ -27,9 +27,21 @@ public class Owner implements CanSearchPizzeria, CanSearchPizza, CanInsertPizzer
 	}
 	
 	public boolean Pizzeria_insert(String nazwa, String adres, String strona, String telefon,
-			String[] hours) {
+			String[] godziny) {
 		try {
-			return role.Pizzeria_insert(nazwa, adres, strona, telefon, hours) > 0? true : false;
+			return role.Pizzeria_insert(nazwa, adres, strona, telefon, godziny) > 0? true : false;
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(Owner.class.getName());
+            lgr.log(Level.WARNING, ex.getMessage(), ex);
+            return false;
+		}
+	}
+	
+	public boolean Pizzeria_update(int id, String nazwa, String adres, String strona, 
+			String telefon, String[] godziny) {
+		try {
+			return role.Pizzeria_update(id, nazwa, adres, strona, telefon, godziny) > 0? true : false;
 		}
 		catch (Exception ex) {
 			Logger lgr = Logger.getLogger(Owner.class.getName());

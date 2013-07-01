@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.Array;
 
 
 /*
@@ -27,8 +28,7 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
     public String adres;
     public String strona;
     public String telefon;
-    public String[] godzOtwarcia;
-    public String[] godzZamkniecia;
+    public String[] godziny;
     public int ileOcen;
     public float sredniaOcen;
 
@@ -51,27 +51,18 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
             	p.nazwa = rs.getString("nazwa");
             	p.strona = rs.getString("strona");
             	p.telefon = rs.getString("telefon");
-                // Wczytywanie typów złożonych z SQL-a na pewno można jakoś ładniej zrobić niż poniżej, ale mi się nie udało
                 p.adres = rs.getString("adres");
-                p.godzOtwarcia = null;
-                p.godzZamkniecia = null;
                 p.ileOcen = rs.getInt("ilosc");
                 p.sredniaOcen = rs.getFloat("srednia");
-                if (rs.getString("godziny")!=null) {
-                    String[] dni = rs.getString("godziny").split("\",\"");
-                    p.godzOtwarcia = new String[dni.length];
-                	p.godzZamkniecia = new String[dni.length];
-                    for(int i=0; i<dni.length;i++)
-                    {
-                        String[] dzien = dni[i].replaceAll("[{}\"()]","").split(",");
-                        if (dzien.length>1) {
-                            int d = Integer.parseInt(dzien[0]);
-                            p.godzOtwarcia[d] = dzien[1];
-                            p.godzZamkniecia[d] = dzien[2];
-                        }
-                    }
-                }
-
+                
+                p.godziny = null;
+            	Array godzArr = rs.getArray("godziny");
+            	if(godzArr != null) {
+            		String[] godziny = (String[])godzArr.getArray();
+                    p.godziny = new String[godziny.length];
+                    for(int i=0; i<godziny.length;i++)
+                        p.godziny[i] = new String(godziny[i]);
+            	}
                 result.add(p);
             }
     	}

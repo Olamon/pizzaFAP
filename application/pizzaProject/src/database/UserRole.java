@@ -10,10 +10,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import states.User;
 
 public class UserRole {
 	public UserRole() throws SQLException {

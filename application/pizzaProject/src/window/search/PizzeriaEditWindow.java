@@ -20,6 +20,8 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JFormattedTextField;
+import java.text.SimpleDateFormat;
 
 import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
@@ -27,6 +29,7 @@ import java.awt.event.FocusEvent;
 import java.util.Arrays;
 
 import states.can.*;
+import objects.Pizzeria;
 
 public class PizzeriaEditWindow extends JFrame {
 	private JPanel mainPanel;
@@ -44,8 +47,10 @@ public class PizzeriaEditWindow extends JFrame {
 	private JTextField addressField;
 	private JTextField siteField;
 	private JTextField phoneField;
-	private JTextField fromField;
-	private JTextField toField;
+	
+	//ciężar poprawnego formatowania przeniesiony został na aplikację
+	private JFormattedTextField fromField;
+	private JFormattedTextField toField;
 	
 	private JComboBox dayComboBox;
 	
@@ -70,10 +75,14 @@ public class PizzeriaEditWindow extends JFrame {
 	
 	private String[] fromHour = new String[7];
 	private String[] toHour = new String[7];
-	private CanInsertPizzeria model;
+	//jedyną możliwością pozyskania id jest użycie setData
+	private Integer pizzeriaId = null;
+	
+	private CanModifyPizzeria model;
 	private SearchWindow parentWindow;
 	
-	public PizzeriaEditWindow(final SearchWindow parentWindow, final CanInsertPizzeria model) {
+	
+	public PizzeriaEditWindow(final SearchWindow parentWindow, final CanModifyPizzeria model) {
 		this.model = model;
 		this.parentWindow = parentWindow;
 		final PizzeriaEditWindow that = this;
@@ -128,12 +137,39 @@ public class PizzeriaEditWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String[] hours = setHours();
 				
-				model.Pizzeria_insert(nameField.getText(), addressField.getText(), 
-					siteField.getText(), phoneField.getText(), hours);
+				if(pizzeriaId == null) {
+					model.Pizzeria_insert(nameField.getText(), addressField.getText(), 
+							siteField.getText(), phoneField.getText(), hours);
+				} else {
+					model.Pizzeria_update(pizzeriaId, nameField.getText(), addressField.getText(), 
+						siteField.getText(), phoneField.getText(), hours);
+				}
+				
 				parentWindow.refresh();
 				that.dispose();
 			}
 		});
+	}
+	
+	public void setData(Pizzeria pizzeria) {
+		pizzeriaId = pizzeria.id;
+		nameField.setText(pizzeria.nazwa);
+		addressField.setText(pizzeria.adres);
+		siteField.setText(pizzeria.strona);
+		phoneField.setText(pizzeria.telefon);
+		if(pizzeria.godziny != null) {
+			for(int i = 0; i < pizzeria.godziny.length; i++) {
+				if(pizzeria.godziny[i] != null) {
+					String[] hours = pizzeria.godziny[i].split("-", -1);
+					if(hours.length == 2) {
+						fromHour[i] = hours[0];
+						toHour[i] = hours[1];
+					}
+				}
+			}
+		}
+		fromField.setText(fromHour[0]);
+		toField.setText(toHour[0]);
 	}
 	
 	private String[] setHours() {
@@ -145,14 +181,14 @@ public class PizzeriaEditWindow extends JFrame {
 			if( from.isEmpty() && to.isEmpty() )
 				fixed = new String();
 			else
-				fixed = from + " - " + to;
+				fixed = from + "-" + to;
 		}
 		for(int i = 0; i < hours.length; i++) {
 			String temp = null;
 			if( fromHour[i].isEmpty() && toHour[i].isEmpty() )
 				temp = "";
 			else
-				temp = fromHour[i] + " - " + toHour[i];
+				temp = fromHour[i] + "-" + toHour[i];
 			hours[i] = new String(fixed==null? temp : fixed);
 		}
 		return hours;
@@ -233,7 +269,7 @@ public class PizzeriaEditWindow extends JFrame {
 		fromLabel.setFont(new Font("Dialog", Font.BOLD, 16));
 		hoursCard.add(fromLabel, "cell 0 3,alignx left");
 		
-		fromField = new JTextField();
+		fromField = new JFormattedTextField(new SimpleDateFormat("HH:mm"));
 
 		hoursCard.add(fromField, "cell 1 3,growx");
 		fromField.setColumns(10);
@@ -242,7 +278,7 @@ public class PizzeriaEditWindow extends JFrame {
 		toLabel.setFont(new Font("Dialog", Font.BOLD, 16));
 		hoursCard.add(toLabel, "cell 0 4,alignx left");
 		
-		toField = new JTextField();
+		toField = new JFormattedTextField(new SimpleDateFormat("HH:mm"));
 
 		hoursCard.add(toField, "cell 1 4,growx");
 		toField.setColumns(10);

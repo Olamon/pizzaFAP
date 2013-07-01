@@ -44,7 +44,21 @@ public class OwnerRole {
 		st.setString(5, telefon);
 		Array godzArr = Session.instance.connection.createArrayOf("varchar", godziny);
 		st.setArray(6, godzArr);
-		System.out.println(st);
+		return st.executeUpdate();
+	}
+	
+	public int Pizzeria_update(int id, String nazwa, String adres, String strona, String telefon,
+			String[] godziny) throws SQLException {
+		PreparedStatement st = Session.instance.connection.prepareStatement(
+			"UPDATE pizzeria SET nazwa=?, adres=?, strona=?, telefon=?, godziny=? WHERE pizzeria_id=?"
+		);
+		st.setString(1, nazwa);
+		st.setString(2, adres);
+		st.setString(3, strona);
+		st.setString(4, telefon);
+		Array godzArr = Session.instance.connection.createArrayOf("varchar", godziny);
+		st.setArray(5, godzArr);
+		st.setInt(6, id);
 		return st.executeUpdate();
 	}
 	

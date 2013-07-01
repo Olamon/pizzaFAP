@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import states.Owner;
+import objects.Pizzeria;
 import window.search.PizzeriaSearchForm;
 
 public class OwnerMenu extends SearchWindow {
@@ -41,6 +42,16 @@ public class OwnerMenu extends SearchWindow {
 			public void actionPerformed(ActionEvent e) {
 				PizzeriaEditWindow pizzeriaEditWindow = new PizzeriaEditWindow(that, model);
 				pizzeriaEditWindow.setVisible(true);
+			}
+		});
+		pizzeriaEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Pizzeria selected = (Pizzeria) that.pizzeriaList.getSelectedValue();
+				if(selected!=null) {
+					PizzeriaEditWindow pizzeriaEditWindow = new PizzeriaEditWindow(that, model);
+					pizzeriaEditWindow.setData(selected);
+					pizzeriaEditWindow.setVisible(true);
+				}
 			}
 		});
 		account1.addActionListener(new ActionListener(){
