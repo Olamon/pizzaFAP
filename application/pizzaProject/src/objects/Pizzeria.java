@@ -29,6 +29,8 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
     public String telefon;
     public String[] godzOtwarcia;
     public String[] godzZamkniecia;
+    public int ileOcen;
+    public float sredniaOcen;
 
     //ze względu na dużą liczbę atrybutów darowałem sobie tutaj konstrukcję
   	//(poza koniecznym wywołaniem konstruktora nadrzędnego)
@@ -53,6 +55,8 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
                 p.adres = rs.getString("adres");
                 p.godzOtwarcia = null;
                 p.godzZamkniecia = null;
+                p.ileOcen = rs.getInt("ilosc");
+                p.sredniaOcen = rs.getFloat("srednia");
                 if (rs.getString("godziny")!=null) {
                     String[] dni = rs.getString("godziny").split("\",\"");
                     p.godzOtwarcia = new String[dni.length];

@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Label;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.jws.WebParam.Mode;
 import javax.swing.JCheckBox;
@@ -13,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JSlider;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import objects.Oferta;
 
 import states.StateManager;
 import states.User;
@@ -69,6 +72,19 @@ public class ReviewForm extends JFrame{
 			public void actionPerformed(ActionEvent arg0) {
 				model.Ocena_Insert(podmiot, StateManager.user_id, recenzja.getText(), gwiazdki.getValue());
 				dispose();
+				parent.refresh();
+				parent.pizzaNazwa.setText("");
+				parent.pizzeriaNazwa.setText("");
+				parent.pizzaCena.setText("");
+				parent.pizzaLiczbaOcen.setText("");
+				parent.pizzaOcena.setText("");
+				parent.pizzaSklad.setListData(new Vector<Oferta>());
+				parent.pizzaPizzeria.setText("");
+				parent.ileOcen.setText("");
+				parent.pizzeriaAdres.setText("");
+				parent.sredniaOcen.setText("");
+				parent.pizzaDetails.repaint();
+				parent.pizzeriaDetails.repaint();
 			}
 		});
 		//submit.addActionListener(new PizzaSearchActionListener(parent));

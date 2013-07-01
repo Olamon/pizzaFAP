@@ -81,8 +81,16 @@ public abstract class SearchWindow extends JFrame {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -92,7 +100,19 @@ public abstract class SearchWindow extends JFrame {
 		pizzeriaDetails.add(noMatter, "2, 2");
 		
 		pizzeriaAdres = new JLabel("");
-		pizzeriaDetails.add(pizzeriaAdres, "2, 4, center, center");
+		pizzeriaDetails.add(pizzeriaAdres, "4, 4, center, center");
+		
+		lblIlo = new JLabel("Ilość:");
+		pizzeriaDetails.add(lblIlo, "2, 6");
+		
+		ileOcen = new JLabel("");
+		pizzeriaDetails.add(ileOcen, "4, 6");
+		
+		lblrednia = new JLabel("Średnia:");
+		pizzeriaDetails.add(lblrednia, "2, 8");
+		
+		sredniaOcen = new JLabel("");
+		pizzeriaDetails.add(sredniaOcen, "4, 8");
 		
 		
 		pizzaPanel = new JPanel();
@@ -167,10 +187,10 @@ public abstract class SearchWindow extends JFrame {
 	private JTabbedPane menu;
 	private JPanel pizzeriaPanel;
 	private JScrollPane pizzeriaScrollPane;
-	private JPanel pizzeriaDetails;
+	public JPanel pizzeriaDetails;
 	private JPanel pizzaPanel;
 	private JScrollPane pizzaScrollPane;
-	JPanel pizzaDetails;
+	public JPanel pizzaDetails;
 	JLabel pizzaPizzeria;
 	JLabel pizzaCena;
 	private JLabel lblPizzeria;
@@ -182,4 +202,8 @@ public abstract class SearchWindow extends JFrame {
 	JLabel pizzaLiczbaOcen;
 	JList pizzaSklad;
 	private JLabel noMatter;
+	private JLabel lblIlo;
+	private JLabel lblrednia;
+	JLabel ileOcen;
+	JLabel sredniaOcen;
 }

@@ -24,6 +24,8 @@ class PizzeriaSelectionListener implements ListSelectionListener {
     		Pizzeria selected = (Pizzeria) list.getSelectedValue();
     		window.pizzeriaNazwa.setText(selected.nazwa);
     		window.pizzeriaAdres.setText(selected.adres);
+    		window.ileOcen.setText(""+selected.ileOcen);
+    		window.sredniaOcen.setText(""+selected.sredniaOcen);
     	}
     }
 }
