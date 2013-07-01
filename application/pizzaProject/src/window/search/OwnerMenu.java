@@ -43,6 +43,19 @@ public class OwnerMenu extends SearchWindow {
 				pizzeriaEditWindow.setVisible(true);
 			}
 		});
+		account1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				OwnerAccountWindow aw = new OwnerAccountWindow("Moje konto", model);
+				aw.setVisible(true);
+			}
+		});
+		
+		account2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				OwnerAccountWindow aw = new OwnerAccountWindow("Moje konto", model);
+				aw.setVisible(true);
+			}
+		});
 	}
 	
 	public void refresh() {
