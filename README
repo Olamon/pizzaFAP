@@ -1,3 +1,14 @@
+patch10 (01.07.13)
+
+Zmieniłem typ godzin w tabeli pizzerie na tablicę varcharów w celu dalszego
+uproszczenia.
+
+
+patch9 (01.07.13)
+
+Brak opisu.
+
+
 patch8 (30.06.13)
 Dodałam odpowiednie prawo użycia do sekwencji dla użytkownika.
 

@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import java.awt.Dimension;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.Arrays;
 
 import states.can.*;
 
@@ -67,8 +68,8 @@ public class PizzeriaEditWindow extends JFrame {
 	static final String[] days = new String[] { "Poniedziałek", "Wtorek", "Środa",
 		"Czwartek", "Piątek", "Sobota", "Niedziela" };
 	
-	private Integer[] fromHour = new Integer[7];
-	private Integer[] toHour = new Integer[7];
+	private String[] fromHour = new String[7];
+	private String[] toHour = new String[7];
 	private CanInsertPizzeria model;
 	private SearchWindow parentWindow;
 	
@@ -76,6 +77,8 @@ public class PizzeriaEditWindow extends JFrame {
 		this.model = model;
 		this.parentWindow = parentWindow;
 		final PizzeriaEditWindow that = this;
+		Arrays.fill(fromHour, "");
+		Arrays.fill(toHour, "");
 		initComponents();
 		
 		//obsługa przycisku "next" w pierwszym okienku (ten przycisk różni się od
@@ -101,50 +104,58 @@ public class PizzeriaEditWindow extends JFrame {
 		fromField.addFocusListener(new FocusAdapter() {		
 			@Override
 			public void focusLost(FocusEvent e) {
-				Integer hour = null;
-				try {
-					hour = Integer.valueOf(fromField.getText());
-				}
-				catch (NumberFormatException ex) {
-					hour = null;
-				}
-				fromHour[dayComboBox.getSelectedIndex()] = hour;
+				fromHour[dayComboBox.getSelectedIndex()] = fromField.getText();
 			}
 		});
 		toField.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
-				Integer hour = null;
-				try {
-					hour = Integer.valueOf(toField.getText());
-				}
-				catch (NumberFormatException ex) {
-					hour = null;
-				}
-				toHour[dayComboBox.getSelectedIndex()] = hour;
+				toHour[dayComboBox.getSelectedIndex()] = toField.getText();
 			}
 		});
 		//ten kod wczytuje do pól tekstowych po wybraniu dnia wcześniej wpisane 
 		//godziny, które zapisano w tablicach fromHour i toHour
 		dayComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Integer from = fromHour[dayComboBox.getSelectedIndex()];
-				Integer to = toHour[dayComboBox.getSelectedIndex()];
-				String fromStr = from==null? "" : from.toString();
-				String toStr = to==null? "" : to.toString();
-				fromField.setText(fromStr);
-				toField.setText(toStr);
+				String from = fromHour[dayComboBox.getSelectedIndex()];
+				String to = toHour[dayComboBox.getSelectedIndex()];
+				fromField.setText(from);
+				toField.setText(to);
 			}
 		});
 		//zapisz dane, uaktualnij listę w okienku-rodzicu i wyjdź z okienka
 		endButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String[] hours = setHours();
+				
 				model.Pizzeria_insert(nameField.getText(), addressField.getText(), 
-					siteField.getText(), phoneField.getText());
+					siteField.getText(), phoneField.getText(), hours);
 				parentWindow.refresh();
 				that.dispose();
 			}
 		});
+	}
+	
+	private String[] setHours() {
+		String[] hours = new String[7];
+		String fixed = null;
+		if( openingHoursCheckbox.isSelected() ) {
+			String from = fromField.getText();
+			String to = toField.getText();
+			if( from.isEmpty() && to.isEmpty() )
+				fixed = new String();
+			else
+				fixed = from + " - " + to;
+		}
+		for(int i = 0; i < hours.length; i++) {
+			String temp = null;
+			if( fromHour[i].isEmpty() && toHour[i].isEmpty() )
+				temp = "";
+			else
+				temp = fromHour[i] + " - " + toHour[i];
+			hours[i] = new String(fixed==null? temp : fixed);
+		}
+		return hours;
 	}
 	
 	private void initComponents() {

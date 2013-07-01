@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.Array;
 
 public class OwnerRole {
 	public OwnerRole() throws SQLException {
@@ -30,16 +31,20 @@ public class OwnerRole {
 		}
 	}
 	
-	public int Pizzeria_insert(String nazwa, String adres, String strona, String telefon) throws SQLException {
+	public int Pizzeria_insert(String nazwa, String adres, String strona, String telefon,
+			String[] godziny) throws SQLException {
 		int id = Ocenialne_insert();
 		PreparedStatement st = Session.instance.connection.prepareStatement(
-			"INSERT INTO pizzeria(pizzeria_id, nazwa, adres, strona, telefon) VALUES (?,?,?,?,?)"
+			"INSERT INTO pizzeria(pizzeria_id, nazwa, adres, strona, telefon, godziny) VALUES (?,?,?,?,?,?)"
 		);
 		st.setInt(1, id);
 		st.setString(2, nazwa);
 		st.setString(3, adres);
 		st.setString(4, strona);
 		st.setString(5, telefon);
+		Array godzArr = Session.instance.connection.createArrayOf("varchar", godziny);
+		st.setArray(6, godzArr);
+		System.out.println(st);
 		return st.executeUpdate();
 	}
 	
