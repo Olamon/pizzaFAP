@@ -1,0 +1,1 @@
+ALTER TABLE pizzeria ALTER COLUMN godziny TYPE varchar[];

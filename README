@@ -1,7 +1,11 @@
-patch10 (01.07.13)
+patch11 (01.07.13)
 
 Zmieniłem typ godzin w tabeli pizzerie na tablicę varcharów w celu dalszego
 uproszczenia.
+
+
+patch10(01.07.13)
+Dodałam nową kolumne do pizzeri (wlasciciel) bedaca kluczem obcym dla uzytkownika. Domyslna wartosc losowa w celu kompatybilnosci wstecz.
 
 
 patch9 (01.07.13)
