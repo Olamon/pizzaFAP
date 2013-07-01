@@ -18,8 +18,11 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+import objects.Oferta;
+
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.util.Vector;
 import javax.swing.JLabel;
 
 import javax.swing.JToolBar;
@@ -44,6 +47,27 @@ public abstract class SearchWindow extends JFrame {
 	
 	//odświeża listy
 	public abstract void refresh();
+
+    public void cleanPizzaView()
+    {
+        pizzaNazwa.setText("");
+        pizzaCena.setText("");
+        pizzaLiczbaOcen.setText("");
+        pizzaOcena.setText("");
+        pizzaSklad.setListData(new Vector<Oferta>());
+        pizzaPizzeria.setText("");
+        pizzaDetails.repaint();
+    }
+
+    public void cleanPizzeriaView()
+    {
+        pizzeriaNazwa.setText("");
+        ileOcen.setText("");
+        pizzeriaAdres.setText("");
+        sredniaOcen.setText("");
+        pizzeriaDetails.repaint();
+    }
+
 	
 	//wygenerowany kod (tym razem czytelnejszy!)
 	private void initComponents() {
@@ -184,7 +208,7 @@ public abstract class SearchWindow extends JFrame {
 	protected JToolBar pizzaToolBar;
 	
 	//a te nie
-	private JTabbedPane menu;
+    protected JTabbedPane menu;
 	private JPanel pizzeriaPanel;
 	private JScrollPane pizzeriaScrollPane;
 	public JPanel pizzeriaDetails;

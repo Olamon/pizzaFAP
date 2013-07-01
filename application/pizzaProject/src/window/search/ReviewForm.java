@@ -82,18 +82,8 @@ public class ReviewForm extends JFrame{
 				model.Ocena_InsertOrUpdate(podmiot, StateManager.user_id, recenzja.getText(), gwiazdki.getValue());
 				dispose();
 				parent.refresh();
-				parent.pizzaNazwa.setText("");
-				parent.pizzeriaNazwa.setText("");
-				parent.pizzaCena.setText("");
-				parent.pizzaLiczbaOcen.setText("");
-				parent.pizzaOcena.setText("");
-				parent.pizzaSklad.setListData(new Vector<Oferta>());
-				parent.pizzaPizzeria.setText("");
-				parent.ileOcen.setText("");
-				parent.pizzeriaAdres.setText("");
-				parent.sredniaOcen.setText("");
-				parent.pizzaDetails.repaint();
-				parent.pizzeriaDetails.repaint();
+                parent.cleanPizzaView();
+				parent.cleanPizzeriaView();
 			}
 		});
 		//submit.addActionListener(new PizzaSearchActionListener(parent));

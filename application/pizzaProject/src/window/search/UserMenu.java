@@ -3,12 +3,15 @@ package window.search;
 import javax.swing.JButton;
 
 import objects.Oferta;
+import objects.Pizza;
 import objects.Pizzeria;
 
 import window.search.SearchWindow;
 import window.search.PizzeriaSearchForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
+
 import states.User;
 
 public class UserMenu extends SearchWindow {
@@ -90,6 +93,19 @@ public class UserMenu extends SearchWindow {
 				aw.setVisible(true);
 			}
 		});
+
+        showPizzas.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                Pizzeria selected = (Pizzeria) that.pizzeriaList.getSelectedValue();
+                if(selected!=null){
+                    Vector<Oferta> pizze = model.Oferta_GetSome(null, selected.nazwa, 0, -1, 0, -1, 0, -1, 0);
+                    pizzaList.setListData(pizze);
+                    cleanPizzaView();
+                    pizzaList.setSelectedIndex(0);
+                    menu.setSelectedIndex(1);
+                }
+            }
+        });
 	}
 	
 	public void refresh() {
@@ -104,6 +120,7 @@ public class UserMenu extends SearchWindow {
 		super.pizzaToolBar.add(pizzaSeeReview);
 		super.pizzeriaToolBar.add(account1);
 		super.pizzaToolBar.add(account2);
+        super.pizzeriaToolBar.add(showPizzas);
 	}
 	
 	private JButton pizzeriaReview = new JButton("Oceń");
@@ -112,4 +129,5 @@ public class UserMenu extends SearchWindow {
 	private JButton pizzaSeeReview = new JButton("Zobacz oceny");
 	private JButton account1 = new JButton("Konto");
 	private JButton account2 = new JButton("Konto");
+    private JButton showPizzas = new JButton("Oferta");
 }
