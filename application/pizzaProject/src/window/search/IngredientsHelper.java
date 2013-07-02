@@ -3,7 +3,7 @@ package window.search;
 import java.util.Vector;
 
 public class IngredientsHelper {
-	static int INGR_NUM = 4;
+	static int INGR_NUM = 6;
 	
 	public static String getIngredientName(int ingredient){
 		String res;
@@ -12,13 +12,15 @@ public class IngredientsHelper {
 			case 2: res = "szynka"; break;
 			case 4: res = "pieczarki"; break;
 			case 8: res = "kukurydza"; break;
+            case 16: res = "salami"; break;
+            case 32: res = "ananas"; break;
 			default: res = "";
 		}
 		return res;
 	}
 	
 	public static Vector<String> getIngredients(int sklad){
-		Vector<String> res = new Vector<String>();
+		Vector<String> res = new Vector<>();
 		int power = 1;
 		for(int i=0; i<INGR_NUM; i++){
 			if(!getIngredientName(power & sklad).equals("")){
@@ -28,6 +30,11 @@ public class IngredientsHelper {
 		}
 		return res;
 	}
+
+    public static Vector<String> getAllIngredients()
+    {
+        return getIngredients(Integer.MAX_VALUE);
+    }
 	
 	public static int translateToInt(boolean[] ingr){
 		int power = 1;
