@@ -20,7 +20,7 @@ public class IngredientsHelper {
 	}
 	
 	public static Vector<String> getIngredients(int sklad){
-		Vector<String> res = new Vector<>();
+		Vector<String> res = new Vector();
 		int power = 1;
 		for(int i=0; i<INGR_NUM; i++){
 			if(!getIngredientName(power & sklad).equals("")){

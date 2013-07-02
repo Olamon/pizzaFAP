@@ -32,6 +32,8 @@ public class OwnerAccountWindow extends JFrame {
 		getContentPane().add(pizzerie, "cell 0 1,alignx center");
 		pizzerie.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				OcenialneWindow ow = new OcenialneWindow("Moje pizzerie", model.Pizzeria_GetByOwner(StateManager.user_id));
+				ow.setVisible(true);
 			}
 		});
 		
@@ -39,6 +41,8 @@ public class OwnerAccountWindow extends JFrame {
 		getContentPane().add(oferty, "cell 1 1,alignx center");
 		oferty.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				OcenialneWindow ow = new OcenialneWindow("Moje oferty", model.Oferta_GetByOwner(StateManager.user_id));
+				ow.setVisible(true);
 			}
 		});
 	}

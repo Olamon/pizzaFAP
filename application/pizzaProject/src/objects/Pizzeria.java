@@ -72,6 +72,10 @@ public class Pizzeria extends Ocenialne implements DatabaseObject<Pizzeria> {
         }
         return result;
     }
+	@Override
+	public String getNazwa() {
+		return this.nazwa;
+	}
 
     /*
     // zwraca listę wszystkich ofert pizzerii

@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.Array;
 
+import states.StateManager;
+
 public class OwnerRole {
 	public OwnerRole() throws SQLException {
 		Session.setRole(Constants.PATH, 
@@ -35,7 +37,7 @@ public class OwnerRole {
 			String[] godziny) throws SQLException {
 		int id = Ocenialne_insert();
 		PreparedStatement st = Session.instance.connection.prepareStatement(
-			"INSERT INTO pizzeria(pizzeria_id, nazwa, adres, strona, telefon, godziny) VALUES (?,?,?,?,?,?)"
+			"INSERT INTO pizzeria(pizzeria_id, nazwa, adres, strona, telefon, godziny, wlasciciel) VALUES (?,?,?,?,?,?,?)"
 		);
 		st.setInt(1, id);
 		st.setString(2, nazwa);
@@ -44,6 +46,7 @@ public class OwnerRole {
 		st.setString(5, telefon);
 		Array godzArr = Session.instance.connection.createArrayOf("varchar", godziny);
 		st.setArray(6, godzArr);
+		st.setString(7, StateManager.user_id);
 		return st.executeUpdate();
 	}
 	
@@ -70,6 +73,18 @@ public class OwnerRole {
 	public ResultSet Oferta_GetAll() throws SQLException {
 		Statement st = Session.instance.connection.createStatement();
         return st.executeQuery("SELECT * FROM" + ofertaSelectPath);
+	}
+	public ResultSet Oferta_GetByOwner(String wlasciciel) throws SQLException{
+		String prototype = "Select * FROM " + ofertaSelectPath + "WHERE wlasciciel = ?";
+		PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
+		psmt.setString(1, wlasciciel);
+		return psmt.executeQuery();
+	}
+	public ResultSet Pizzeria_GetByOwner(String wlasciciel) throws SQLException{
+		String prototype = "Select * FROM " + pizzeriaSelectPath + "WHERE wlasciciel = ?";
+		PreparedStatement psmt = Session.instance.connection.prepareStatement(prototype);
+		psmt.setString(1, wlasciciel);
+		return psmt.executeQuery();
 	}
 	public ResultSet Pizzeria_GetSome(String nazwa, String adres, String telefon, 
 		float ocenaMin, float ocenaMax, int iloscMin, int iloscMax) throws SQLException {
@@ -192,5 +207,5 @@ public class OwnerRole {
 			" pizzeria join ocenialneView on (pizzeria.pizzeria_id = ocenialneView.id) ";
 	private final String ofertaSelectPath = 
 			" oferta left join ocenialneView on (oferta.of_id = ocenialneView.id) join menu on (oferta.sklad = menu.pizza)" +
-			" join (SELECT pizzeria_id, nazwa AS pizzeria_nazwa FROM pizzeria) P on (oferta.pizzeria_id = P.pizzeria_id) ";
+			" join (SELECT pizzeria_id, nazwa AS pizzeria_nazwa, wlasciciel FROM pizzeria) P on (oferta.pizzeria_id = P.pizzeria_id) ";
 }

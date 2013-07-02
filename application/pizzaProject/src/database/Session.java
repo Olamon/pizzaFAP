@@ -11,7 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-class Session {
+public class Session {
 	//ustawia tryb dostępu do bazy (login/user/owner/(TODO admin))
 	//usunąłem ustawienie autoCommit(false), bo w sumie nie wiem czemu byłoby
 	//to pożądane

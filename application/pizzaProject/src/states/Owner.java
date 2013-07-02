@@ -4,14 +4,18 @@
 
 package states;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import objects.Ocenialne;
 import objects.Oferta;
 import objects.Pizzeria;
 import database.OwnerRole;
+import database.Session;
 import states.can.*;
 
 public class Owner implements CanSearchPizzeria, CanSearchPizza, CanModifyPizzeria {
@@ -99,6 +103,36 @@ public class Owner implements CanSearchPizzeria, CanSearchPizza, CanModifyPizzer
 		try {
 			ResultSet rs = role.Oferta_GetSome(nazwa, nazwa_pizzerii, cena_od, cena_do, ocena_od, ocena_do, ilosc_od, ilosc_do, sklad);
 			result = Oferta.converter.convert(rs);
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return result;
+	}
+	
+	public Vector<Ocenialne> Oferta_GetByOwner(String wlasciciel){
+		Vector<Ocenialne> result = new Vector();
+		try {
+			ResultSet rs = role.Oferta_GetByOwner(wlasciciel);
+			for(Oferta o : Oferta.converter.convert(rs)){
+				result.add((Ocenialne) o);
+			}
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(User.class.getName());
+            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+		}
+		return result;
+	}
+	
+	public Vector<Ocenialne> Pizzeria_GetByOwner(String wlasciciel){
+		Vector<Ocenialne> result = new Vector();
+		try {
+			ResultSet rs = role.Pizzeria_GetByOwner(wlasciciel);
+			for(Pizzeria p : Pizzeria.converter.convert(rs)){
+				result.add((Ocenialne) p);
+			}
 		}
 		catch (Exception ex) {
 			Logger lgr = Logger.getLogger(User.class.getName());

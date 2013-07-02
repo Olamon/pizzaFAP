@@ -16,6 +16,8 @@ public abstract class Ocenialne {
     	this.iloscOcen = iloscOcen;
     	this.sredniaOcen = sredniaOcen;
     }
+    
+    public abstract String getNazwa();
 
     /*
     public List<Ocena> GetAllReviews() throws SQLException {

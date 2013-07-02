@@ -79,4 +79,8 @@ public class Oferta extends Ocenialne implements DatabaseObject<Oferta> {
     }
 
     */
+	@Override
+	public String getNazwa() {
+		return this.nazwa;
+	}
 }

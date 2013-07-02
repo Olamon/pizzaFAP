@@ -106,7 +106,7 @@ public class PizzaSearchForm extends SearchForm{
 		
 		//Skład
         Vector<String> sklad = IngredientsHelper.getAllIngredients();
-        Vector<JCheckBox> skladBoxes = new Vector<>();
+        Vector<JCheckBox> skladBoxes = new Vector();
         Container boxesContainer = new Container();
         boxesContainer.setLayout(new GridLayout(sklad.size()/2+sklad.size()%2, 2));
         for (int i=0; i<sklad.size(); i++)
