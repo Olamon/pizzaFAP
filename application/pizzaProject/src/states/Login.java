@@ -58,7 +58,12 @@ public class Login {
 				newState = StateManager.State.invalid;
 			}
 			
-			return StateManager.transition(newState);
+			boolean result = StateManager.transition(newState);
+			
+			if(result == true)
+				StateManager.setUserId(login);
+			
+			return result;
 		}
 		catch (Exception ex) {
 			Logger lgr = Logger.getLogger(Login.class.getName());

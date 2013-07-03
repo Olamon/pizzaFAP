@@ -30,6 +30,11 @@ public class Owner implements CanSearchPizzeria, CanSearchPizza, CanModifyPizzer
 		}
 	}
 	
+	public void logout() {
+		if( StateManager.transition(StateManager.State.login) )
+			StateManager.user_id = null;
+	}
+	
 	public boolean Pizzeria_insert(String nazwa, String adres, String strona, String telefon,
 			String[] godziny) {
 		try {

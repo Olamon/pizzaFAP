@@ -31,7 +31,7 @@ import javax.swing.UIManager;
 //UWAGA teraz SearchWindow jest abstract (należy tworzyć UserMenu albo OwnerMenu
 public abstract class SearchWindow extends JFrame {
 	public SearchWindow() {
-		
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		initComponents();
 		
 		pizzeriaList.setCellRenderer(new PizzeriaCellRenderer());
@@ -74,7 +74,7 @@ public abstract class SearchWindow extends JFrame {
 		setTitle("Wyszukaj");
 		setPreferredSize(new Dimension(800, 600));
 		setLocation(100, 100);
-		setMinimumSize(new Dimension(450, 300));
+		setMinimumSize(new Dimension(550, 350));
 		getContentPane().setLayout(new GridLayout(1, 0, 0, 0));
 		
 		menu = new JTabbedPane(JTabbedPane.TOP);
@@ -159,7 +159,7 @@ public abstract class SearchWindow extends JFrame {
 		
 		pizzaDetails = new JPanel();
 		pizzaDetails.setBorder(new LineBorder(Color.GRAY, 1, true));
-		pizzaPanel.add(pizzaDetails, "cell 1 1,alignx center,growy");
+		pizzaPanel.add(pizzaDetails, "cell 1 1,grow");
 		
 		lblPizzeria = new JLabel("Pizzeria:");
 		

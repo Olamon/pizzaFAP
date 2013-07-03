@@ -31,6 +31,11 @@ public class User implements CanSearchPizzeria, CanSearchPizza {
 		}
 	}
 	
+	public void logout() {
+		if( StateManager.transition(StateManager.State.login) )
+			StateManager.user_id = null;
+	}
+	
 	public Vector<Pizzeria> Pizzeria_GetAll() {
 		Vector<Pizzeria> result = null;
 		try {

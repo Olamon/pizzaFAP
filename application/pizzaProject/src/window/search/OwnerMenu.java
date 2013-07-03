@@ -67,6 +67,16 @@ public class OwnerMenu extends SearchWindow {
 				aw.setVisible(true);
 			}
 		});
+		logout1.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				model.logout();
+			}
+		});
+        logout2.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				model.logout();
+			}
+		});
 	}
 	
 	public void refresh() {
@@ -83,6 +93,8 @@ public class OwnerMenu extends SearchWindow {
 		super.pizzaToolBar.add(pizzaDelete);
 		super.pizzeriaToolBar.add(account1);
 		super.pizzaToolBar.add(account2);
+		super.pizzeriaToolBar.add(logout1);
+        super.pizzaToolBar.add(logout2);
 	}
 	
 	private JButton pizzeriaAdd = new JButton("Dodaj");
@@ -93,4 +105,6 @@ public class OwnerMenu extends SearchWindow {
 	private JButton pizzaDelete = new JButton("Usuń");
 	private JButton account1 = new JButton("Konto");
 	private JButton account2 = new JButton("Konto");
+	private JButton logout1 = new JButton("Wyloguj");
+    private JButton logout2 = new JButton("Wyloguj");
 }

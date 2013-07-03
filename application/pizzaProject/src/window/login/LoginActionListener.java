@@ -23,7 +23,6 @@ class LoginActionListener implements ActionListener {
     		//całe logowanie wykonuje teraz model
     		if( !window.model.login(login, password) )
     			window.passwordField.setText("");
-    		else StateManager.setUserId(login);
 		} 
 		catch (Exception ex) {
 			Logger lgr = Logger.getLogger(LoginActionListener.class.getName());
