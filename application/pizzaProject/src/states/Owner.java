@@ -18,7 +18,8 @@ import database.OwnerRole;
 import database.Session;
 import states.can.*;
 
-public class Owner implements CanSearchPizzeria, CanSearchPizza, CanModifyPizzeria {
+public class Owner implements CanSearchPizzeria, CanSearchPizza, 
+							  CanModifyPizzeria, CanModifyPizza {
 	Owner() {
 		try {
 			//pozyskujemy uprawnienia
@@ -33,6 +34,10 @@ public class Owner implements CanSearchPizzeria, CanSearchPizza, CanModifyPizzer
 	public void logout() {
 		if( StateManager.transition(StateManager.State.login) )
 			StateManager.user_id = null;
+	}
+	
+	public boolean Pizza_insert() {
+		return true;
 	}
 	
 	public boolean Pizzeria_insert(String nazwa, String adres, String strona, String telefon,
