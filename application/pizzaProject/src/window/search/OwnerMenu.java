@@ -56,7 +56,7 @@ public class OwnerMenu extends SearchWindow {
 		});
 		pizzaAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PizzaEditWindow pizzaEditWindow = new PizzaEditWindow(that, model);
+				PizzaEditWindow<Owner> pizzaEditWindow = new PizzaEditWindow<>(that, model);
 				pizzaEditWindow.setVisible(true);
 			}
 		});

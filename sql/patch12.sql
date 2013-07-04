@@ -1,0 +1,1 @@
+ALTER TABLE pizza ALTER COLUMN ciasto TYPE varchar;

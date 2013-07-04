@@ -6,6 +6,9 @@
 
 package database;
 
+import static utils.StringUtils.asFloat;
+import static utils.StringUtils.asInteger;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -31,6 +34,49 @@ public class OwnerRole {
 		} else {
 			throw new SQLException();
 		}
+	}
+	
+	public int Oferta_insert(String nazwa, int pizzeria_id, int sklad, 
+			String ciasto, String rozmiar, double cena) throws SQLException {
+		//!!!!!!!!! błąd w bazie - primary key na skład uniemożliwia dodanie tej samej
+		//!!!!!!!!! pizzy w różnych wariantach grubości ciasta!
+		ResultSet doesExist = Oferta_GetSome(null, null, 0, 0, 0, 0, 0, -1, sklad);
+		if(doesExist.next())
+			return 0;
+		
+		
+		PreparedStatement pizzaInsert = Session.instance.connection.prepareStatement(
+			"INSERT INTO pizza(sklad, ciasto) VALUES (?,?)"
+		);
+		pizzaInsert.setInt(1, sklad);
+		pizzaInsert.setString(2, ciasto);
+		pizzaInsert.executeUpdate();
+		
+		int id = Ocenialne_insert();
+		
+		PreparedStatement ofertaInsert = Session.instance.connection.prepareStatement(
+			"INSERT INTO oferta(of_id, sklad, pizzeria_id, cena, rozmiar) VALUES (?,?,?,?,?)"
+		);
+		ofertaInsert.setInt(1, id);
+		ofertaInsert.setInt(2, sklad);
+		ofertaInsert.setInt(3, pizzeria_id);
+		ofertaInsert.setDouble(4, cena);
+		
+		//tymczasowo...
+		int rozmiarHardCode = getSize(rozmiar);
+		
+		ofertaInsert.setInt(5, rozmiarHardCode);
+		ofertaInsert.executeUpdate();
+		
+		PreparedStatement menuInsert = Session.instance.connection.prepareStatement(
+			"INSERT INTO menu(pizzeria_id, pizza, nazwa) VALUES (?,?,?)"
+		);
+		menuInsert.setInt(1, pizzeria_id);
+		menuInsert.setInt(2, sklad);
+		menuInsert.setString(3, nazwa);
+		menuInsert.executeUpdate();
+		
+		return 1;
 	}
 	
 	public int Pizzeria_insert(String nazwa, String adres, String strona, String telefon,
@@ -201,6 +247,16 @@ public class OwnerRole {
 		}
 		
 		return psmt.executeQuery();
+	}
+	
+	//tymczasowo
+	private int getSize(String size) {
+		if(size.equals("Mała")) {
+			return 20;
+		} else if(size.equals("Srednia")) {
+			return 30;
+		} else
+			return 40;
 	}
 	
 	private final String pizzeriaSelectPath = 

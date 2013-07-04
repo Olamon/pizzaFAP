@@ -19,4 +19,5 @@ import objects.Pizzeria;
 public interface CanSearchPizzeria {
 	public Vector<Pizzeria> Pizzeria_GetSome(String nazwa, String ulica, String telefon, 
 			float ocenaMin, float ocenaMax, int iloscMin, int iloscMax);
+	public Vector<Pizzeria> Pizzeria_GetAll();
 }

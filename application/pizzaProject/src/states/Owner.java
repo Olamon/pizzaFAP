@@ -36,8 +36,16 @@ public class Owner implements CanSearchPizzeria, CanSearchPizza,
 			StateManager.user_id = null;
 	}
 	
-	public boolean Pizza_insert() {
-		return true;
+	public boolean Pizza_insert(String nazwa, int pizzeria_id, int sklad, 
+			String ciasto, String rozmiar, double cena) {
+		try {
+			return role.Oferta_insert(nazwa, pizzeria_id, sklad, ciasto, rozmiar, cena) > 0? true : false;
+		}
+		catch (Exception ex) {
+			Logger lgr = Logger.getLogger(Owner.class.getName());
+            lgr.log(Level.WARNING, ex.getMessage(), ex);
+            return false;
+		}
 	}
 	
 	public boolean Pizzeria_insert(String nazwa, String adres, String strona, String telefon,

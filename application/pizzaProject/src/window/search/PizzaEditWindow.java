@@ -16,13 +16,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import java.awt.Dimension;
-
+import java.text.DecimalFormat;
+import javax.swing.DefaultComboBoxModel;
+import objects.Pizzeria;
 import window.search.SearchWindow;
 import states.can.CanModifyPizza;
+import states.can.CanSearchPizzeria;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JFormattedTextField;
+import javax.swing.JComboBox;
 
-public class PizzaEditWindow extends JFrame {
+public class PizzaEditWindow<T extends CanModifyPizza & CanSearchPizzeria> extends JFrame {
 	private JPanel mainPanel;
 	private JPanel nameCard;
 	private JPanel ingredientsCard;
@@ -33,8 +38,6 @@ public class PizzaEditWindow extends JFrame {
 	private JButton previousButton3;
 	private JButton previousButton2;
 	private JButton nextButton2;
-	
-	private JTextField priceField;
 	private JTextField nameField;
 	
 	private JCheckBox cheeseCheckBox;
@@ -60,21 +63,65 @@ public class PizzaEditWindow extends JFrame {
 	private JRadioButton smallRadioButton;
 	private JRadioButton mediumRadioButton;
 	private JRadioButton bigRadioButton;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	private final ButtonGroup buttonGroup_1 = new ButtonGroup();
+	private final ButtonGroup typeGroup = new ButtonGroup();
+	private final ButtonGroup sizeGroup = new ButtonGroup();
+	private JFormattedTextField priceField;
+	private JLabel formatLabel;
+	private JComboBox pizzeriaComboBox;
+	private JLabel pizzeriaLabel;
 	
 	
-	public PizzaEditWindow(final SearchWindow parentWindow, final CanModifyPizza model) {
+	public PizzaEditWindow(final SearchWindow parentWindow, final T model) {
 		final PizzaEditWindow that = this;
 		initComponents();
 		
+		pizzeriaComboBox.setModel(new DefaultComboBoxModel(model.Pizzeria_GetAll()) );
+		pizzeriaComboBox.setRenderer(new PizzeriaCellRenderer());
+		
+		nextButton1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if( nameField.getText().isEmpty() ) {
+					JOptionPane.showMessageDialog(null, "Nie podano nazwy!", 
+							"Błąd", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				if( pizzeriaComboBox.getSelectedItem() == null ) {
+					JOptionPane.showMessageDialog(null, "Nie wybrano żadnej pizzerii!", 
+							"Błąd", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				
+				cl_mainPanel.next(mainPanel);
+			}
+		});
 		endButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				if( priceField.getText().isEmpty() ) {
+					JOptionPane.showMessageDialog(null, "Nie podano ceny!", 
+							"Błąd", JOptionPane.INFORMATION_MESSAGE);
+					return;
+				}
+				String type = typeGroup.getSelection().getActionCommand();
+				String size = sizeGroup.getSelection().getActionCommand();
+				Pizzeria selected = (Pizzeria)pizzeriaComboBox.getSelectedItem();
+				double price = Double.parseDouble(priceField.getText().replaceAll(",","."));
+				model.Pizza_insert(nameField.getText(), selected.id, 
+					readIngredients(), type, size, price);
 				parentWindow.refresh();
 				that.dispose();
 			}
 		});
+	}
+	
+	private int readIngredients() {
+		boolean[] flags = new boolean[6];
+		flags[0] = cheeseCheckBox.isSelected();
+		flags[1] = hamCheckBox.isSelected();
+		flags[2] = shroomsCheckBox.isSelected();
+		flags[3] = cornCheckBox.isSelected();
+		flags[4] = salamiCheckBox.isSelected();
+		flags[5] = pineCheckBox.isSelected();
+		return IngredientsHelper.translateToInt(flags);
 	}
 	
 	private void initComponents() {
@@ -92,7 +139,7 @@ public class PizzaEditWindow extends JFrame {
 		
 		nameCard = new JPanel();
 		mainPanel.add(nameCard, "name_9129942298557");
-		nameCard.setLayout(new MigLayout("", "[][grow][]", "[75][grow][grow][grow][]"));
+		nameCard.setLayout(new MigLayout("", "[][grow][]", "[75][grow][grow][]"));
 		
 		titleLabel1 = new JLabel("Kreator pizzałów");
 		titleLabel1.setFont(new Font("Dialog", Font.BOLD, 24));
@@ -101,25 +148,21 @@ public class PizzaEditWindow extends JFrame {
 		
 		nameLabel = new JLabel("Nazwa");
 		nameLabel.setFont(new Font("Dialog", Font.BOLD, 16));
-		nameCard.add(nameLabel, "cell 0 2,alignx trailing");
+		nameCard.add(nameLabel, "cell 0 1,alignx trailing");
 		
 		nameField = new JTextField();
-		nameCard.add(nameField, "cell 1 2,growx");
+		nameCard.add(nameField, "cell 1 1,growx");
 		nameField.setColumns(10);
 		
+		pizzeriaLabel = new JLabel("Pizzeria");
+		pizzeriaLabel.setFont(new Font("Dialog", Font.BOLD, 16));
+		nameCard.add(pizzeriaLabel, "cell 0 2,alignx trailing");
+		
+		pizzeriaComboBox = new JComboBox();
+		nameCard.add(pizzeriaComboBox, "cell 1 2,growx");
+		
 		nextButton1 = new JButton("Dalej");
-		nextButton1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if( nameField.getText().isEmpty() ) {
-					JOptionPane.showMessageDialog(null, "Nie podano nazwy!", 
-							"Błąd", JOptionPane.INFORMATION_MESSAGE);
-					return;
-				}
-				
-				cl_mainPanel.next(mainPanel);
-			}
-		});
-		nameCard.add(nextButton1, "cell 2 4,alignx right,aligny bottom");
+		nameCard.add(nextButton1, "cell 2 3,alignx right,aligny bottom");
 		
 		ingredientsCard = new JPanel();
 		mainPanel.add(ingredientsCard, "name_9254840333784");
@@ -182,15 +225,19 @@ public class PizzaEditWindow extends JFrame {
 		offerCard.add(typeLabel, "cell 0 1");
 		
 		thinRadioButton = new JRadioButton("Chrupkie");
-		buttonGroup.add(thinRadioButton);
+		thinRadioButton.setActionCommand("thin");
+		typeGroup.add(thinRadioButton);
 		offerCard.add(thinRadioButton, "cell 1 1");
 		
 		classicRadioButton = new JRadioButton("Klasyczne");
-		buttonGroup.add(classicRadioButton);
+		classicRadioButton.setActionCommand("classic");
+		classicRadioButton.setSelected(true);
+		typeGroup.add(classicRadioButton);
 		offerCard.add(classicRadioButton, "cell 2 1");
 		
 		thickRadioButton = new JRadioButton("Grube");
-		buttonGroup.add(thickRadioButton);
+		thickRadioButton.setActionCommand("thick");
+		typeGroup.add(thickRadioButton);
 		offerCard.add(thickRadioButton, "cell 3 1");
 		
 		sizeLabel = new JLabel("Rozmiar");
@@ -198,24 +245,24 @@ public class PizzaEditWindow extends JFrame {
 		offerCard.add(sizeLabel, "cell 0 3");
 		
 		smallRadioButton = new JRadioButton("Mała");
-		buttonGroup_1.add(smallRadioButton);
+		smallRadioButton.setActionCommand("small");
+		sizeGroup.add(smallRadioButton);
 		offerCard.add(smallRadioButton, "cell 1 3");
 		
 		mediumRadioButton = new JRadioButton("Średnia");
-		buttonGroup_1.add(mediumRadioButton);
+		mediumRadioButton.setActionCommand("medium");
+		mediumRadioButton.setSelected(true);
+		sizeGroup.add(mediumRadioButton);
 		offerCard.add(mediumRadioButton, "cell 2 3");
 		
 		bigRadioButton = new JRadioButton("Duża");
-		buttonGroup_1.add(bigRadioButton);
+		bigRadioButton.setActionCommand("big");
+		sizeGroup.add(bigRadioButton);
 		offerCard.add(bigRadioButton, "cell 3 3");
 		
 		priceLabel = new JLabel("Cena");
 		priceLabel.setFont(new Font("Dialog", Font.BOLD, 16));
-		offerCard.add(priceLabel, "cell 0 5");
-		
-		priceField = new JTextField();
-		offerCard.add(priceField, "cell 1 5,growx");
-		priceField.setColumns(10);
+		offerCard.add(priceLabel, "cell 0 5,alignx trailing");
 		
 		previousButton3 = new JButton("Cofnij");
 		previousButton3.addActionListener(new ActionListener() {
@@ -223,6 +270,13 @@ public class PizzaEditWindow extends JFrame {
 				cl_mainPanel.previous(mainPanel);
 			}
 		});
+
+		priceField = new JFormattedTextField(new DecimalFormat("0.##"));
+		offerCard.add(priceField, "cell 1 5,growx");
+		
+		formatLabel = new JLabel("Format: 12,21");
+		formatLabel.setFont(new Font("Dialog", Font.ITALIC, 12));
+		offerCard.add(formatLabel, "cell 2 5");
 		offerCard.add(previousButton3, "cell 3 7,alignx right,aligny bottom");
 		
 		endButton = new JButton("Koniec");
